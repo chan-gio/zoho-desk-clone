@@ -1,19 +1,58 @@
 {
   "name": "backend",
+  "workspaces": [
+    "shared/*",
+    "services/*",
+    "api-gateway",
+    "message-queue"
+  ],
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pg:migrate": "psql -U \"$PGUSER\" -d \"$PGDATABASE\" -h \"$PGHOST\" -f ./database/postgres/migrations/001_init.sql",
+    "pg:seed": "psql -U $PGUSER -d $PGDATABASE -f ./database/postgres/seeds/seed.sql",
+    "pg:backup": "bash ./database/postgres/backups/backup.sh",
+    "mongo:migrate": "npx migrate-mongo up",
+    "mongo:seed": "node ./database/mongo/seeds/seed.js",
+    "mongo:backup": "bash ./database/mongo/backups/backup.sh",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.5",
+    "@types/uuid": "^10.0.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "migrate-mongo": "^12.1.3",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.3",
+    "pg": "^8.16.3",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.14",
+    "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.31.0",
+    "jest": "^30.0.4",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.3",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

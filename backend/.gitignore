@@ -1,0 +1,3 @@
+# Ignore database backups
+/database/postgres/backups/
+/database/mongo/backups/ 
