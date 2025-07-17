@@ -1,0 +1,274 @@
+[2025-07-16T15:49:50.139Z] [31merror[39m: PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:7459)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:36:22)
+    at async register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:37:22)
+[2025-07-16T15:53:02.620Z] [31merror[39m: PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:7459)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:36:22)
+    at async register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:37:22)
+[2025-07-16T15:54:01.421Z] [31merror[39m: PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:7459)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:36:22)
+    at async register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:37:22)
+[2025-07-16T15:54:12.340Z] [31merror[39m: PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:7459)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:36:22)
+    at async register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:37:22)
+[2025-07-16T16:30:55.356Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:30:56.021Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:33:25.463Z] [31merror[39m: Error: User already exists
+    at AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:39:25)
+    at register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-16T16:33:25.463Z] [31merror[39m: Error: User already exists
+    at AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:39:25)
+    at register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-16T16:33:25.617Z] [31merror[39m: TypeError: Cannot set properties of undefined (setting 'tenantId')
+    at tenantGuard (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/tenant.middleware.ts:10:20)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at authMiddleware (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/auth.middleware.ts:22:5)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:295:15
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at router (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:60:12)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at jsonParser (/home/duck/zoho-desk-clone/backend/node_modules/body-parser/lib/types/json.js:100:7)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/application.js:177:15)
+    at Server.app (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/express.js:38:9)
+    at Server.emit (node:events:520:28)
+    at parserOnIncoming (node:_http_server:1149:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
+[2025-07-16T16:33:25.632Z] [31merror[39m: TypeError: Cannot set properties of undefined (setting 'tenantId')
+    at tenantGuard (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/tenant.middleware.ts:10:20)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at authMiddleware (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/auth.middleware.ts:22:5)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:295:15
+    at param (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:600:14)
+    at param (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:610:14)
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:664:3)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at router (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:60:12)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at jsonParser (/home/duck/zoho-desk-clone/backend/node_modules/body-parser/lib/types/json.js:100:7)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/application.js:177:15)
+    at Server.app (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/express.js:38:9)
+    at Server.emit (node:events:520:28)
+    at parserOnIncoming (node:_http_server:1149:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
+[2025-07-16T16:33:25.727Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:34:35.755Z] [31merror[39m: Error: User already exists
+    at AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:39:25)
+    at register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-16T16:34:35.763Z] [31merror[39m: Error: User already exists
+    at AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:39:25)
+    at register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-16T16:34:35.998Z] [31merror[39m: TypeError: Cannot set properties of undefined (setting 'tenantId')
+    at tenantGuard (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/tenant.middleware.ts:10:20)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at authMiddleware (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/auth.middleware.ts:22:5)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:295:15
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at router (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:60:12)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at jsonParser (/home/duck/zoho-desk-clone/backend/node_modules/body-parser/lib/types/json.js:100:7)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/application.js:177:15)
+    at Server.app (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/express.js:38:9)
+    at Server.emit (node:events:520:28)
+    at parserOnIncoming (node:_http_server:1149:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
+[2025-07-16T16:34:36.011Z] [31merror[39m: TypeError: Cannot set properties of undefined (setting 'tenantId')
+    at tenantGuard (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/tenant.middleware.ts:10:20)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at authMiddleware (/home/duck/zoho-desk-clone/backend/shared/src/middlewares/auth.middleware.ts:22:5)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:295:15
+    at param (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:600:14)
+    at param (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:610:14)
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:664:3)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at router (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:60:12)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at jsonParser (/home/duck/zoho-desk-clone/backend/node_modules/body-parser/lib/types/json.js:100:7)
+    at Layer.handleRequest (/home/duck/zoho-desk-clone/backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:342:13)
+    at /home/duck/zoho-desk-clone/backend/node_modules/router/index.js:297:9
+    at processParams (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:582:12)
+    at next (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:291:5)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/router/index.js:186:3)
+    at Function.handle (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/application.js:177:15)
+    at Server.app (/home/duck/zoho-desk-clone/backend/node_modules/express/lib/express.js:38:9)
+    at Server.emit (node:events:520:28)
+    at parserOnIncoming (node:_http_server:1149:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
+[2025-07-16T16:34:36.109Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:38:49.145Z] [31merror[39m: PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.create()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:21:29
+
+  18   role: Role;
+  19   tenantId: string;
+  20 }) {
+→ 21   return this.prisma.user.create(
+Unique constraint failed on the fields: (`username`)
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:7459)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6491)
+    at l (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:133:9812)
+    at AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:51:18)
+    at register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-16T16:38:49.145Z] [31merror[39m: PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.create()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:21:29
+
+  18   role: Role;
+  19   tenantId: string;
+  20 }) {
+→ 21   return this.prisma.user.create(
+Unique constraint failed on the fields: (`username`)
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:7459)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:124:6491)
+    at l (/home/duck/zoho-desk-clone/backend/services/auth-service/prisma/generated/client/runtime/library.js:133:9812)
+    at AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:51:18)
+    at register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-16T16:38:49.165Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:38:49.171Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:38:49.181Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-16T16:41:23.982Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)

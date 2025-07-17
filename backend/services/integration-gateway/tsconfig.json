@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+      "target": "ES2021",
+      "module": "CommonJS",
+      "lib": ["ES2021"],
+      "outDir": "dist",
+      "rootDir": "src",
+      "strict": true,
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "resolveJsonModule": true,
+      "noImplicitAny": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "types": ["node", "jest"],
+      "baseUrl": "./src",
+      "paths": {
+        "@utils/*": ["utils/*"],
+        "@config/*": ["config/*"],
+        "@middlewares/*": ["middlewares/*"],
+        "@routes/*": ["routes/*"],
+        "@controllers/*": ["modules/*.controller"],
+        "@services/*": ["modules/*.service"],
+        "@types/*": ["types/*"]
+      }
+    },
+    "include": ["src/**/*", "jest.setup.ts"],
+    "exclude": ["node_modules", "dist"]
+  }
+  
