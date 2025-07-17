@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories/user.repository';
-import { User, Role } from '../../prisma/generated/client';
+import { User, UserRole } from '../../../../shared/prisma/generated/client';
 import { UnauthorizedError } from '../../../../shared/src/errors/auth.error';
 import { generateJWT, verifyJWT, hashPassword, generateRefreshToken } from '../../../../shared/src/utils/encryption';
 import { sendMail } from '../../../../services/integration-gateway/src/integrations/sendgrid/sendgrid';
@@ -20,7 +20,7 @@ export class AuthService {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    const access_token = generateJWT({ sub: user.id, role: user.role, tenantId: user.tenantId });
+    const access_token = generateJWT({ id: user.id, role: user.role, tenantId: user.tenantId });
     const refresh_token = generateRefreshToken({ sub: user.id, type: 'refresh' });
     await this.userRepo.saveRefreshToken(user.id, refresh_token);
 
@@ -52,7 +52,7 @@ export class AuthService {
       username,
       email,
       passwordHash,
-      role: role as Role,
+      role: role as UserRole,
       tenantId: tenantId as string,
     });
     return user;

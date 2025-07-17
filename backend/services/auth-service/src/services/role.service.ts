@@ -1,8 +1,8 @@
 import { RoleRepository } from '../repositories/role.repository';
-import { Role } from '../../prisma/generated/client';
+import { UserRole } from '../../../../shared/prisma/generated/client';
 
 export class RoleService {
-  static getAllRoles(): Role[] {
+  static getAllRoles(): UserRole[] {
     return RoleRepository.getAllRoles();
   }
 

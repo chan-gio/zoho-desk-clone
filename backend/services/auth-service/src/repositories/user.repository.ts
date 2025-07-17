@@ -1,4 +1,4 @@
-import { Role, PrismaClient } from '../../prisma/generated/client';
+import { UserRole, PrismaClient } from '../../../../shared/prisma/generated/client';
 
 export class UserRepository {
   constructor(private prisma: PrismaClient) {}
@@ -15,7 +15,7 @@ export class UserRepository {
     email: string;
     username: string;
     passwordHash: string;
-    role: Role;
+    role: UserRole;
     tenantId: string;
   }) {
     return this.prisma.user.create({ data });
@@ -29,7 +29,7 @@ export class UserRepository {
     return this.prisma.user.delete({ where: { id } });
   }
 
-  async updateUser(id: string, updates: Partial<{ username: string; role: Role; passwordHash: string }>) {
+  async updateUser(id: string, updates: Partial<{ username: string; role: UserRole; passwordHash: string }>) {
     return this.prisma.user.update({
       where: { id },
       data: updates,
@@ -47,7 +47,7 @@ export class UserRepository {
     });
   }
 
-  async updateUserProfile(id: string, updates: Partial<{ username: string; email: string; passwordHash: string; role: Role; resetPasswordToken: string | null; resetPasswordTokenExpiry: Date | null }>) {
+  async updateUserProfile(id: string, updates: Partial<{ username: string; email: string; passwordHash: string; role: UserRole; resetPasswordToken: string | null; resetPasswordTokenExpiry: Date | null }>) {
     return this.prisma.user.update({
       where: { id },
       data: updates,

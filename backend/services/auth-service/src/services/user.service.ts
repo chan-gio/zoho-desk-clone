@@ -1,7 +1,7 @@
 // src/services/user.service.ts
 
 import { UserRepository } from '../repositories/user.repository';
-import { Role, PrismaClient } from '../../prisma/generated/client';
+import { UserRole, PrismaClient } from '../../../../shared/prisma/generated/client';
 
 export class UserService {
   private userRepo: UserRepository;
@@ -22,7 +22,7 @@ export class UserService {
 
     return this.userRepo.createUser({
       ...input,
-      role: Role.customer, // 👈 mặc định nếu cần
+      role: UserRole.customer, // 👈 mặc định nếu cần
     });
   }
 
@@ -30,7 +30,7 @@ export class UserService {
     return this.userRepo.findById(id);
   }
 
-  async updateUserRole(id: string, role: Role) {
+  async updateUserRole(id: string, role: UserRole) {
     return this.userRepo.updateUser(id, { role });
   }
 
@@ -48,7 +48,7 @@ export class UserService {
   });
 }
 
-  async updateUser(id: string, updates: Partial<{ username: string; email: string; passwordHash: string; role: Role }>) {
+  async updateUser(id: string, updates: Partial<{ username: string; email: string; passwordHash: string; role: UserRole }>) {
     return this.userRepo.updateUserProfile(id, updates);
   }
 
@@ -56,7 +56,7 @@ export class UserService {
     return this.userRepo.softDeleteUser(id);
   }
 
-  async getUsers(filter: { tenantId?: string; role?: Role }) {
+  async getUsers(filter: { tenantId?: string; role?: UserRole }) {
     const where: any = {};
     if (filter.tenantId) where.tenantId = filter.tenantId;
     if (filter.role) where.role = filter.role;

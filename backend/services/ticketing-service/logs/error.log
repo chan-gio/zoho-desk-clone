@@ -1,0 +1,11 @@
+[2025-07-17T15:12:11.719Z] [31merror[39m: SyntaxError: Expected double-quoted property name in JSON at position 28 (line 3 column 3)
+    at JSON.parse (<anonymous>)
+    at parse (/home/duck/zoho-desk-clone/backend/node_modules/body-parser/lib/types/json.js:77:19)
+    at /home/duck/zoho-desk-clone/backend/node_modules/body-parser/lib/read.js:123:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (/home/duck/zoho-desk-clone/backend/node_modules/raw-body/index.js:238:16)
+    at done (/home/duck/zoho-desk-clone/backend/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/duck/zoho-desk-clone/backend/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:520:28)
+    at IncomingMessage.emit (node:domain:488:12)
+    at endReadableNT (node:internal/streams/readable:1696:12)

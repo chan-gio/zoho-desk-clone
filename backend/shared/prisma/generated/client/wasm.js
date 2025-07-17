@@ -140,9 +140,67 @@ exports.Prisma.UserScalarFieldEnum = {
   resetPasswordTokenExpiry: 'resetPasswordTokenExpiry'
 };
 
+exports.Prisma.DepartmentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  creatorId: 'creatorId',
+  assigneeId: 'assigneeId',
+  departmentId: 'departmentId'
+};
+
+exports.Prisma.TicketCommentScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  userId: 'userId',
+  comment: 'comment',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  filePath: 'filePath',
+  ticketId: 'ticketId',
+  commentId: 'commentId',
+  uploadedAt: 'uploadedAt'
+};
+
+exports.Prisma.SLAScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  responseTime: 'responseTime'
+};
+
+exports.Prisma.WorkflowScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  rules: 'rules',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -154,15 +212,39 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Role = exports.$Enums.Role = {
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.UserRole = exports.$Enums.UserRole = {
   admin: 'admin',
   agent: 'agent',
   customer: 'customer'
 };
 
+exports.TicketStatus = exports.$Enums.TicketStatus = {
+  open: 'open',
+  in_progress: 'in_progress',
+  closed: 'closed'
+};
+
+exports.TicketPriority = exports.$Enums.TicketPriority = {
+  low: 'low',
+  medium: 'medium',
+  high: 'high'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
-  User: 'User'
+  User: 'User',
+  Department: 'Department',
+  Ticket: 'Ticket',
+  TicketComment: 'TicketComment',
+  Attachment: 'Attachment',
+  SLA: 'SLA',
+  Workflow: 'Workflow'
 };
 
 /**

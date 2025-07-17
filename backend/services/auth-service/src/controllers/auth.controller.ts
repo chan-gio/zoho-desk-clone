@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/auth.service';
 import { UserRepository } from '../repositories/user.repository';
-import { PrismaClient } from '../../prisma/generated/client';
+import { PrismaClient } from '../../../../shared/prisma/generated/client';
 import { successResponse } from '../../../../shared/src/utils/response';
 
 const prisma = new PrismaClient();

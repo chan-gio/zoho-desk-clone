@@ -272,3 +272,96 @@ Unique constraint failed on the fields: (`username`)
     at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
     at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
     at login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-17T14:36:46.166Z] [31merror[39m: PrismaClientInitializationError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:8
+   | 
+ 7 |   provider = "postgresql"
+ 8 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:7759)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:18:18)
+    at async login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-17T14:36:50.331Z] [31merror[39m: PrismaClientInitializationError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:8
+   | 
+ 7 |   provider = "postgresql"
+ 8 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:7759)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:18:18)
+    at async login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
+[2025-07-17T14:36:54.846Z] [31merror[39m: PrismaClientInitializationError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:8
+   | 
+ 7 |   provider = "postgresql"
+ 8 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:7759)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:38:22)
+    at async register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-17T14:38:17.669Z] [31merror[39m: PrismaClientInitializationError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/duck/zoho-desk-clone/backend/services/auth-service/src/repositories/user.repository.ts:7:29
+
+  4 constructor(private prisma: PrismaClient) {}
+  5 
+  6 async findByEmail(email: string) {
+→ 7   return this.prisma.user.findUnique(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:8
+   | 
+ 7 |   provider = "postgresql"
+ 8 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at ri.handleRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:7759)
+    at ri.handleAndLogRequestError (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6784)
+    at ri.request (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:124:6491)
+    at async l (/home/duck/zoho-desk-clone/backend/shared/prisma/generated/client/runtime/library.js:133:9812)
+    at async AuthService.register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:38:22)
+    at async register (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:42:22)
+[2025-07-17T14:38:33.814Z] [31merror[39m: UnauthorizedError: Invalid email or password
+    at new BaseError (/home/duck/zoho-desk-clone/backend/shared/src/errors/base.error.ts:15:11)
+    at new UnauthorizedError (/home/duck/zoho-desk-clone/backend/shared/src/errors/auth.error.ts:5:5)
+    at AuthService.login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/services/auth.service.ts:20:13)
+    at async login (/home/duck/zoho-desk-clone/backend/services/auth-service/src/controllers/auth.controller.ts:16:53)
