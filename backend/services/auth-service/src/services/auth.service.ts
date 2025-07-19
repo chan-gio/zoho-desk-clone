@@ -3,13 +3,16 @@ import { UserRepository } from '../repositories/user.repository';
 import { User, UserRole } from '../../../../shared/prisma/generated/client';
 import { UnauthorizedError } from '../../../../shared/src/errors/auth.error';
 import { generateJWT, verifyJWT, hashPassword, generateRefreshToken } from '../../../../shared/src/utils/encryption';
-import { sendMail } from '../../../../services/integration-gateway/src/integrations/sendgrid/sendgrid';
+import { Resend } from 'resend';
 import { v4 as uuidv4 } from 'uuid';
 import { TenantRepository } from '../repositories/tenant.repository';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const tenantRepo = new TenantRepository(prisma);
+
+// Khởi tạo Resend client
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export class AuthService {
   constructor(private userRepo: UserRepository) {}
@@ -71,13 +74,45 @@ export class AuthService {
     // Find user
     const user = await this.userRepo.findByEmail(email);
     if (!user) return; // Không tiết lộ user tồn tại
+    
     // Generate reset token
     const resetToken = uuidv4();
     const expiry = new Date(Date.now() + 1000 * 60 * 30); // 30 phút
     await this.userRepo.saveResetPasswordToken(user.id, resetToken, expiry);
-    // Send email
+    
+    // Send email using Resend
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-    await sendMail(email, 'Reset your password', `<p>Click <a href="${resetUrl}">here</a> to reset your password. Token expires in 30 minutes.</p>`);
+    
+    try {
+      await resend.emails.send({
+        from: process.env.FROM_EMAIL || 'noreply@yourdomain.com',
+        to: [email],
+        subject: 'Reset your password',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2>Password Reset Request</h2>
+            <p>You have requested to reset your password. Click the button below to reset your password:</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${resetUrl}" 
+                 style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                Reset Password
+              </a>
+            </div>
+            <p><strong>This link will expire in 30 minutes.</strong></p>
+            <p>If you did not request this password reset, please ignore this email.</p>
+            <hr style="margin: 30px 0;">
+            <p style="color: #666; font-size: 12px;">
+              If the button doesn't work, copy and paste this link into your browser:
+              <br>
+              <a href="${resetUrl}">${resetUrl}</a>
+            </p>
+          </div>
+        `
+      });
+    } catch (error) {
+      console.error('Failed to send password reset email:', error);
+      throw new Error('Failed to send password reset email');
+    }
   }
 
   async resetPassword(token: string, newPassword: string) {
