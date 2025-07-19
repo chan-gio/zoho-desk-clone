@@ -1,0 +1,144 @@
+[2025-07-17T20:24:04.859Z] [31merror[39m: ValidationError: Article validation failed: author: Cast to ObjectId failed for value "<userId>" (type string) at path "author" because of "BSONError", category: Cast to ObjectId failed for value "<categoryId>" (type string) at path "category" because of "BSONError", tenantId: Path `tenantId` is required.
+    at model.Document.invalidate (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:3354:32)
+    at model.$set (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:1480:12)
+    at model.$set (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:1132:16)
+    at model.Document (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:178:12)
+    at model.Model (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:127:12)
+    at new model (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:4837:15)
+    at /home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:2786:20
+    at Array.map (<anonymous>)
+    at Function.create (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:2774:34)
+    at ArticleService.createArticle (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/article.service.ts:6:20)
+[2025-07-17T20:28:28.114Z] [31merror[39m: ValidationError: Article validation failed: author: Cast to ObjectId failed for value "4e4eded7-da29-4b95-8643-3fcb9c357ea2" (type string) at path "author" because of "BSONError", tenantId: Path `tenantId` is required.
+    at model.Document.invalidate (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:3354:32)
+    at model.$set (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:1480:12)
+    at model.$set (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:1132:16)
+    at model.Document (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/document.js:178:12)
+    at model.Model (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:127:12)
+    at new model (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:4837:15)
+    at /home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:2786:20
+    at Array.map (<anonymous>)
+    at Function.create (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/model.js:2774:34)
+    at ArticleService.createArticle (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/article.service.ts:6:20)
+[2025-07-17T20:31:31.339Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:31:47.023Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:33:24.292Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:37:24.104Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:39:28.061Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:44:15.738Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:47:48.750Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:49:45.400Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T20:55:51.763Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T21:00:18.050Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T21:07:54.340Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-17T21:09:51.307Z] [31merror[39m: MongooseError: Operation `articles.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/home/duck/zoho-desk-clone/backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:187:23)
+    at listOnTimeout (node:internal/timers:573:17)
+    at processTimers (node:internal/timers:514:7)
+[2025-07-18T14:09:12.304Z] [31merror[39m: ConnectionError: connect ECONNREFUSED 127.0.0.1:9200
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:679:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:744:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:741:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/src/api/api/search.ts:188:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:29:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:11:24)
+[2025-07-18T14:11:56.691Z] [31merror[39m: ConnectionError: connect ECONNREFUSED 127.0.0.1:9200
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:679:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:744:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:741:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/src/api/api/search.ts:188:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:29:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:11:24)
+[2025-07-18T14:23:48.021Z] [31merror[39m: ResponseError: media_type_header_exception
+	Caused by:
+		status_exception: Accept version must be either version 8 or 7, but found 9. Accept=application/vnd.elasticsearch+json; compatible-with=9
+	Root causes:
+		media_type_header_exception: Invalid media-type value on headers [Accept, Content-Type]
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:610:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:744:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/transport/src/Transport.ts:741:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/node_modules/@elastic/src/api/api/search.ts:188:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:29:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:11:24)
+[2025-07-18T14:25:08.558Z] [31merror[39m: ResponseError: x_content_parse_exception
+	Caused by:
+		parsing_exception: No text specified for text query
+	Root causes:
+		parsing_exception: No text specified for text query
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:606:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:740:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:737:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/src/api/api/search.ts:96:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:29:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:11:24)
+[2025-07-18T14:26:57.667Z] [31merror[39m: ResponseError: x_content_parse_exception
+	Caused by:
+		parsing_exception: No text specified for text query
+	Root causes:
+		parsing_exception: No text specified for text query
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:606:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:740:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:737:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/src/api/api/search.ts:96:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:29:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:16:24)
+[2025-07-18T14:33:50.600Z] [31merror[39m: ResponseError: x_content_parse_exception
+	Caused by:
+		parsing_exception: No text specified for text query
+	Root causes:
+		parsing_exception: No text specified for text query
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:606:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:740:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:737:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/src/api/api/search.ts:96:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:48:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:16:24)
+[2025-07-18T14:35:10.585Z] [31merror[39m: ResponseError: index_not_found_exception
+	Root causes:
+		index_not_found_exception: no such index [articles]
+    at SniffingTransport._request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:606:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:740:22
+    at async SniffingTransport.request (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/transport/src/Transport.ts:737:14)
+    at async Client.SearchApi [as search] (/home/duck/zoho-desk-clone/backend/services/knowledge-service/node_modules/@elastic/src/api/api/search.ts:96:10)
+    at async SearchService.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/services/search.service.ts:48:22)
+    at async SearchController.searchArticles (/home/duck/zoho-desk-clone/backend/services/knowledge-service/src/controllers/search.controller.ts:17:24)
