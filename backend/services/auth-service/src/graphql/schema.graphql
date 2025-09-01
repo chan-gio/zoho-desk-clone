@@ -1,0 +1,180 @@
+# GraphQL Schema for Auth Service
+
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  role: String!
+  tenantId: String!
+  isActive: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Role {
+  id: ID!
+  name: String!
+  description: String!
+  permissions: [String!]!
+  tenantId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type AuthResponse {
+  token: String!
+  refreshToken: String!
+  user: User!
+}
+
+type RegisterResponse {
+  user: User!
+  token: String!
+}
+
+type RefreshTokenResponse {
+  token: String!
+  refreshToken: String!
+}
+
+type ValidateTokenResponse {
+  valid: Boolean!
+  user: User
+}
+
+type LogoutResponse {
+  success: Boolean!
+  message: String!
+}
+
+type UsersResponse {
+  users: [User!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+}
+
+type RolesResponse {
+  roles: [Role!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+}
+
+type DeleteResponse {
+  success: Boolean!
+  message: String!
+}
+
+# Input Types
+input CreateUserInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  role: String!
+  tenantId: String!
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  role: String
+  isActive: Boolean
+}
+
+input CreateRoleInput {
+  name: String!
+  description: String!
+  permissions: [String!]!
+  tenantId: String!
+}
+
+input UpdateRoleInput {
+  name: String
+  description: String
+  permissions: [String!]
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  tenantId: String!
+}
+
+input RefreshTokenInput {
+  refreshToken: String!
+}
+
+input ValidateTokenInput {
+  token: String!
+}
+
+input LogoutInput {
+  token: String!
+}
+
+input ListUsersInput {
+  tenantId: String!
+  page: Int = 1
+  limit: Int = 10
+  role: String
+  isActive: Boolean
+}
+
+input ListRolesInput {
+  tenantId: String!
+  page: Int = 1
+  limit: Int = 10
+}
+
+# Queries
+type Query {
+  # User Queries
+  getUser(id: ID!, tenantId: String!): User
+  listUsers(input: ListUsersInput!): UsersResponse!
+  
+  # Role Queries
+  getRole(id: ID!, tenantId: String!): Role
+  listRoles(input: ListRolesInput!): RolesResponse!
+  
+  # Auth Queries
+  validateToken(input: ValidateTokenInput!): ValidateTokenResponse!
+}
+
+# Mutations
+type Mutation {
+  # Auth Mutations
+  login(input: LoginInput!): AuthResponse!
+  register(input: RegisterInput!): RegisterResponse!
+  refreshToken(input: RefreshTokenInput!): RefreshTokenResponse!
+  logout(input: LogoutInput!): LogoutResponse!
+  
+  # User Mutations
+  createUser(input: CreateUserInput!): User!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!, tenantId: String!): DeleteResponse!
+  
+  # Role Mutations
+  createRole(input: CreateRoleInput!): Role!
+  updateRole(id: ID!, input: UpdateRoleInput!): Role!
+  deleteRole(id: ID!, tenantId: String!): DeleteResponse!
+}
+
+# Subscriptions (for real-time updates)
+type Subscription {
+  userCreated(tenantId: String!): User!
+  userUpdated(tenantId: String!): User!
+  userDeleted(tenantId: String!): ID!
+  roleCreated(tenantId: String!): Role!
+  roleUpdated(tenantId: String!): Role!
+  roleDeleted(tenantId: String!): ID!
+} 
