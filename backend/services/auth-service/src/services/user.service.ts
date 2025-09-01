@@ -1,5 +1,3 @@
-// src/services/user.service.ts
-
 import { UserRepository } from '../repositories/user.repository';
 import { UserRole, PrismaClient } from '../../../../shared/prisma/generated/client';
 

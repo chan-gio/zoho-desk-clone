@@ -1,38 +1,35 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "target": "ES2021",
-      "module": "CommonJS",
-      "lib": ["ES2021"],
-      "outDir": "../../dist/auth-service",
-      "rootDir": "../../",
-      "strict": true,
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "skipLibCheck": true,
-      "resolveJsonModule": true,
-      "noImplicitAny": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true,
-      "types": ["node", "jest"],
-      "baseUrl": "./src",
-      "paths": {
-        "@utils/*": ["utils/*"],
-        "@config/*": ["config/*"],
-        "@middlewares/*": ["middlewares/*"],
-        "@routes/*": ["routes/*"],
-        "@controllers/*": ["modules/*.controller"],
-        "@services/*": ["modules/*.service"],
-        "@types/*": ["types/*"],
-        "@shared/*": ["../../../shared/src/*"]
-      }
-    },
-    "include": [
-      "src/**/*",
-      "../../shared/**/*"
-    ],
-    "exclude": ["node_modules", "dist"]
-  }
-  
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/shared/*": ["../shared/*"],
+      "@/prisma/*": ["../shared/prisma/*"]
+    }
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": [
+    "src/**/*",
+    "../shared/src/**/*",
+    "../shared/prisma/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "../dist"
+  ]
+}

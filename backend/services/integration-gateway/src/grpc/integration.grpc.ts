@@ -2,7 +2,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from 'path';
 import { EmailService } from '../services/email.service';
-import { SMSService } from '../services/sms.service';
+import { SmsService } from '../services/sms.service';
 import { ChatService } from '../services/chat.service';
 import { WebhookService } from '../services/webhook.service';
 
@@ -21,7 +21,7 @@ const integrationProto = protoDescriptor.integration as any;
 
 // Initialize services
 const emailService = new EmailService();
-const smsService = new SMSService();
+const smsService = new SmsService();
 const chatService = new ChatService();
 const webhookService = new WebhookService();
 

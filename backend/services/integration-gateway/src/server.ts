@@ -1,7 +1,7 @@
 import app from './app.js';
-import { startGrpcServer } from './grpc/knowledge.grpc.js';
+import { startGrpcServer } from './grpc/integration.grpc.js';
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 
 async function startServer() {
   try {
@@ -11,7 +11,7 @@ async function startServer() {
 
     // Start HTTP server
     app.listen(PORT, () => {
-      console.log(`🚀 Knowledge Service server running on port ${PORT}`);
+      console.log(`🚀 Integration Gateway server running on port ${PORT}`);
       console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (error) {
@@ -31,4 +31,4 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-startServer();
+startServer(); 

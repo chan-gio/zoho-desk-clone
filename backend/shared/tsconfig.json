@@ -1,14 +1,19 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "../dist/shared",
-      "rootDir": "./"
-    },
-    "include": [
-      "./**/*"
-    ],
-    "exclude": [
-      "node_modules",
-      "../dist"
-    ]
-  }
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/shared",
+    "rootDir": "./",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "../dist/shared/.tsbuildinfo"
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "../dist"
+  ]
+}

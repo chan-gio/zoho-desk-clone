@@ -1,0 +1,260 @@
+version: '3.8'
+
+services:
+  # Databases
+  postgres:
+    image: postgres:15-alpine
+    container_name: zoho-desk-postgres
+    environment:
+      POSTGRES_DB: zoho_desk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/postgres/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - zoho-desk-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongodb:
+    image: mongo:7.0
+    container_name: zoho-desk-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: zoho_desk
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./database/mongo/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - zoho-desk-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: zoho-desk-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - zoho-desk-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: zoho-desk-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - zoho-desk-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: zoho-desk-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: development
+      PORT: 8080
+      AUTH_SERVICE_URL: http://auth-service:3000
+      TICKETING_SERVICE_URL: http://ticketing-service:3001
+      KNOWLEDGE_SERVICE_URL: http://knowledge-service:3002
+      INTEGRATION_SERVICE_URL: http://integration-gateway:3003
+      ANALYTICS_SERVICE_URL: http://analytics-service:3004
+    depends_on:
+      - auth-service
+      - ticketing-service
+      - knowledge-service
+      - integration-gateway
+      - analytics-service
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+  # Auth Service
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth-service/Dockerfile
+    container_name: zoho-desk-auth-service
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/zoho_desk
+      JWT_SECRET: your-super-secret-jwt-key-dev
+      JWT_EXPIRES_IN: 24h
+      REFRESH_TOKEN_SECRET: your-super-secret-refresh-key-dev
+      REFRESH_TOKEN_EXPIRES_IN: 7d
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+  # Ticketing Service
+  ticketing-service:
+    build:
+      context: .
+      dockerfile: services/ticketing-service/Dockerfile
+    container_name: zoho-desk-ticketing-service
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/zoho_desk
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://admin:admin123@rabbitmq:5672
+      AUTH_SERVICE_URL: http://auth-service:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+  # Knowledge Service
+  knowledge-service:
+    build:
+      context: .
+      dockerfile: services/knowledge-service/Dockerfile
+    container_name: zoho-desk-knowledge-service
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      PORT: 3002
+      MONGODB_URL: mongodb://admin:admin123@mongodb:27017/zoho_desk?authSource=admin
+      REDIS_URL: redis://redis:6379
+      AUTH_SERVICE_URL: http://auth-service:3000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+  # Integration Gateway
+  integration-gateway:
+    build:
+      context: .
+      dockerfile: services/integration-gateway/Dockerfile
+    container_name: zoho-desk-integration-gateway
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      PORT: 3003
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://admin:admin123@rabbitmq:5672
+      AUTH_SERVICE_URL: http://auth-service:3000
+      # Integration API Keys (for development)
+      SENDGRID_API_KEY: your-sendgrid-api-key
+      TWILIO_ACCOUNT_SID: your-twilio-account-sid
+      TWILIO_AUTH_TOKEN: your-twilio-auth-token
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+  # Analytics Service
+  analytics-service:
+    build:
+      context: .
+      dockerfile: services/analytics-service/Dockerfile
+    container_name: zoho-desk-analytics-service
+    ports:
+      - "3004:3004"
+    environment:
+      NODE_ENV: development
+      PORT: 3004
+      MONGODB_URL: mongodb://admin:admin123@mongodb:27017/zoho_desk?authSource=admin
+      REDIS_URL: redis://redis:6379
+      TICKETING_SERVICE_URL: http://ticketing-service:3001
+      AUTH_SERVICE_URL: http://auth-service:3000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+  # Message Queue Service
+  message-queue:
+    build:
+      context: .
+      dockerfile: message-queue/Dockerfile
+    container_name: zoho-desk-message-queue
+    ports:
+      - "3005:3005"
+    environment:
+      NODE_ENV: development
+      PORT: 3005
+      RABBITMQ_URL: amqp://admin:admin123@rabbitmq:5672
+      REDIS_URL: redis://redis:6379
+      AUTH_SERVICE_URL: http://auth-service:3000
+      TICKETING_SERVICE_URL: http://ticketing-service:3001
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - zoho-desk-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  zoho-desk-network:
+    driver: bridge
