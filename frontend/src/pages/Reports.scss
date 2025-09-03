@@ -1,0 +1,64 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.reports-page {
+  @include fade-in;
+  
+  .stats-row {
+    .ant-card {
+      @include card-shadow;
+      @include card-hover;
+      
+      .ant-statistic {
+        .ant-statistic-title {
+          color: $text-secondary;
+          font-size: $font-size-sm;
+          margin-bottom: $spacing-sm;
+        }
+        
+        .ant-statistic-content {
+          .ant-statistic-content-value {
+            font-size: 28px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+  
+  .agent-performance-card {
+    @include card-shadow;
+    
+    .ant-card-head {
+      .ant-card-head-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+  }
+  
+  .chart-placeholder {
+    @include flex-center;
+    min-height: 200px;
+    background-color: $light-gray;
+    border-radius: $border-radius-base;
+    color: $text-secondary;
+    font-style: italic;
+  }
+}
+
+// Responsive design
+@include mobile {
+  .reports-page {
+    .stats-row {
+      .ant-col {
+        margin-bottom: $spacing-md;
+      }
+    }
+    
+    .chart-placeholder {
+      min-height: 150px;
+      font-size: $font-size-sm;
+    }
+  }
+}

@@ -1,0 +1,149 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.header {
+  background-color: $header-bg;
+  border-bottom: 1px solid $header-border;
+  padding: 0 $spacing-lg;
+  @include flex-between;
+  position: sticky;
+  top: 0;
+  z-index: $z-index-header;
+  box-shadow: $box-shadow-light;
+  
+  .header-left {
+    @include flex-center;
+    gap: $spacing-md;
+    
+    .trigger {
+      font-size: 18px;
+      color: $text-color;
+      border: none;
+      background: transparent;
+      padding: $spacing-sm;
+      border-radius: $border-radius-base;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: $light-gray;
+        color: $primary-color;
+      }
+    }
+    
+    .logo {
+      h2 {
+        margin: 0;
+        color: $primary-color;
+        font-weight: 600;
+        font-size: 20px;
+      }
+    }
+  }
+  
+  .header-center {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 $spacing-lg;
+    
+    .search-input {
+      .ant-input-search-button {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        
+        &:hover {
+          background-color: $primary-hover-color;
+          border-color: $primary-hover-color;
+        }
+      }
+    }
+  }
+  
+  .header-right {
+    @include flex-center;
+    gap: $spacing-md;
+    
+    .language-selector {
+      .ant-select-selector {
+        border: 1px solid $border-color;
+        border-radius: $border-radius-base;
+        background-color: transparent;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          border-color: $primary-color;
+        }
+      }
+      
+      .ant-select-selection-item {
+        font-weight: 500;
+        color: $text-color;
+      }
+      
+      .ant-select-arrow {
+        color: $text-secondary;
+      }
+    }
+    
+    .notification-btn {
+      color: $text-color;
+      border: none;
+      background: transparent;
+      padding: $spacing-sm;
+      border-radius: $border-radius-base;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: $light-gray;
+        color: $primary-color;
+      }
+    }
+    
+    .user-avatar {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: $box-shadow-base;
+      }
+    }
+  }
+}
+
+// Responsive design
+@include mobile {
+  .header {
+    padding: 0 $spacing-md;
+    
+    .header-left {
+      .logo {
+        h2 {
+          font-size: 16px;
+        }
+      }
+    }
+    
+    .header-center {
+      margin: 0 $spacing-sm;
+      max-width: 200px;
+    }
+    
+    .header-right {
+      gap: $spacing-sm;
+      
+      .language-selector {
+        .ant-select-selector {
+          min-width: 60px;
+        }
+      }
+    }
+  }
+}
+
+@include tablet {
+  .header {
+    .header-center {
+      max-width: 300px;
+    }
+  }
+}

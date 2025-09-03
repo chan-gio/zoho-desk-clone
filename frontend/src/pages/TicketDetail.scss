@@ -1,0 +1,290 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.ticket-detail-page {
+  @include fade-in;
+  
+  .page-header {
+    @include flex-between;
+    margin-bottom: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid $border-color;
+    
+    .ant-typography {
+      margin: 0;
+    }
+    
+    .status-tag,
+    .priority-tag {
+      font-weight: 500;
+      border-radius: $border-radius-sm;
+    }
+  }
+  
+  .ticket-details {
+    .description-card {
+      @include card-shadow;
+      margin-bottom: 24px;
+      
+      .ant-card-body {
+        .ant-typography {
+          margin: 0;
+          line-height: 1.6;
+          color: $text-color;
+        }
+      }
+    }
+    
+    .comments-card {
+      @include card-shadow;
+      
+      .comments-section {
+        .comment-form {
+          margin-bottom: 16px;
+          
+          .ant-form-item {
+            margin-bottom: 0;
+          }
+        }
+        
+        .comment-item {
+          border-bottom: 1px solid $border-light;
+          padding: 12px 0;
+          
+          &:last-child {
+            border-bottom: none;
+          }
+          
+          .ant-list-item-meta {
+            .ant-list-item-meta-title {
+              margin-bottom: 4px;
+            }
+            
+            .ant-list-item-meta-description {
+              color: $text-color;
+              line-height: 1.5;
+            }
+          }
+        }
+      }
+    }
+    
+    .info-card {
+      @include card-shadow;
+      margin-bottom: 24px;
+      
+      .status-section,
+      .priority-section,
+      .assigned-section,
+      .customer-section,
+      .tags-section,
+      .dates-section {
+        .ant-typography {
+          display: block;
+          margin-bottom: 8px;
+        }
+      }
+      
+      .assigned-info,
+      .customer-info {
+        margin-top: 8px;
+      }
+      
+      .tags-container {
+        margin-top: 8px;
+        
+        .ant-tag {
+          margin-bottom: 4px;
+        }
+      }
+      
+      .ant-descriptions {
+        margin-top: 8px;
+        
+        .ant-descriptions-item-label {
+          color: $text-secondary;
+          font-weight: 500;
+        }
+        
+        .ant-descriptions-item-content {
+          color: $text-color;
+        }
+      }
+    }
+    
+    .attachments-card {
+      @include card-shadow;
+      
+      .ant-list-item {
+        padding: 8px 0;
+        
+        .ant-list-item-meta {
+          .ant-list-item-meta-title {
+            font-size: $font-size-sm;
+            margin-bottom: 2px;
+          }
+          
+          .ant-list-item-meta-description {
+            font-size: 12px;
+            color: $text-secondary;
+          }
+        }
+      }
+      
+      .ant-upload-dragger {
+        border: 1px dashed $border-color;
+        border-radius: $border-radius-base;
+        background-color: $light-gray;
+        
+        .ant-upload-drag-icon {
+          color: $text-secondary;
+        }
+        
+        .ant-upload-text {
+          color: $text-secondary;
+          font-size: $font-size-sm;
+        }
+      }
+    }
+  }
+  
+  .ant-tabs {
+    .ant-tabs-tab {
+      .ant-tabs-tab-btn {
+        @include flex-center;
+        gap: $spacing-sm;
+        font-weight: 500;
+      }
+    }
+    
+    .ant-tabs-content-holder {
+      .ant-tabs-content {
+        .ant-tabs-tabpane {
+          .ant-card {
+            @include card-shadow;
+          }
+        }
+      }
+    }
+  }
+  
+  .history-item {
+    .history-header {
+      margin-bottom: 8px;
+    }
+    
+    .history-content {
+      margin-bottom: 8px;
+    }
+    
+    .history-user {
+      .ant-avatar {
+        background-color: $primary-color;
+      }
+    }
+  }
+  
+  .loading-container,
+  .error-container {
+    @include flex-center;
+    min-height: 400px;
+    font-size: 18px;
+    color: $text-secondary;
+  }
+  
+  .error-container {
+    color: $error-color;
+  }
+}
+
+// Responsive design
+@include mobile {
+  .ticket-detail-page {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      
+      .ant-typography {
+        font-size: 20px;
+      }
+    }
+    
+    .ticket-details {
+      .ant-col {
+        margin-bottom: 16px;
+      }
+      
+      .comments-card {
+        .comment-form {
+          .ant-form-item {
+            margin-bottom: 8px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include tablet {
+  .ticket-detail-page {
+    .ticket-details {
+      .ant-col {
+        margin-bottom: 16px;
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .ticket-detail-page {
+    .page-header {
+      border-bottom-color: #303030;
+    }
+    
+    .ticket-details {
+      .description-card,
+      .comments-card,
+      .info-card,
+      .attachments-card {
+        background-color: #1f1f1f;
+        border-color: #303030;
+        
+        .ant-card-head {
+          border-bottom-color: #303030;
+          
+          .ant-card-head-title {
+            color: #ffffff;
+          }
+        }
+        
+        .ant-card-body {
+          .ant-typography {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .ticket-detail-page {
+    .page-header {
+      .ant-btn {
+        display: none !important;
+      }
+    }
+    
+    .ticket-details {
+      .comments-card,
+      .attachments-card {
+        .ant-btn {
+          display: none !important;
+        }
+      }
+    }
+  }
+}

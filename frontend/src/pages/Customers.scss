@@ -1,0 +1,41 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.customers-page {
+  @include fade-in;
+  
+  .filter-card {
+    @include card-shadow;
+  }
+  
+  .ant-card {
+    @include card-shadow;
+    
+    .ant-table {
+      .customer-name {
+        font-weight: 500;
+        color: $text-color;
+        margin-bottom: $spacing-xs;
+      }
+      
+      .customer-email {
+        color: $text-secondary;
+        font-size: $font-size-sm;
+      }
+    }
+  }
+}
+
+// Responsive design
+@include mobile {
+  .customers-page {
+    .ant-table {
+      .ant-table-tbody {
+        .customer-name,
+        .customer-email {
+          font-size: $font-size-sm;
+        }
+      }
+    }
+  }
+}

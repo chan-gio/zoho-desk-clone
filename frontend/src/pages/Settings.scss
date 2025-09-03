@@ -1,0 +1,52 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.settings-page {
+  @include fade-in;
+  
+  .ant-card {
+    @include card-shadow;
+    
+    .ant-tabs {
+      .ant-tabs-tab {
+        .ant-tabs-tab-btn {
+          @include flex-center;
+          gap: $spacing-sm;
+          font-weight: 500;
+        }
+      }
+      
+      .ant-tabs-content-holder {
+        .ant-tabs-content {
+          .ant-tabs-tabpane {
+            .ant-form {
+              .ant-form-item {
+                margin-bottom: $spacing-lg;
+                
+                .ant-form-item-label {
+                  label {
+                    font-weight: 500;
+                    color: $text-color;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@include mobile {
+  .settings-page {
+    .ant-tabs {
+      .ant-tabs-tab {
+        .ant-tabs-tab-btn {
+          font-size: $font-size-sm;
+        }
+      }
+    }
+  }
+}

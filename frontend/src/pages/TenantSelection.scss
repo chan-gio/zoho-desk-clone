@@ -1,0 +1,294 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.tenant-selection-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 40px 20px;
+  
+  .tenant-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .tenant-header {
+    text-align: center;
+    margin-bottom: 40px;
+    
+    .ant-typography {
+      margin-bottom: 8px;
+    }
+  }
+  
+  .tenant-actions {
+    @include flex-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+    
+    .ant-input-search {
+      .ant-input {
+        border-radius: 8px;
+      }
+    }
+  }
+  
+  .tenant-grid {
+    .tenant-card {
+      @include card-shadow;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      
+      &.active {
+        &:hover {
+          border-color: $primary-color;
+          transform: translateY(-4px);
+          box-shadow: 0 8px 25px rgba(24, 144, 255, 0.15);
+        }
+      }
+      
+      &.inactive {
+        opacity: 0.6;
+        cursor: not-allowed;
+        
+        .ant-card-body {
+          filter: grayscale(50%);
+        }
+      }
+      
+      .ant-card-body {
+        padding: 24px;
+      }
+      
+      .tenant-card-header {
+        @include flex-center;
+        gap: 16px;
+        margin-bottom: 16px;
+        
+        .tenant-logo {
+          background: linear-gradient(135deg, $primary-color, $primary-hover-color);
+          color: white;
+          font-size: 20px;
+          flex-shrink: 0;
+        }
+        
+        .tenant-info {
+          flex: 1;
+          min-width: 0;
+          
+          .tenant-name {
+            margin: 0 0 4px 0;
+            font-size: 18px;
+            @include text-ellipsis;
+          }
+          
+          .tenant-domain {
+            font-size: 12px;
+            @include text-ellipsis;
+          }
+        }
+      }
+      
+      .tenant-description {
+        margin-bottom: 16px;
+        
+        .ant-typography {
+          color: $text-secondary;
+          font-size: 14px;
+          line-height: 1.5;
+        }
+      }
+      
+      .tenant-stats {
+        .stat-item {
+          @include flex-center;
+          flex-direction: column;
+          gap: 4px;
+          text-align: center;
+          
+          .anticon {
+            font-size: 16px;
+            color: $primary-color;
+          }
+          
+          .ant-typography {
+            margin: 0;
+            
+            &:first-of-type {
+              font-size: 16px;
+              font-weight: 600;
+            }
+            
+            &:last-of-type {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+      
+      .tenant-footer {
+        margin-top: 16px;
+        
+        .role-badge {
+          @include flex-center;
+          gap: 4px;
+          padding: 4px 8px;
+          background-color: $light-gray;
+          border-radius: 4px;
+          font-size: 12px;
+          
+          .ant-typography {
+            margin: 0;
+            font-weight: 500;
+          }
+        }
+        
+        .plan-badge {
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          font-weight: 500;
+          color: white;
+          
+          &.blue {
+            background-color: $primary-color;
+          }
+          
+          &.green {
+            background-color: $success-color;
+          }
+          
+          &.purple {
+            background-color: #722ed1;
+          }
+        }
+      }
+      
+      .inactive-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        @include flex-center;
+        border-radius: 12px;
+        
+        .ant-typography {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  
+  .empty-state {
+    @include flex-center;
+    min-height: 200px;
+    
+    .ant-typography {
+      font-size: 16px;
+    }
+  }
+}
+
+// Responsive design
+@include mobile {
+  .tenant-selection-page {
+    padding: 20px 16px;
+    
+    .tenant-header {
+      margin-bottom: 24px;
+    }
+    
+    .tenant-actions {
+      flex-direction: column;
+      align-items: stretch;
+      
+      .ant-input-search {
+        width: 100%;
+      }
+    }
+    
+    .tenant-grid {
+      .tenant-card {
+        .ant-card-body {
+          padding: 16px;
+        }
+        
+        .tenant-card-header {
+          flex-direction: column;
+          text-align: center;
+          gap: 12px;
+        }
+      }
+    }
+  }
+}
+
+@include tablet {
+  .tenant-selection-page {
+    .tenant-grid {
+      .tenant-card {
+        .tenant-card-header {
+          .tenant-info {
+            .tenant-name {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animation
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tenant-card {
+  animation: slideInUp 0.4s ease-out;
+  
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .tenant-selection-page {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    
+    .tenant-card {
+      background-color: #1f1f1f;
+      border-color: #303030;
+      
+      .ant-card-body {
+        .ant-typography {
+          color: #ffffff;
+        }
+      }
+      
+      .tenant-footer {
+        .role-badge {
+          background-color: #303030;
+        }
+      }
+      
+      .inactive-overlay {
+        background: rgba(31, 31, 31, 0.8);
+      }
+    }
+  }
+}

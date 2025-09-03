@@ -1,0 +1,38 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.footer {
+  background-color: $footer-bg;
+  border-top: 1px solid $border-color;
+  padding: $spacing-lg;
+  margin-top: auto;
+  
+  .footer-content {
+    @include flex-center;
+    text-align: center;
+    
+    .footer-link {
+      cursor: pointer;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+// Responsive design
+@include mobile {
+  .footer {
+    padding: $spacing-md;
+    
+    .footer-content {
+      .ant-space {
+        .ant-space-item {
+          font-size: $font-size-sm;
+        }
+      }
+    }
+  }
+}

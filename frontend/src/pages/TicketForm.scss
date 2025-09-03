@@ -1,0 +1,239 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.ticket-form-page {
+  @include fade-in;
+  
+  .form-header {
+    margin-bottom: 24px;
+    text-align: center;
+    
+    .ant-typography {
+      margin-bottom: 8px;
+    }
+  }
+  
+  .form-card {
+    @include card-shadow;
+    border-radius: 12px;
+    
+    .ant-card-body {
+      padding: 32px;
+    }
+  }
+  
+  .ant-form {
+    .ant-form-item {
+      margin-bottom: 24px;
+      
+      .ant-form-item-label > label {
+        font-weight: 600;
+        color: $text-color;
+        font-size: 14px;
+      }
+      
+      .ant-input,
+      .ant-input-password,
+      .ant-select-selector,
+      .ant-picker {
+        border-radius: 8px;
+        border: 1px solid $border-color;
+        
+        &:hover {
+          border-color: $primary-color;
+        }
+        
+        &:focus,
+        &.ant-picker-focused {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+      }
+      
+      .ant-input-affix-wrapper {
+        border-radius: 8px;
+        
+        .ant-input {
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  
+  .tags-section {
+    .tags-container {
+      margin-bottom: 12px;
+      min-height: 32px;
+      
+      .ant-tag {
+        margin-bottom: 8px;
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+    }
+    
+    .add-tag {
+      .ant-input-affix-wrapper {
+        .ant-input {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  
+  .ant-upload-dragger {
+    border: 2px dashed $border-color;
+    border-radius: 8px;
+    background-color: $light-gray;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba(24, 144, 255, 0.05);
+    }
+    
+    .ant-upload-drag-icon {
+      color: $primary-color;
+      font-size: 32px;
+    }
+    
+    .ant-upload-text {
+      color: $text-color;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .ant-upload-hint {
+      color: $text-secondary;
+      font-size: 12px;
+    }
+  }
+  
+  .form-actions {
+    @include flex-center;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid $border-light;
+    
+    .ant-btn {
+      height: 40px;
+      padding: 0 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      
+      &.ant-btn-primary {
+        background: linear-gradient(135deg, $primary-color, $primary-hover-color);
+        border: none;
+        
+        &:hover {
+          background: linear-gradient(135deg, $primary-hover-color, $primary-color);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+        }
+      }
+    }
+  }
+  
+  .loading-container {
+    @include flex-center;
+    min-height: 400px;
+    font-size: 18px;
+    color: $text-secondary;
+  }
+}
+
+// Responsive design
+@include mobile {
+  .ticket-form-page {
+    .form-card {
+      .ant-card-body {
+        padding: 20px;
+      }
+    }
+    
+    .ant-form {
+      .ant-form-item {
+        margin-bottom: 20px;
+      }
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 12px;
+      
+      .ant-btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@include tablet {
+  .ticket-form-page {
+    .form-card {
+      .ant-card-body {
+        padding: 24px;
+      }
+    }
+  }
+}
+
+// Animation
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-card {
+  animation: slideInDown 0.4s ease-out;
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .ticket-form-page {
+    .form-card {
+      background-color: #1f1f1f;
+      border-color: #303030;
+      
+      .ant-card-body {
+        .ant-form {
+          .ant-form-item {
+            .ant-form-item-label > label {
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+    
+    .ant-upload-dragger {
+      background-color: #2a2a2a;
+      border-color: #404040;
+      
+      &:hover {
+        background-color: rgba(24, 144, 255, 0.1);
+      }
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .ticket-form-page {
+    .form-actions {
+      display: none !important;
+    }
+    
+    .ant-upload-dragger {
+      display: none !important;
+    }
+  }
+}

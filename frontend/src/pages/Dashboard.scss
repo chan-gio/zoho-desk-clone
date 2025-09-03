@@ -1,0 +1,64 @@
+@import '../styles/variables.scss';
+@import '../styles/mixins.scss';
+
+.dashboard {
+  @include fade-in;
+  
+  .stats-row {
+    .ant-card {
+      @include card-shadow;
+      @include card-hover;
+      
+      .ant-statistic {
+        .ant-statistic-title {
+          color: $text-secondary;
+          font-size: $font-size-sm;
+          margin-bottom: $spacing-sm;
+        }
+        
+        .ant-statistic-content {
+          .ant-statistic-content-value {
+            font-size: 28px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+  
+  .recent-tickets-card {
+    @include card-shadow;
+    
+    .ant-card-head {
+      .ant-card-head-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+    
+    .ant-table {
+      .ticket-subject {
+        font-weight: 500;
+        color: $text-color;
+        margin-bottom: $spacing-xs;
+      }
+      
+      .ticket-description {
+        color: $text-secondary;
+        font-size: $font-size-sm;
+        @include text-ellipsis;
+      }
+    }
+  }
+}
+
+// Responsive design
+@include mobile {
+  .dashboard {
+    .stats-row {
+      .ant-col {
+        margin-bottom: $spacing-md;
+      }
+    }
+  }
+}
