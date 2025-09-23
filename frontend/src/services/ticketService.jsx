@@ -143,6 +143,127 @@ export const ticketService = {
       throw error
     }
   },
+
+  // Upload attachment
+  uploadAttachment: async (ticketId, file, onProgress) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await api.post(`/tickets/${ticketId}/attachments`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          if (onProgress) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            )
+            onProgress(percentCompleted)
+          }
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      console.error('Error uploading attachment:', error)
+      throw error
+    }
+  },
+
+  // Download attachment
+  downloadAttachment: async (ticketId, attachmentId, filename) => {
+    try {
+      const response = await api.get(`/tickets/${ticketId}/attachments/${attachmentId}/download`, {
+        responseType: 'blob',
+      })
+
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(url)
+
+      return response.data
+    } catch (error) {
+      console.error('Error downloading attachment:', error)
+      throw error
+    }
+  },
+
+  // Xóa attachment
+  deleteAttachment: async (ticketId, attachmentId) => {
+    try {
+      const response = await api.delete(`/tickets/${ticketId}/attachments/${attachmentId}`)
+      return response.data
+    } catch (error) {
+      console.error('Error deleting attachment:', error)
+      throw error
+    }
+  },
+
+  // Thay đổi trạng thái ticket
+  changeTicketStatus: async (ticketId, status, comment = '') => {
+    try {
+      const response = await api.patch(`/tickets/${ticketId}/status`, {
+        status,
+        comment
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error changing ticket status:', error)
+      throw error
+    }
+  },
+
+  // Thay đổi priority ticket
+  changeTicketPriority: async (ticketId, priority) => {
+    try {
+      const response = await api.patch(`/tickets/${ticketId}/priority`, { priority })
+      return response.data
+    } catch (error) {
+      console.error('Error changing ticket priority:', error)
+      throw error
+    }
+  },
+
+  // Thêm tag
+  addTag: async (ticketId, tag) => {
+    try {
+      const response = await api.post(`/tickets/${ticketId}/tags`, { tag })
+      return response.data
+    } catch (error) {
+      console.error('Error adding tag:', error)
+      throw error
+    }
+  },
+
+  // Xóa tag
+  removeTag: async (ticketId, tag) => {
+    try {
+      const response = await api.delete(`/tickets/${ticketId}/tags/${tag}`)
+      return response.data
+    } catch (error) {
+      console.error('Error removing tag:', error)
+      throw error
+    }
+  },
+
+  // Tìm kiếm tickets
+  searchTickets: async (query, params = {}) => {
+    try {
+      const response = await api.get('/tickets/search', {
+        params: { q: query, ...params }
+      })
+      return response.data || []
+    } catch (error) {
+      console.error('Error searching tickets:', error)
+      return getMockSearchTickets(query)
+    }
+  }
 }
 
 // Mock data cho development
@@ -197,91 +318,6 @@ const getMockTickets = () => [
     createdAt: '2024-01-13T09:15:00Z',
     updatedAt: '2024-01-14T11:30:00Z',
     dueDate: '2024-01-20T18:00:00Z',
-  },
-  {
-    id: 4,
-    subject: 'Lỗi thanh toán qua thẻ tín dụng',
-    description: 'Không thể thanh toán qua thẻ tín dụng, hệ thống báo lỗi "Transaction failed". Đã thử nhiều lần với các thẻ khác nhau nhưng vẫn không được.',
-    status: 'open',
-    priority: 'urgent',
-    customer: { name: 'Phạm Thị D', email: 'phamthid@example.com', phone: '0741258963' },
-    assignedTo: 'Agent 3',
-    category: 'Payment',
-    subcategory: 'Credit Card',
-    tags: ['payment', 'credit-card', 'urgent', 'transaction'],
-    channel: 'phone',
-    source: 'phone',
-    createdAt: '2024-01-12T16:45:00Z',
-    updatedAt: '2024-01-12T16:45:00Z',
-    dueDate: '2024-01-13T12:00:00Z',
-  },
-  {
-    id: 5,
-    subject: 'Hướng dẫn sử dụng hệ thống',
-    description: 'Cần hướng dẫn chi tiết về cách sử dụng các tính năng mới của hệ thống. Hiện tại không có tài liệu hướng dẫn nào.',
-    status: 'closed',
-    priority: 'low',
-    customer: { name: 'Hoàng Văn E', email: 'hoangvane@example.com', phone: '0852369741' },
-    assignedTo: 'Agent 2',
-    category: 'Documentation',
-    subcategory: 'User Guide',
-    tags: ['documentation', 'tutorial', 'help'],
-    channel: 'email',
-    source: 'email',
-    createdAt: '2024-01-11T11:30:00Z',
-    updatedAt: '2024-01-12T09:15:00Z',
-    dueDate: '2024-01-15T18:00:00Z',
-  },
-  {
-    id: 6,
-    subject: 'Lỗi kết nối database',
-    description: 'Hệ thống báo lỗi kết nối database, không thể truy cập dữ liệu. Lỗi này ảnh hưởng đến toàn bộ hệ thống.',
-    status: 'open',
-    priority: 'urgent',
-    customer: { name: 'Vũ Thị F', email: 'vuthif@example.com', phone: '0963258741' },
-    assignedTo: 'Agent 1',
-    category: 'Technical',
-    subcategory: 'Database',
-    tags: ['database', 'connection', 'urgent', 'system'],
-    channel: 'phone',
-    source: 'phone',
-    createdAt: '2024-01-16T08:00:00Z',
-    updatedAt: '2024-01-16T08:00:00Z',
-    dueDate: '2024-01-16T12:00:00Z',
-  },
-  {
-    id: 7,
-    subject: 'Yêu cầu cập nhật thông tin cá nhân',
-    description: 'Cần cập nhật thông tin cá nhân trong tài khoản, bao gồm địa chỉ và số điện thoại mới.',
-    status: 'pending',
-    priority: 'low',
-    customer: { name: 'Đặng Văn G', email: 'dangvang@example.com', phone: '0789456123' },
-    assignedTo: 'Agent 2',
-    category: 'Account',
-    subcategory: 'Profile Update',
-    tags: ['profile', 'update', 'personal-info'],
-    channel: 'email',
-    source: 'portal',
-    createdAt: '2024-01-15T15:30:00Z',
-    updatedAt: '2024-01-15T15:30:00Z',
-    dueDate: '2024-01-18T18:00:00Z',
-  },
-  {
-    id: 8,
-    subject: 'Lỗi upload file',
-    description: 'Không thể upload file lên hệ thống, báo lỗi "File size too large" mặc dù file chỉ có 2MB.',
-    status: 'resolved',
-    priority: 'medium',
-    customer: { name: 'Bùi Thị H', email: 'buithih@example.com', phone: '0912345678' },
-    assignedTo: 'Agent 3',
-    category: 'Technical',
-    subcategory: 'File Upload',
-    tags: ['upload', 'file', 'size-limit'],
-    channel: 'chat',
-    source: 'web',
-    createdAt: '2024-01-14T10:15:00Z',
-    updatedAt: '2024-01-15T09:30:00Z',
-    dueDate: '2024-01-16T18:00:00Z',
   }
 ]
 
@@ -364,3 +400,12 @@ const getMockStats = () => ({
   resolvedTickets: 2,
   closedTickets: 1,
 })
+
+const getMockSearchTickets = (query) => {
+  const tickets = getMockTickets()
+  return tickets.filter(ticket => 
+    ticket.subject.toLowerCase().includes(query.toLowerCase()) ||
+    ticket.description.toLowerCase().includes(query.toLowerCase()) ||
+    ticket.customer.name.toLowerCase().includes(query.toLowerCase())
+  )
+}

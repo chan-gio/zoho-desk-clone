@@ -1,634 +1,315 @@
-@import '../styles/variables.scss';
-@import '../styles/mixins.scss';
-
 .tickets-page {
-  @include fade-in;
-  padding: 20px;
-  background: #f8fafc;
+  padding: 24px;
+  background: #f5f5f5;
   min-height: 100vh;
 
-  .page-header {
-    @include flex-between;
+  .tickets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
-    flex-wrap: wrap;
+    background: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h1 {
+      margin: 0;
+      color: #1f2937;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .tickets-actions {
+      display: flex;
+      gap: 12px;
+    }
+  }
+
+  .tickets-board {
+    display: flex;
     gap: 16px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+    padding-bottom: 16px;
+    min-height: calc(100vh - 200px);
 
-    .header-left {
-      h2 {
-        margin: 0 0 4px 0;
-        color: #1a202c;
-        font-weight: 700;
-        font-size: 28px;
-      }
-
-      .ant-typography {
-        color: #64748b;
-        font-size: 16px;
-      }
+    &::-webkit-scrollbar {
+      height: 8px;
     }
 
-    .ant-space {
-      .ant-btn {
-        border-radius: 8px;
-        font-weight: 500;
-        height: 40px;
-        
-        &.ant-btn-primary {
-          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-          border: none;
-          
-          &:hover {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-          }
-        }
-      }
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
     }
   }
+}
 
-  .stats-row {
-    margin-bottom: 24px;
+.column {
+  min-width: 300px;
+  max-width: 300px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 200px);
 
-    .stat-card {
-      border-radius: 12px;
-      border: none;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transition: all 0.3s ease;
-      overflow: hidden;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      }
-
-      .ant-card-body {
-        padding: 20px;
-      }
-
-      .ant-statistic {
-        .ant-statistic-title {
-          color: #64748b;
-          font-size: 14px;
-          font-weight: 500;
-          margin-bottom: 8px;
-        }
-
-        .ant-statistic-content {
-          .ant-statistic-content-value {
-            font-size: 24px;
-            font-weight: 700;
-          }
-        }
-      }
-
-      .ant-progress {
-        margin-top: 12px;
-      }
-    }
-  }
-
-  .search-filter-card {
-    border-radius: 12px;
-    border: none;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    margin-bottom: 24px;
-
-    .ant-card-body {
-      padding: 20px;
-    }
-
-    .ant-input-search {
-      .ant-input {
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
-        height: 40px;
-        
-        &:hover, &:focus {
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-      }
-    }
-
-    .ant-btn {
-      border-radius: 8px;
-      font-weight: 500;
-      height: 40px;
-      border: 1px solid #e2e8f0;
-      
-      &:hover {
-        border-color: #3b82f6;
-        color: #3b82f6;
-      }
-    }
-
-    .ant-select {
-      .ant-select-selector {
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
-        height: 40px;
-        
-        &:hover, &.ant-select-focused {
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-      }
-    }
-
-    .ant-tabs {
-      .ant-tabs-tab {
-        border-radius: 6px;
-        margin-right: 8px;
-        padding: 8px 16px;
-        
-        &.ant-tabs-tab-active {
-          background: #3b82f6;
-          color: white;
-          
-          .ant-tabs-tab-btn {
-            color: white;
-          }
-        }
-      }
-    }
-  }
-
-  .main-content-card {
-    border-radius: 12px;
-    border: none;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
-    .ant-card-body {
-      padding: 24px;
-    }
-
-    .loading-container {
-      @include flex-center;
-      min-height: 400px;
-    }
-  }
-
-  // Kanban Board Styles
-  .kanban-board {
-    .kanban-column {
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 16px;
-      min-height: 600px;
-      border: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
-      position: relative;
-
-      &:hover {
-        border-color: #3b82f6;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-      }
-
-      &.drag-over {
-        background: rgba(59, 130, 246, 0.1);
-        border-color: #3b82f6;
-        border-style: dashed;
-        transform: scale(1.02);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
-      }
-
-      &.column-dragging {
-        opacity: 0.7;
-        transform: rotate(2deg) scale(1.05);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-      }
-
-      .column-header {
-        @include flex-between;
-        margin-bottom: 16px;
-        padding: 12px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-
-        .column-title {
-          @include flex-center;
-          gap: 8px;
-
-          .ant-typography {
-            margin: 0;
-            color: #1a202c;
-            font-weight: 600;
-            font-size: 16px;
-          }
-
-          .ant-badge {
-            .ant-badge-count {
-              border-radius: 12px;
-              font-size: 12px;
-              font-weight: 600;
-              background: #3b82f6;
-            }
-          }
-        }
-
-        .column-actions {
-          @include flex-center;
-          gap: 8px;
-
-          .ant-btn {
-            border-radius: 6px;
-            border: 1px dashed #cbd5e1;
-            color: #64748b;
-            
-            &:hover {
-              border-color: #3b82f6;
-              color: #3b82f6;
-            }
-          }
-
-          .column-drag-handle {
-            @include flex-center;
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
-            cursor: grab;
-            transition: all 0.3s ease;
-
-            &:hover {
-              background: rgba(59, 130, 246, 0.2);
-              transform: scale(1.1);
-            }
-
-            &:active {
-              cursor: grabbing;
-            }
-
-            .anticon {
-              font-size: 12px;
-            }
-          }
-        }
-      }
-
-      .column-content {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        min-height: 500px;
-        transition: all 0.3s ease;
-        position: relative;
-      }
-
-      .empty-placeholder {
-        @include flex-center;
-        min-height: 200px;
-        border: 2px dashed #cbd5e1;
-        border-radius: 8px;
-        background: rgba(248, 250, 252, 0.5);
-        transition: all 0.3s ease;
-
-        &:hover {
-          border-color: #3b82f6;
-          background: rgba(59, 130, 246, 0.05);
-        }
-      }
-
-      .drop-placeholder {
-        margin: 8px 0;
-        padding: 16px;
-        border: 2px dashed #3b82f6;
-        border-radius: 8px;
-        background: rgba(59, 130, 246, 0.1);
-        animation: pulse 1s infinite;
-
-        .placeholder-content {
-          @include flex-center;
-          flex-direction: column;
-          gap: 8px;
-
-          .placeholder-line {
-            width: 100%;
-            height: 2px;
-            background: #3b82f6;
-            border-radius: 1px;
-          }
-
-          .placeholder-text {
-            color: #3b82f6;
-            font-size: 12px;
-            font-weight: 500;
-            text-align: center;
-          }
-        }
-      }
-    }
-  }
-
-  // Modern Ticket Card Styles
-  .ticket-card {
+  .column-header {
     cursor: grab;
-    transition: all 0.3s ease;
     
     &:active {
       cursor: grabbing;
     }
+  }
 
-    &.drag-overlay {
-      transform: rotate(5deg) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
+  .column-header {
+    padding: 16px;
+    background: white;
+    border-radius: 8px 8px 0 0;
+    border-top: 4px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      margin: 0;
+      color: #374151;
+      font-size: 16px;
+      font-weight: 600;
     }
 
-    .modern-ticket-card {
+    .ticket-count {
+      background: #e5e7eb;
+      color: #6b7280;
+      padding: 4px 8px;
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      background: white;
-      transition: all 0.3s ease;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      position: relative;
+      font-size: 12px;
+      font-weight: 500;
+    }
 
+    .add-ticket-btn {
+      color: #6b7280;
+      border: none;
+      box-shadow: none;
+      
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        border-color: #3b82f6;
+        color: #374151;
+        background: #f3f4f6;
       }
+    }
+  }
 
-      .ant-card-body {
-        padding: 16px;
-        cursor: pointer;
+  .column-content {
+    cursor: default;
+    flex: 1;
+    padding: 0 8px 8px 8px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+  }
+
+}
+
+
+.ticket {
+  cursor: grab;
+  transition: all 0.2s ease;
+  transform-origin: center;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  // Smooth transition when reordering
+  &.sortable-ghost {
+    opacity: 0.4;
+    transform: rotate(2deg);
+  }
+
+  &.sortable-chosen {
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  // Smooth animation for position changes
+  &.sortable-item {
+    transition: transform 0.2s ease;
+  }
+
+  .ticket-card {
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    .ant-card-body {
+      padding: 12px;
+    }
+
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+
+      .ticket-title {
+        margin: 0;
+        color: #1f2937;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+        flex: 1;
+        margin-right: 8px;
       }
+    }
 
-      .ant-card-actions {
-        background: #f8fafc;
-        border-top: 1px solid #e2e8f0;
-        
-        .anticon {
-          color: #64748b;
-          transition: color 0.3s ease;
-          
-          &:hover {
-            color: #3b82f6;
-          }
-        }
+    .ticket-description {
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 0 0 12px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .ticket-tags {
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+
+      .ant-tag {
+        margin: 0;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: none;
+        background: #f3f4f6;
+        color: #6b7280;
       }
+    }
 
-      .ticket-header {
-        @include flex-between;
-        margin-bottom: 12px;
-        align-items: flex-start;
-
-        .ticket-id {
-          .ant-badge {
-            .ant-badge-count {
-              border-radius: 8px;
-              font-size: 11px;
-              font-weight: 600;
-              padding: 2px 6px;
-            }
-          }
-        }
-
-        .ticket-channel {
-          .anticon {
-            color: #64748b;
-            font-size: 14px;
-          }
-        }
-      }
-
-      .ticket-content {
-        margin-bottom: 12px;
-
-        .ticket-subject {
-          margin: 0 0 8px 0;
-          color: #1a202c;
-          font-weight: 600;
-          line-height: 1.4;
-          font-size: 14px;
-        }
-
-        .ticket-description {
-          font-size: 12px;
-          line-height: 1.4;
-          color: #64748b;
-        }
-      }
+    .ticket-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
 
       .ticket-meta {
-        margin-bottom: 12px;
-
-        .ticket-customer {
-          @include flex-center;
-          gap: 6px;
-          margin-bottom: 6px;
-
-          .customer-name {
-            font-size: 12px;
-            font-weight: 500;
-            color: #374151;
-          }
-        }
-
-        .ticket-assigned {
-          .assigned-name {
-            font-size: 12px;
-            color: #64748b;
-          }
-        }
-      }
-
-      .ticket-tags {
-        margin-bottom: 12px;
-
-        .ant-tag {
-          border-radius: 4px;
-          font-size: 10px;
-          margin-bottom: 4px;
-          border: none;
-          padding: 2px 6px;
-        }
-      }
-
-      .ticket-footer {
-        @include flex-between;
+        display: flex;
         align-items: center;
+        gap: 8px;
 
-        .ticket-priority {
-          @include flex-center;
-          gap: 6px;
-
-          .priority-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-          }
-
-          .priority-text {
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #374151;
-          }
-        }
-
-        .ticket-time {
-          @include flex-center;
+        .assignee {
+          display: flex;
+          align-items: center;
           gap: 4px;
+          font-size: 11px;
+          color: #6b7280;
 
-          .anticon {
-            font-size: 12px;
-            color: #9ca3af;
-          }
-
-          .ant-typography {
-            font-size: 10px;
-            color: #9ca3af;
+          .ant-avatar {
+            background: #e5e7eb;
+            color: #6b7280;
           }
         }
       }
-    }
-  }
 
-  // Table View Styles
-  .table-view {
-    .ant-table {
-      .ant-table-thead > tr > th {
-        background: #f8fafc;
-        border-bottom: 2px solid #e2e8f0;
-        font-weight: 600;
-        color: #1a202c;
-      }
-
-      .ant-table-tbody > tr {
-        &:hover > td {
-          background: rgba(59, 130, 246, 0.05);
-        }
-      }
-    }
-  }
-
-  // Filter Drawer Styles
-  .ant-drawer {
-    .ant-drawer-header {
-      border-bottom: 1px solid #e2e8f0;
-      
-      .ant-drawer-title {
-        font-weight: 600;
-        color: #1a202c;
-      }
-    }
-
-    .ant-drawer-body {
-      .ant-list {
-        .ant-list-item {
-          border-bottom: 1px solid #e2e8f0;
-          padding: 16px 0;
-
-          .ant-list-item-meta {
-            .ant-list-item-meta-title {
-              font-weight: 500;
-              color: #1a202c;
-              margin-bottom: 8px;
-            }
-          }
-        }
+      .ticket-due-date {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: #6b7280;
       }
     }
   }
 }
 
-// Responsive Design
-@include mobile {
+// Drag overlay styles
+.drag-overlay {
+  .column {
+    transform: rotate(5deg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+  }
+
+  .ticket {
+    transform: rotate(2deg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+
+    .ticket-card {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
   .tickets-page {
     padding: 16px;
 
-    .page-header {
+    .tickets-header {
       flex-direction: column;
+      gap: 16px;
       align-items: stretch;
-      padding: 16px;
 
-      .header-left {
-        text-align: center;
-        margin-bottom: 16px;
-      }
-
-      .ant-space {
+      .tickets-actions {
         justify-content: center;
       }
     }
 
-    .stats-row {
-      .stat-card {
-        .ant-card-body {
-          padding: 16px;
-        }
-      }
+    .tickets-board {
+      flex-direction: column;
+      gap: 12px;
+      overflow-x: visible;
     }
 
-    .search-filter-card {
-      .ant-card-body {
-        padding: 16px;
-      }
-    }
-
-    .kanban-board {
-      .kanban-column {
-        margin-bottom: 16px;
-        min-height: 400px;
-        padding: 12px;
-
-        .column-content {
-          min-height: 300px;
-        }
-
-        .column-header {
-          padding: 8px;
-          flex-direction: column;
-          gap: 8px;
-
-          .column-actions {
-            width: 100%;
-            justify-content: space-between;
-          }
-        }
-      }
-    }
-
-    .ticket-card {
-      .modern-ticket-card {
-        .ant-card-body {
-          padding: 12px;
-        }
-      }
+    .column {
+      min-width: 100%;
+      max-width: 100%;
     }
   }
 }
 
-@include tablet {
-  .tickets-page {
-    .kanban-board {
-      .kanban-column {
-        min-height: 500px;
-
-        .column-content {
-          min-height: 400px;
-        }
-      }
-    }
-  }
-}
-
-// Animation
-@keyframes slideInUp {
+// Animation for smooth transitions
+@keyframes slideIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -639,153 +320,46 @@
   }
 }
 
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
+.ticket {
+  animation: slideIn 0.3s ease-out;
+}
+
+// Hover effects for better UX
+.column:hover {
+  .column-header {
+    background: #f9fafb;
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
+.ticket:hover {
+  .ticket-card {
+    border-color: #d1d5db;
   }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+// Focus states for accessibility
+.column:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
-.ticket-card {
-  animation: slideInUp 0.3s ease-out;
-  
-  &:nth-child(1) { animation-delay: 0.1s; }
-  &:nth-child(2) { animation-delay: 0.2s; }
-  &:nth-child(3) { animation-delay: 0.3s; }
-  &:nth-child(4) { animation-delay: 0.4s; }
+.ticket:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
-.stat-card {
-  animation: fadeInScale 0.4s ease-out;
-  
-  &:nth-child(1) { animation-delay: 0.1s; }
-  &:nth-child(2) { animation-delay: 0.2s; }
-  &:nth-child(3) { animation-delay: 0.3s; }
-  &:nth-child(4) { animation-delay: 0.4s; }
+// Loading state
+.tickets-board.loading {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  .tickets-page {
-    background: #0f172a;
-
-    .page-header,
-    .stat-card,
-    .search-filter-card,
-    .main-content-card {
-      background: #1e293b;
-      border-color: #334155;
-
-      .ant-typography {
-        color: #f1f5f9;
-      }
-    }
-
-    .kanban-column {
-      background: #1e293b;
-      border-color: #334155;
-      
-      &:hover {
-        border-color: #3b82f6;
-      }
-
-      &.drag-over {
-        background: rgba(59, 130, 246, 0.2);
-        border-color: #3b82f6;
-      }
-
-      .column-header {
-        background: rgba(30, 41, 59, 0.8);
-        border-color: #334155;
-
-        &:hover {
-          background: rgba(59, 130, 246, 0.1);
-        }
-      }
-
-      .empty-placeholder {
-        border-color: #334155;
-        background: rgba(30, 41, 59, 0.5);
-
-        &:hover {
-          border-color: #3b82f6;
-          background: rgba(59, 130, 246, 0.1);
-        }
-      }
-
-      .drop-placeholder {
-        border-color: #3b82f6;
-        background: rgba(59, 130, 246, 0.2);
-
-        .placeholder-content {
-          .placeholder-line {
-            background: #3b82f6;
-          }
-
-          .placeholder-text {
-            color: #3b82f6;
-          }
-        }
-      }
-    }
-
-    .modern-ticket-card {
-      background: #1e293b;
-      border-color: #334155;
-
-      .ant-card-actions {
-        background: #0f172a;
-        border-color: #334155;
-      }
-    }
-  }
-}
-
-// Print styles
-@media print {
-  .tickets-page {
-    .page-header,
-    .search-filter-card,
-    .ant-card-actions {
-      display: none !important;
-    }
-
-    .kanban-board {
-      .kanban-column {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-    }
-  }
+// Empty state
+.tickets-board.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #6b7280;
+  font-size: 16px;
 }

@@ -1,83 +1,172 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import { 
-  Card, 
-  Button, 
-  Space, 
-  Tag, 
-  Input, 
-  Select, 
-  DatePicker, 
-  Row, 
-  Col,
-  Tooltip,
-  Badge,
-  Tabs,
-  Statistic,
-  Progress,
-  Avatar,
-  Divider,
-  message,
-  Drawer,
-  List,
-  Typography,
-  Empty,
-  Spin
-} from 'antd'
-import { 
-  PlusOutlined, 
-  SearchOutlined, 
-  FilterOutlined,
-  EyeOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  ReloadOutlined,
-  ExportOutlined,
-  ImportOutlined,
-  UserOutlined,
-  ClockCircleOutlined,
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
-  BarChartOutlined,
-  AppstoreOutlined,
-  TableOutlined,
-  MailOutlined,
-  MessageFilled,
-  PhoneOutlined,
-  FileTextOutlined,
-  HolderOutlined
-} from '@ant-design/icons'
-import { 
-  DndContext, 
-  closestCenter, 
-  KeyboardSensor, 
-  PointerSensor, 
-  useSensor, 
-  useSensors,
+import React, { useState, useCallback, Fragment } from 'react';
+import {
+  DndContext,
   DragOverlay,
-  useDroppable
-} from '@dnd-kit/core'
-import { 
-  arrayMove, 
-  SortableContext, 
-  sortableKeyboardCoordinates, 
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  useDroppable,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
+  horizontalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
   useSortable,
-  horizontalListSortingStrategy
-} from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { ticketService } from '../services/ticketService'
-import './Tickets.scss'
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { PlusOutlined, MoreOutlined, UserOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { Button, Card, Dropdown, Menu, Tag, Avatar, Tooltip } from 'antd';
+import './Tickets.scss';
 
-const { Search } = Input
-const { Option } = Select
-const { RangePicker } = DatePicker
-const { Text, Title } = Typography
+// Mock data with order structure
+const initialColumns = [
+  {
+    id: 'todo',
+    title: 'To Do',
+    color: '#8B5CF6',
+    order: 1,
+    tickets: [
+      {
+        id: '1',
+        title: 'Fix login issue',
+        description: 'Users cannot login with Google account',
+        priority: 'high',
+        assignee: 'John Doe',
+        dueDate: '2024-01-15',
+        tags: ['bug', 'auth'],
+        columnId: 'todo',
+        order: 1
+      },
+      {
+        id: '2',
+        title: 'Update documentation',
+        description: 'Update API documentation for new endpoints',
+        priority: 'medium',
+        assignee: 'Jane Smith',
+        dueDate: '2024-01-20',
+        tags: ['documentation'],
+        columnId: 'todo',
+        order: 2
+      }
+    ]
+  },
+  {
+    id: 'in-progress',
+    title: 'In Progress',
+    color: '#3B82F6',
+    order: 2,
+    tickets: [
+      {
+        id: '3',
+        title: 'Implement dark mode',
+        description: 'Add dark mode toggle to the application',
+        priority: 'high',
+        assignee: 'Mike Johnson',
+        dueDate: '2024-01-18',
+        tags: ['feature', 'ui'],
+        columnId: 'in-progress',
+        order: 1
+      }
+    ]
+  },
+  {
+    id: 'review',
+    title: 'Review',
+    color: '#F59E0B',
+    order: 3,
+    tickets: [
+      {
+        id: '4',
+        title: 'Code review for payment module',
+        description: 'Review the new payment integration code',
+        priority: 'medium',
+        assignee: 'Sarah Wilson',
+        dueDate: '2024-01-22',
+        tags: ['review', 'payment'],
+        columnId: 'review',
+        order: 1
+      }
+    ]
+  },
+  {
+    id: 'done',
+    title: 'Done',
+    color: '#10B981',
+    order: 4,
+    tickets: [
+      {
+        id: '5',
+        title: 'Setup CI/CD pipeline',
+        description: 'Configure automated deployment pipeline',
+        priority: 'high',
+        assignee: 'Alex Brown',
+        dueDate: '2024-01-10',
+        tags: ['devops', 'ci-cd'],
+        columnId: 'done',
+        order: 1
+      }
+    ]
+  }
+];
 
-// Simple Ticket Card Component
-const TicketCard = ({ ticket, onView, onEdit, onDelete, isOverlay = false }) => {
+const priorityColors = {
+  low: '#52C41A',
+  medium: '#FAAD14',
+  high: '#FF4D4F'
+};
+
+const priorityLabels = {
+  low: 'Low',
+  medium: 'Medium',
+  high: 'High'
+};
+
+// Utility functions for managing order
+const updateColumnOrder = (columns) => {
+  return columns.map((column, index) => ({
+    ...column,
+    order: index + 1
+  }));
+};
+
+const updateTicketOrder = (tickets, columnId) => {
+  return tickets.map((ticket, index) => ({
+    ...ticket,
+    columnId,
+    order: index + 1
+  }));
+};
+
+const getNextTicketOrder = (column) => {
+  return column.tickets.length + 1;
+};
+
+// Debug function to get all tickets with order info
+const getAllTicketsWithOrder = (columns) => {
+  return columns.flatMap(column => 
+    column.tickets.map(ticket => ({
+      id: ticket.id,
+      title: ticket.title,
+      columnId: ticket.columnId,
+      order: ticket.order,
+      columnTitle: column.title
+    }))
+  );
+};
+
+// Function to sort tickets by order
+const sortTicketsByOrder = (tickets) => {
+  return [...tickets].sort((a, b) => a.order - b.order);
+};
+
+// Sortable Column Component
+const SortableColumn = ({ column, tickets, onAddTicket, isDragOver, activeTicketId, dragOverTicket, activeColumnId, dragOverColumnPosition }) => {
   const {
     attributes,
     listeners,
@@ -86,406 +175,193 @@ const TicketCard = ({ ticket, onView, onEdit, onDelete, isOverlay = false }) => 
     transition,
     isDragging,
   } = useSortable({ 
-    id: String(ticket.id),
-    data: { type: 'ticket', ticket }
-  })
+    id: column.id,
+    data: {
+      type: 'column',
+      column: column
+    }
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.3 : 1,
+  };
+
+  const sortedTickets = sortTicketsByOrder(tickets);
+
+  // Function to render ticket placeholder
+  const renderTicketPlaceholder = () => {
+    if (!activeTicketId) return null;
+    
+    return (
+      <div className="ticket-placeholder" style={{ 
+        height: '100px', 
+        margin: '8px 0',
+        backgroundColor: '#f0f0f0',
+        border: '2px dashed #d9d9d9',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#999',
+        fontSize: '14px'
+      }}>
+        Drop here
+      </div>
+    );
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className={`column ${isDragOver ? 'drag-over' : ''}`}
+      // Không đặt listeners ở đây để tránh conflict với ticket drag
+    >
+      <div 
+        className="column-header" 
+        style={{ 
+          borderTopColor: column.color,
+          cursor: 'grab',
+          userSelect: 'none'
+        }}
+        {...listeners} // Chỉ cho phép kéo từ header
+      >
+        <h3>{column.title}</h3>
+        <span className="ticket-count">{tickets.length}</span>
+        <Button
+          type="text"
+          icon={<PlusOutlined />}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddTicket(column.id);
+          }}
+          className="add-ticket-btn"
+          style={{ pointerEvents: 'auto' }}
+        />
+      </div>
+      <div className="column-content">
+        <SortableContext 
+          items={sortedTickets.map(ticket => ticket.id)} 
+          strategy={verticalListSortingStrategy}
+        >
+          {/* Show placeholder at the beginning if dragging over empty column */}
+          {activeTicketId && dragOverTicket === `${column.id}-end` && sortedTickets.length === 0 && (
+            renderTicketPlaceholder()
+          )}
+          
+          {sortedTickets.map((ticket, index) => (
+            <Fragment key={ticket.id}>
+              {/* Show placeholder before target ticket (not for same ticket being dragged) */}
+              {activeTicketId && dragOverTicket === ticket.id && activeTicketId !== ticket.id && (
+                renderTicketPlaceholder()
+              )}
+              
+              {/* Only show ticket if it's not being dragged */}
+              {ticket.id !== activeTicketId && (
+                <SortableTicket ticket={ticket} />
+              )}
+            </Fragment>
+          ))}
+          
+          {/* Show placeholder at the end if dragging over column header or last position */}
+          {activeTicketId && dragOverTicket === `${column.id}-end` && sortedTickets.length > 0 && (
+            renderTicketPlaceholder()
+          )}
+        </SortableContext>
+      </div>
+    </div>
+  );
+};
+
+// Sortable Ticket Component
+const SortableTicket = ({ ticket }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ 
+    id: ticket.id,
+    data: {
+      type: 'ticket',
+      ticket: ticket
+    }
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-  }
+  };
 
-  const getPriorityColor = (priority) => {
-    const colors = {
-      'low': '#52c41a',
-      'medium': '#faad14',
-      'high': '#ff4d4f',
-      'urgent': '#722ed1'
-    }
-    return colors[priority] || '#d9d9d9'
-  }
-
-  const getStatusColor = (status) => {
-    const colors = {
-      'open': '#1890ff',
-      'pending': '#faad14',
-      'resolved': '#52c41a',
-      'closed': '#8c8c8c'
-    }
-    return colors[status] || '#d9d9d9'
-  }
-
-  const getChannelIcon = (channel) => {
-    const icons = {
-      'email': <MailOutlined />,
-      'chat': <MessageFilled />,
-      'phone': <PhoneOutlined />,
-      'portal': <FileTextOutlined />
-    }
-    return icons[channel] || <FileTextOutlined />
-  }
-
-  const handleCardClick = (e) => {
-    if (!isDragging && !isOverlay) {
-      onView(ticket)
-    }
-  }
-
-  const handleEditClick = (e) => {
-    e.stopPropagation()
-    onEdit(ticket)
-  }
-
-  const handleDeleteClick = (e) => {
-    e.stopPropagation()
-    onDelete(ticket.id)
-  }
+  const menu = (
+    <Menu>
+      <Menu.Item key="edit">Edit</Menu.Item>
+      <Menu.Item key="duplicate">Duplicate</Menu.Item>
+      <Menu.Item key="delete" danger>Delete</Menu.Item>
+    </Menu>
+  );
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`ticket-card ${isOverlay ? 'drag-overlay' : ''}`}
       {...attributes}
       {...listeners}
+      className="ticket"
     >
-      <Card
-        size="small"
-        className="modern-ticket-card"
-        hoverable={!isOverlay}
-        onClick={handleCardClick}
-        actions={!isOverlay ? [
-          <Tooltip title="Xem chi tiết" key="view">
-            <EyeOutlined onClick={handleCardClick} />
-          </Tooltip>,
-          <Tooltip title="Chỉnh sửa" key="edit">
-            <EditOutlined onClick={handleEditClick} />
-          </Tooltip>,
-          <Tooltip title="Xóa" key="delete">
-            <DeleteOutlined onClick={handleDeleteClick} />
-          </Tooltip>
-        ] : undefined}
-      >
+      <Card size="small" className="ticket-card">
         <div className="ticket-header">
-          <div className="ticket-id">
-            <Badge count={`#${ticket.id}`} style={{ backgroundColor: getStatusColor(ticket.status) }} />
-          </div>
-          <div className="ticket-channel">
-            <Tooltip title={ticket.channel}>
-              {getChannelIcon(ticket.channel)}
-            </Tooltip>
-          </div>
-        </div>
-
-        <div className="ticket-content">
-          <Title level={5} className="ticket-subject" ellipsis={{ rows: 2 }}>
-            {ticket.subject}
-          </Title>
-          <Text type="secondary" className="ticket-description" ellipsis={{ rows: 2 }}>
-            {ticket.description}
-          </Text>
-        </div>
-
-        <div className="ticket-meta">
-          <div className="ticket-customer">
-            <Avatar size="small" icon={<UserOutlined />} />
-            <Text className="customer-name">{ticket.customer?.name || 'Unknown'}</Text>
-          </div>
-          <div className="ticket-assigned">
-            {ticket.assignedTo ? (
-              <Space size="small">
-                <Avatar size="small" icon={<UserOutlined />} />
-                <Text className="assigned-name">{ticket.assignedTo}</Text>
-              </Space>
-            ) : (
-              <Tag color="default" size="small">Chưa giao</Tag>
-            )}
-          </div>
-        </div>
-
-        <div className="ticket-tags">
-          <Space size="small" wrap>
-            <Tag color="blue" size="small">{ticket.category || 'General'}</Tag>
-            {ticket.tags && ticket.tags.length > 0 ? (
-              ticket.tags.slice(0, 2).map(tag => (
-                <Tag key={tag} size="small">{tag}</Tag>
-              ))
-            ) : null}
-            {ticket.tags && ticket.tags.length > 2 && (
-              <Tag size="small">+{ticket.tags.length - 2}</Tag>
-            )}
-          </Space>
-        </div>
-
-        <div className="ticket-footer">
-          <div className="ticket-priority">
-            <div 
-              className="priority-indicator" 
-              style={{ backgroundColor: getPriorityColor(ticket.priority) }}
+          <h4 className="ticket-title">{ticket.title}</h4>
+          <Dropdown overlay={menu} trigger={['click']}>
+            <Button 
+              type="text" 
+              icon={<MoreOutlined />} 
+              size="small" 
+              style={{ pointerEvents: 'auto' }}
+              onClick={(e) => e.stopPropagation()}
             />
-            <Text className="priority-text">{ticket.priority || 'low'}</Text>
+          </Dropdown>
+        </div>
+        <p className="ticket-description">{ticket.description}</p>
+        <div className="ticket-tags">
+          {ticket.tags.map(tag => (
+            <Tag key={tag} size="small">{tag}</Tag>
+          ))}
+        </div>
+        <div className="ticket-footer">
+          <div className="ticket-meta">
+            <Tag color={priorityColors[ticket.priority]} size="small">
+              {priorityLabels[ticket.priority]}
+            </Tag>
+            <div className="assignee">
+              <Avatar size="small" icon={<UserOutlined />} />
+              <span>{ticket.assignee}</span>
+            </div>
           </div>
-          <div className="ticket-time">
+          <div className="ticket-due-date">
             <ClockCircleOutlined />
-            <Text type="secondary">
-              {ticket.createdAt ? new Date(ticket.createdAt).toLocaleDateString('vi-VN') : 'N/A'}
-            </Text>
+            <span>{ticket.dueDate}</span>
           </div>
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-// Simple Column Component
-const KanbanColumn = ({ column, tickets, onView, onEdit, onDelete }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ 
-    id: column.id,
-    data: { type: 'column', column }
-  })
-
-  const { setNodeRef: setDroppableRef, isOver } = useDroppable({
-    id: column.id,
-  })
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={`kanban-column ${isOver ? 'drag-over' : ''} ${isDragging ? 'column-dragging' : ''}`}
-    >
-      <div className="column-header">
-        <div className="column-title">
-          <Badge count={tickets.length} style={{ backgroundColor: '#1890ff' }} />
-          <Title level={5}>{column.title}</Title>
-        </div>
-        <div className="column-actions">
-          <Button type="text" size="small" icon={<PlusOutlined />} />
-          <div 
-            className="column-drag-handle"
-            {...attributes}
-            {...listeners}
-          >
-            <HolderOutlined />
-          </div>
-        </div>
-      </div>
-      
-      <div ref={setDroppableRef} className="column-content">
-        {tickets.length === 0 ? (
-          <div className="empty-placeholder">
-            <Empty 
-              image={Empty.PRESENTED_IMAGE_SIMPLE} 
-              description="Không có ticket"
-              style={{ padding: '20px 0' }}
-            />
-          </div>
-        ) : (
-          tickets.map(ticket => (
-            <TicketCard
-              key={String(ticket.id)}
-              ticket={ticket}
-              onView={onView}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          ))
-        )}
-        {isOver && (
-          <div className="drop-placeholder">
-            <div className="placeholder-content">
-              <div className="placeholder-line"></div>
-              <div className="placeholder-text">Thả ticket vào đây</div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
+// Main Tickets Component
 const Tickets = () => {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
-  const [searchText, setSearchText] = useState('')
-  const [statusFilter, setStatusFilter] = useState('')
-  const [priorityFilter, setPriorityFilter] = useState('')
-  const [assignedFilter, setAssignedFilter] = useState('')
-  const [dateRange, setDateRange] = useState([])
-  const [viewMode, setViewMode] = useState('kanban')
-  const [isFilterDrawerVisible, setIsFilterDrawerVisible] = useState(false)
-  const [activeTab, setActiveTab] = useState('all')
-  const [localTickets, setLocalTickets] = useState([])
-  const [activeId, setActiveId] = useState(null)
-  const [activeColumnId, setActiveColumnId] = useState(null)
-  const [columnOrder, setColumnOrder] = useState(['open', 'pending', 'resolved', 'closed'])
-  const queryClient = useQueryClient()
-
-  const { data: tickets, isLoading, refetch } = useQuery({
-    queryKey: ['tickets'],
-    queryFn: () => ticketService.getTickets(),
-  })
-
-  const { data: stats } = useQuery({
-    queryKey: ['ticket-stats'],
-    queryFn: () => ticketService.getStats(),
-  })
-
-  const updateTicketMutation = useMutation({
-    mutationFn: ticketService.updateTicket,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['tickets'])
-      queryClient.invalidateQueries(['ticket-stats'])
-      message.success('Cập nhật ticket thành công!')
-    },
-    onError: () => {
-      message.error('Cập nhật ticket thất bại!')
-    }
-  })
-
-  const deleteTicketMutation = useMutation({
-    mutationFn: ticketService.deleteTicket,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['tickets'])
-      queryClient.invalidateQueries(['ticket-stats'])
-      message.success('Xóa ticket thành công!')
-    },
-    onError: () => {
-      message.error('Xóa ticket thất bại!')
-    }
-  })
-
-  // Ensure currentTickets is always an array
-  const currentTickets = Array.isArray(localTickets) && localTickets.length > 0 ? localTickets : (Array.isArray(tickets) ? tickets : [])
-
-  // Column configuration with order
-  const columns = [
-    { id: 'open', title: 'Đang mở', status: 'open' },
-    { id: 'pending', title: 'Đang chờ', status: 'pending' },
-    { id: 'resolved', title: 'Đã giải quyết', status: 'resolved' },
-    { id: 'closed', title: 'Đã đóng', status: 'closed' }
-  ]
-
-  const orderedColumns = columnOrder.map(id => columns.find(col => col.id === id)).filter(Boolean)
-
-  const handleEdit = (record) => {
-    navigate(`/tickets/${record.id}/edit`)
-  }
-
-  const handleView = (record) => {
-    navigate(`/tickets/${record.id}`)
-  }
-
-  const handleCreateNew = () => {
-    navigate('/tickets/new')
-  }
-
-  const handleDelete = (id) => {
-    deleteTicketMutation.mutate(id)
-  }
-
-  const handleDragStart = (event) => {
-    const { active } = event
-    setActiveId(active.id)
-    
-    // Check if it's a column or ticket
-    if (active.data.current?.type === 'column') {
-      setActiveColumnId(active.id)
-    }
-  }
-
-  const handleDragEnd = (event) => {
-    const { active, over } = event
-    
-    if (!over) {
-      setActiveId(null)
-      setActiveColumnId(null)
-      return
-    }
-
-    // Handle column reordering
-    if (active.data.current?.type === 'column' && over.data.current?.type === 'column') {
-      const oldIndex = columnOrder.indexOf(active.id)
-      const newIndex = columnOrder.indexOf(over.id)
-      
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newOrder = arrayMove(columnOrder, oldIndex, newIndex)
-        setColumnOrder(newOrder)
-        message.success('Đã thay đổi vị trí cột!')
-      }
-    }
-    
-    // Handle ticket status change
-    if (active.data.current?.type === 'ticket') {
-      const ticket = currentTickets.find(t => String(t.id) === String(active.id))
-      if (ticket && ticket.status !== over.id) {
-        // Cập nhật local state ngay lập tức
-        const updatedTickets = currentTickets.map(t => 
-          String(t.id) === String(active.id) ? { ...t, status: over.id } : t
-        )
-        setLocalTickets(updatedTickets)
-
-        // Gọi API để cập nhật backend
-        updateTicketMutation.mutate({
-          id: active.id,
-          status: over.id
-        })
-        
-        message.success(`Đã chuyển ticket #${active.id} sang trạng thái ${over.id}!`)
-      }
-    }
-
-    setActiveId(null)
-    setActiveColumnId(null)
-  }
-
-  const handleTabChange = (key) => {
-    setActiveTab(key)
-    if (key === 'all') {
-      setStatusFilter('')
-    } else {
-      setStatusFilter(key)
-    }
-  }
-
-  // Group tickets by status for Kanban view
-  const ticketsByStatus = useMemo(() => {
-    if (!Array.isArray(currentTickets)) {
-      return { open: [], pending: [], resolved: [], closed: [] }
-    }
-    
-    const filtered = currentTickets.filter(ticket => {
-      if (activeTab !== 'all' && ticket.status !== activeTab) return false
-      return true
-    })
-
-    return {
-      open: filtered.filter(t => t.status === 'open'),
-      pending: filtered.filter(t => t.status === 'pending'),
-      resolved: filtered.filter(t => t.status === 'resolved'),
-      closed: filtered.filter(t => t.status === 'closed')
-    }
-  }, [currentTickets, activeTab])
-
-  // Reset localTickets khi tickets từ API thay đổi
-  useEffect(() => {
-    if (Array.isArray(tickets)) {
-      setLocalTickets(tickets)
-    }
-  }, [tickets])
+  const [columns, setColumns] = useState(initialColumns);
+  const [activeId, setActiveId] = useState(null);
+  const [activeType, setActiveType] = useState(null);
+  const [dragOverColumn, setDragOverColumn] = useState(null);
+  const [dragOverTicket, setDragOverTicket] = useState(null);
+  const [dragOverColumnPosition, setDragOverColumnPosition] = useState(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -496,342 +372,387 @@ const Tickets = () => {
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
-  )
+  );
 
-  const tabItems = [
-    {
-      key: 'all',
-      label: (
-        <span>
-          <BarChartOutlined />
-          Tất cả
-          <Badge count={stats?.totalTickets || 0} style={{ marginLeft: 8 }} />
-        </span>
-      ),
-    },
-    {
-      key: 'open',
-      label: (
-        <span>
-          <ExclamationCircleOutlined />
-          Đang mở
-          <Badge count={stats?.openTickets || 0} style={{ marginLeft: 8 }} />
-        </span>
-      ),
-    },
-    {
-      key: 'pending',
-      label: (
-        <span>
-          <ClockCircleOutlined />
-          Đang chờ
-          <Badge count={stats?.pendingTickets || 0} style={{ marginLeft: 8 }} />
-        </span>
-      ),
-    },
-    {
-      key: 'resolved',
-      label: (
-        <span>
-          <CheckCircleOutlined />
-          Đã giải quyết
-          <Badge count={stats?.resolvedTickets || 0} style={{ marginLeft: 8 }} />
-        </span>
-      ),
-    },
-  ]
-
-  const filterItems = [
-    {
-      key: 'status',
-      label: 'Trạng thái',
-      children: (
-        <Select
-          placeholder="Chọn trạng thái"
-          allowClear
-          value={statusFilter}
-          onChange={setStatusFilter}
-          style={{ width: '100%' }}
-        >
-          <Option value="open">Đang mở</Option>
-          <Option value="pending">Đang chờ</Option>
-          <Option value="resolved">Đã giải quyết</Option>
-          <Option value="closed">Đã đóng</Option>
-        </Select>
-      )
-    },
-    {
-      key: 'priority',
-      label: 'Độ ưu tiên',
-      children: (
-        <Select
-          placeholder="Chọn độ ưu tiên"
-          allowClear
-          value={priorityFilter}
-          onChange={setPriorityFilter}
-          style={{ width: '100%' }}
-        >
-          <Option value="low">Thấp</Option>
-          <Option value="medium">Trung bình</Option>
-          <Option value="high">Cao</Option>
-          <Option value="urgent">Khẩn cấp</Option>
-        </Select>
-      )
-    },
-    {
-      key: 'assigned',
-      label: 'Người được giao',
-      children: (
-        <Select
-          placeholder="Chọn người được giao"
-          allowClear
-          value={assignedFilter}
-          onChange={setAssignedFilter}
-          style={{ width: '100%' }}
-        >
-          <Option value="agent1">Agent 1</Option>
-          <Option value="agent2">Agent 2</Option>
-          <Option value="agent3">Agent 3</Option>
-        </Select>
-      )
-    },
-    {
-      key: 'date',
-      label: 'Khoảng thời gian',
-      children: (
-        <RangePicker style={{ width: '100%' }} />
-      )
+  const handleDragStart = useCallback((event) => {
+    setActiveId(event.active.id);
+    
+    // Determine type based on data or by checking if it's in columns array
+    const dragData = event.active.data.current;
+    if (dragData?.type) {
+      setActiveType(dragData.type);
+    } else {
+      // Fallback: check if it's a column
+      const isColumn = columns.some(col => col.id === event.active.id);
+      setActiveType(isColumn ? 'column' : 'ticket');
     }
-  ]
+    
+    setDragOverColumn(null);
+    setDragOverTicket(null);
+    setDragOverColumnPosition(null);
+  }, [columns]);
 
-  const activeTicket = activeId ? currentTickets.find(t => String(t.id) === String(activeId)) : null
+  const handleDragOver = useCallback((event) => {
+    const { active, over } = event;
+    if (!over) {
+      setDragOverTicket(null);
+      setDragOverColumn(null);
+      setDragOverColumnPosition(null);
+      return;
+    }
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeType === 'column') {
+      // Handle column drag over
+      const overColumnIndex = columns.findIndex(col => col.id === overId);
+      if (overColumnIndex !== -1) {
+        setDragOverColumnPosition(overId);
+      }
+      return;
+    }
+
+    if (activeType === 'ticket') {
+      // Find the active and over containers
+      const activeContainer = findContainer(activeId);
+      const overContainer = findContainer(overId);
+
+      if (!activeContainer || !overContainer) {
+        setDragOverTicket(null);
+        setDragOverColumn(null);
+        return;
+      }
+
+      // Check if we're dragging over a column header (not a ticket)
+      const isOverColumn = columns.some(col => col.id === overId);
+      
+      if (isOverColumn) {
+        // Dragging over column header - show placeholder at the end
+        setDragOverColumn(overContainer);
+        setDragOverTicket(`${overContainer}-end`);
+      } else {
+        // Dragging over a ticket - show placeholder before that ticket
+        if (overContainer !== activeContainer) {
+          setDragOverColumn(overContainer);
+        } else {
+          setDragOverColumn(null);
+        }
+        setDragOverTicket(overId);
+      }
+    }
+  }, [activeType, columns]);
+
+  const handleDragEnd = useCallback((event) => {
+    const { active, over } = event;
+    setActiveId(null);
+    setActiveType(null);
+    setDragOverColumn(null);
+    setDragOverTicket(null);
+    setDragOverColumnPosition(null);
+
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    // Handle column reordering
+    if (activeType === 'column') {
+      setColumns(prev => {
+        const oldIndex = prev.findIndex(col => col.id === activeId);
+        const newIndex = prev.findIndex(col => col.id === overId);
+        if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
+          const reorderedColumns = arrayMove(prev, oldIndex, newIndex);
+          return updateColumnOrder(reorderedColumns);
+        }
+        return prev;
+      });
+      return;
+    }
+
+    // Handle ticket reordering
+    if (activeType === 'ticket') {
+      const activeContainer = findContainer(activeId);
+      const overContainer = findContainer(overId);
+
+      if (!activeContainer || !overContainer) return;
+
+      setColumns(prev => {
+        const newColumns = prev.map(col => ({ ...col, tickets: [...col.tickets] }));
+        const activeColumn = newColumns.find(col => col.id === activeContainer);
+        const overColumn = newColumns.find(col => col.id === overContainer);
+
+        if (!activeColumn || !overColumn) return prev;
+
+        const activeIndex = activeColumn.tickets.findIndex(ticket => ticket.id === activeId);
+        if (activeIndex === -1) return prev;
+
+        // If moving within the same column
+        if (activeContainer === overContainer) {
+          const overIndex = activeColumn.tickets.findIndex(ticket => ticket.id === overId);
+          
+          console.log('Same column move:', { 
+            activeId, 
+            overId, 
+            activeIndex, 
+            overIndex,
+            ticketsLength: activeColumn.tickets.length 
+          });
+
+          if (overIndex !== -1 && activeIndex !== overIndex) {
+            // Reorder tickets using arrayMove for consistent behavior
+            activeColumn.tickets = arrayMove(activeColumn.tickets, activeIndex, overIndex);
+            // Update order after reordering
+            activeColumn.tickets = updateTicketOrder(activeColumn.tickets, activeContainer);
+            console.log('Reordered tickets:', activeColumn.tickets.map(t => ({ id: t.id, order: t.order, title: t.title })));
+          } else if (overId === `${activeContainer}-end` || columns.some(col => col.id === overId)) {
+            // Moving to the end of the column
+            const [movedTicket] = activeColumn.tickets.splice(activeIndex, 1);
+            activeColumn.tickets.push(movedTicket);
+            activeColumn.tickets = updateTicketOrder(activeColumn.tickets, activeContainer);
+            console.log('Moved to end:', activeColumn.tickets.map(t => ({ id: t.id, order: t.order, title: t.title })));
+          }
+        } else {
+          // Moving between different columns
+          const [movedTicket] = activeColumn.tickets.splice(activeIndex, 1);
+          movedTicket.columnId = overContainer;
+          
+          // Find the correct position in the target column
+          const overIndex = overColumn.tickets.findIndex(ticket => ticket.id === overId);
+          if (overIndex !== -1) {
+            // Insert at the position of the target ticket
+            overColumn.tickets.splice(overIndex, 0, movedTicket);
+          } else {
+            // Add to the end if dropping on column header or empty space
+            overColumn.tickets.push(movedTicket);
+          }
+          
+          // Update order for both columns
+          activeColumn.tickets = updateTicketOrder(activeColumn.tickets, activeContainer);
+          overColumn.tickets = updateTicketOrder(overColumn.tickets, overContainer);
+          
+          console.log('Cross-column move:', { 
+            from: activeContainer, 
+            to: overContainer, 
+            ticketId: activeId 
+          });
+        }
+
+        return newColumns;
+      });
+    }
+  }, [activeType]);
+
+  const findContainer = (id) => {
+    // Check if it's a column
+    if (columns.some(col => col.id === id)) {
+      return id;
+    }
+    // Find which column contains this ticket
+    return columns.find(col => 
+      col.tickets.some(ticket => ticket.id === id)
+    )?.id;
+  };
+
+  const handleAddTicket = (columnId) => {
+    const targetColumn = columns.find(col => col.id === columnId);
+    if (!targetColumn) return;
+
+    const newTicket = {
+      id: `ticket-${Date.now()}`,
+      title: 'New Ticket',
+      description: 'Click to edit description',
+      priority: 'medium',
+      assignee: 'Unassigned',
+      dueDate: '2024-01-30',
+      tags: ['new'],
+      columnId: columnId,
+      order: getNextTicketOrder(targetColumn)
+    };
+
+    setColumns(prev => 
+      prev.map(col => 
+        col.id === columnId 
+          ? { ...col, tickets: [...col.tickets, newTicket] }
+          : col
+      )
+    );
+  };
+
+  const renderDragOverlay = () => {
+    if (!activeId) return null;
+
+    if (activeType === 'column') {
+      const column = columns.find(col => col.id === activeId);
+      if (!column) return null;
+      
+      const columnTickets = column.tickets;
+      const sortedTickets = sortTicketsByOrder(columnTickets);
+      
+      return (
+        <div className="column drag-overlay" style={{ 
+          width: '280px',
+          backgroundColor: 'white',
+          border: '1px solid #d9d9d9',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        }}>
+          <div className="column-header" style={{ borderTopColor: column.color }}>
+            <h3>{column.title}</h3>
+            <span className="ticket-count">{column.tickets.length}</span>
+            <Button
+              type="text"
+              icon={<PlusOutlined />}
+              className="add-ticket-btn"
+            />
+          </div>
+          <div className="column-content" style={{ maxHeight: '400px', overflow: 'hidden' }}>
+            {sortedTickets.slice(0, 3).map(ticket => (
+              <div key={ticket.id} className="ticket" style={{ opacity: 0.8 }}>
+                <Card size="small" className="ticket-card">
+                  <div className="ticket-header">
+                    <h4 className="ticket-title">{ticket.title}</h4>
+                  </div>
+                  <p className="ticket-description" style={{ 
+                    fontSize: '12px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {ticket.description}
+                  </p>
+                </Card>
+              </div>
+            ))}
+            {sortedTickets.length > 3 && (
+              <div style={{ 
+                textAlign: 'center', 
+                padding: '8px', 
+                color: '#999',
+                fontSize: '12px'
+              }}>
+                +{sortedTickets.length - 3} more tickets
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    const ticket = columns
+      .flatMap(col => col.tickets)
+      .find(ticket => ticket.id === activeId);
+    
+    if (!ticket) return null;
+
+    return (
+      <div className="ticket drag-overlay">
+        <Card size="small" className="ticket-card" style={{ 
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        }}>
+          <div className="ticket-header">
+            <h4 className="ticket-title">{ticket.title}</h4>
+          </div>
+          <p className="ticket-description">{ticket.description}</p>
+          <div className="ticket-tags">
+            {ticket.tags.map(tag => (
+              <Tag key={tag} size="small">{tag}</Tag>
+            ))}
+          </div>
+        </Card>
+      </div>
+    );
+  };
+
+  // Debug: Log current order
+  console.log('Current tickets order:', getAllTicketsWithOrder(columns));
 
   return (
     <div className="tickets-page">
-      <div className="page-header">
-        <div className="header-left">
-          <Title level={2}>Tickets</Title>
-          <Text type="secondary">Quản lý và theo dõi tickets</Text>
+      <div className="tickets-header">
+        <h1>Tickets</h1>
+        <div className="tickets-actions">
+          <Button type="primary" icon={<PlusOutlined />}>
+            Add Ticket
+          </Button>
         </div>
-        <Space>
-          <Button icon={<ReloadOutlined />} onClick={() => refetch()}>
-            Làm mới
-          </Button>
-          <Button icon={<ExportOutlined />}>
-            Xuất
-          </Button>
-          <Button icon={<ImportOutlined />}>
-            Nhập
-          </Button>
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateNew}>
-            Tạo mới
-          </Button>
-        </Space>
       </div>
 
-      {/* Statistics Cards */}
-      <Row gutter={[16, 16]} className="stats-row">
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="stat-card">
-            <Statistic
-              title="Tổng tickets"
-              value={stats?.totalTickets || 0}
-              prefix={<BarChartOutlined />}
-              valueStyle={{ color: '#1890ff' }}
-            />
-            <Progress 
-              percent={100} 
-              showInfo={false} 
-              strokeColor="#1890ff"
-              size="small"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="stat-card">
-            <Statistic
-              title="Đang mở"
-              value={stats?.openTickets || 0}
-              prefix={<ExclamationCircleOutlined />}
-              valueStyle={{ color: '#faad14' }}
-            />
-            <Progress 
-              percent={((stats?.openTickets || 0) / (stats?.totalTickets || 1)) * 100} 
-              showInfo={false} 
-              strokeColor="#faad14"
-              size="small"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="stat-card">
-            <Statistic
-              title="Đang chờ"
-              value={stats?.pendingTickets || 0}
-              prefix={<ClockCircleOutlined />}
-              valueStyle={{ color: '#722ed1' }}
-            />
-            <Progress 
-              percent={((stats?.pendingTickets || 0) / (stats?.totalTickets || 1)) * 100} 
-              showInfo={false} 
-              strokeColor="#722ed1"
-              size="small"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="stat-card">
-            <Statistic
-              title="Đã giải quyết"
-              value={stats?.resolvedTickets || 0}
-              prefix={<CheckCircleOutlined />}
-              valueStyle={{ color: '#52c41a' }}
-            />
-            <Progress 
-              percent={((stats?.resolvedTickets || 0) / (stats?.totalTickets || 1)) * 100} 
-              showInfo={false} 
-              strokeColor="#52c41a"
-              size="small"
-            />
-          </Card>
-        </Col>
-      </Row>
-
-      {/* Search and Filter Bar */}
-      <Card className="search-filter-card">
-        <Row gutter={[16, 16]} align="middle">
-          <Col xs={24} sm={12} md={8}>
-            <Search
-              placeholder="Tìm kiếm tickets..."
-              allowClear
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onSearch={setSearchText}
-              size="large"
-            />
-          </Col>
-          <Col xs={24} sm={12} md={4}>
-            <Button 
-              icon={<FilterOutlined />} 
-              onClick={() => setIsFilterDrawerVisible(true)}
-              size="large"
-              block
-            >
-              Bộ lọc
-            </Button>
-          </Col>
-          <Col xs={24} sm={12} md={4}>
-            <Select
-              value={viewMode}
-              onChange={setViewMode}
-              size="large"
-              style={{ width: '100%' }}
-            >
-              <Option value="kanban">
-                <AppstoreOutlined /> Kanban
-              </Option>
-              <Option value="table">
-                <TableOutlined /> Bảng
-              </Option>
-            </Select>
-          </Col>
-          <Col xs={24} sm={12} md={8}>
-            <Tabs 
-              activeKey={activeTab} 
-              onChange={handleTabChange} 
-              items={tabItems}
-              size="small"
-            />
-          </Col>
-        </Row>
-      </Card>
-
-      {/* Main Content */}
-      <Card className="main-content-card">
-        {isLoading ? (
-          <div className="loading-container">
-            <Spin size="large" />
-          </div>
-        ) : viewMode === 'kanban' ? (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-          >
-            <div className="kanban-board">
-              <SortableContext items={columnOrder} strategy={horizontalListSortingStrategy}>
-                <Row gutter={[16, 16]}>
-                  {orderedColumns.map(column => (
-                    <Col xs={24} lg={6} key={column.id}>
-                      <KanbanColumn
-                        column={column}
-                        tickets={ticketsByStatus[column.status]}
-                        onView={handleView}
-                        onEdit={handleEdit}
-                        onDelete={handleDelete}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              </SortableContext>
-            </div>
-            
-            <DragOverlay>
-              {activeTicket ? (
-                <TicketCard
-                  ticket={activeTicket}
-                  onView={handleView}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  isOverlay={true}
-                />
-              ) : null}
-            </DragOverlay>
-          </DndContext>
-        ) : (
-          <div className="table-view">
-            <Empty description="Chế độ bảng đang được phát triển" />
-          </div>
-        )}
-      </Card>
-
-      {/* Filter Drawer */}
-      <Drawer
-        title="Bộ lọc nâng cao"
-        placement="right"
-        onClose={() => setIsFilterDrawerVisible(false)}
-        open={isFilterDrawerVisible}
-        width={400}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
       >
-        <List
-          dataSource={filterItems}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.label}
-                description={item.children}
-              />
-            </List.Item>
-          )}
-        />
-        <Divider />
-        <Space style={{ width: '100%' }} direction="vertical">
-          <Button type="primary" block>
-            Áp dụng bộ lọc
-          </Button>
-          <Button block onClick={() => {
-            setStatusFilter('')
-            setPriorityFilter('')
-            setAssignedFilter('')
-            setDateRange([])
-          }}>
-            Xóa tất cả
-          </Button>
-        </Space>
-      </Drawer>
-    </div>
-  )
-}
+        <div className="tickets-board">
+          <SortableContext items={columns.map(col => col.id)} strategy={horizontalListSortingStrategy}>
+            {columns.map((column, index) => (
+              <Fragment key={column.id}>
+                {/* Show column placeholder before target column (not for same column being dragged) */}
+                {activeType === 'column' && activeId && dragOverColumnPosition === column.id && activeId !== column.id && (
+                  <div className="column-placeholder" style={{
+                    width: '280px',
+                    minHeight: '200px',
+                    margin: '0 8px',
+                    backgroundColor: '#f0f0f0',
+                    border: '2px dashed #d9d9d9',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#999',
+                    fontSize: '16px',
+                    fontWeight: '500'
+                  }}>
+                    Drop column here
+                  </div>
+                )}
+                
+                {/* Only show column if it's not being dragged */}
+                {column.id !== (activeType === 'column' ? activeId : null) && (
+                  <SortableColumn
+                    column={column}
+                    tickets={column.tickets}
+                    onAddTicket={handleAddTicket}
+                    isDragOver={dragOverColumn === column.id}
+                    activeTicketId={activeType === 'ticket' ? activeId : null}
+                    dragOverTicket={dragOverTicket}
+                    activeColumnId={activeType === 'column' ? activeId : null}
+                    dragOverColumnPosition={dragOverColumnPosition}
+                  />
+                )}
+              </Fragment>
+            ))}
+            
+            {/* Show column placeholder at the end if dragging and no specific target */}
+            {activeType === 'column' && activeId && !dragOverColumnPosition && (
+              <div className="column-placeholder" style={{
+                width: '280px',
+                minHeight: '200px',
+                margin: '0 8px',
+                backgroundColor: '#f0f0f0',
+                border: '2px dashed #d9d9d9',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#999',
+                fontSize: '16px',
+                fontWeight: '500'
+              }}>
+                Drop column here
+              </div>
+            )}
+          </SortableContext>
+        </div>
 
-export default Tickets
+        <DragOverlay>
+          {renderDragOverlay()}
+        </DragOverlay>
+      </DndContext>
+    </div>
+  );
+};
+
+export default Tickets;
