@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET: string = process.env.JWT_SECRET || 'insecure-default-key'; // replace in production
+const JWT_SECRET: string = process.env.JWT_SECRET || 'ducky'; // replace in production
 const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || '1h';
 const RF_EXPIRES_IN: string = process.env.RF_EXPIRES_IN || '7d';
 

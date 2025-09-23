@@ -7,6 +7,10 @@ const router = Router();
 // Tất cả routes đều cần authentication
 router.use(authMiddleware);
 
+// Utility endpoints
+router.post('/initialize-defaults', ColumnController.initializeDefaultColumns);
+router.get('/:columnId/tickets', ColumnController.getTicketsByColumn);
+
 // Column CRUD operations
 router.post('/', ColumnController.createColumn);
 router.get('/', ColumnController.getColumnsByTenant);
@@ -20,9 +24,5 @@ router.put('/reorder', ColumnController.reorderColumns);
 // Ticket operations
 router.put('/move-ticket', ColumnController.moveTicketToColumn);
 router.put('/reorder-tickets', ColumnController.reorderTicketsInColumn);
-
-// Utility endpoints
-router.post('/initialize-defaults', ColumnController.initializeDefaultColumns);
-router.get('/:columnId/tickets', ColumnController.getTicketsByColumn);
 
 export default router;

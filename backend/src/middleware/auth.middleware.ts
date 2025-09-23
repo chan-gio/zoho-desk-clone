@@ -24,7 +24,7 @@ export const authMiddleware = async (
       throw new Error('Access denied. No token provided.');
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret') as any;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'ducky') as any;
     
     const prisma = getPrismaClient();
     const user = await prisma.user.findUnique({
