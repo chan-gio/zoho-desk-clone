@@ -29,6 +29,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Department = $Result.DefaultSelection<Prisma.$DepartmentPayload>
 /**
+ * Model Column
+ * 
+ */
+export type Column = $Result.DefaultSelection<Prisma.$ColumnPayload>
+/**
  * Model Ticket
  * 
  */
@@ -255,6 +260,16 @@ export class PrismaClient<
     * ```
     */
   get department(): Prisma.DepartmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.column`: Exposes CRUD operations for the **Column** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Columns
+    * const columns = await prisma.column.findMany()
+    * ```
+    */
+  get column(): Prisma.ColumnDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.ticket`: Exposes CRUD operations for the **Ticket** model.
@@ -748,6 +763,7 @@ export namespace Prisma {
     Tenant: 'Tenant',
     User: 'User',
     Department: 'Department',
+    Column: 'Column',
     Ticket: 'Ticket',
     TicketComment: 'TicketComment',
     Attachment: 'Attachment',
@@ -771,7 +787,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "user" | "department" | "ticket" | "ticketComment" | "attachment" | "sLA" | "workflow"
+      modelProps: "tenant" | "user" | "department" | "column" | "ticket" | "ticketComment" | "attachment" | "sLA" | "workflow"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -994,6 +1010,80 @@ export namespace Prisma {
           count: {
             args: Prisma.DepartmentCountArgs<ExtArgs>
             result: $Utils.Optional<DepartmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Column: {
+        payload: Prisma.$ColumnPayload<ExtArgs>
+        fields: Prisma.ColumnFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ColumnFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ColumnFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>
+          }
+          findFirst: {
+            args: Prisma.ColumnFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ColumnFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>
+          }
+          findMany: {
+            args: Prisma.ColumnFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>[]
+          }
+          create: {
+            args: Prisma.ColumnCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>
+          }
+          createMany: {
+            args: Prisma.ColumnCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ColumnCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>[]
+          }
+          delete: {
+            args: Prisma.ColumnDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>
+          }
+          update: {
+            args: Prisma.ColumnUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>
+          }
+          deleteMany: {
+            args: Prisma.ColumnDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ColumnUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ColumnUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>[]
+          }
+          upsert: {
+            args: Prisma.ColumnUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnPayload>
+          }
+          aggregate: {
+            args: Prisma.ColumnAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateColumn>
+          }
+          groupBy: {
+            args: Prisma.ColumnGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ColumnGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ColumnCountArgs<ExtArgs>
+            result: $Utils.Optional<ColumnCountAggregateOutputType> | number
           }
         }
       }
@@ -1454,6 +1544,7 @@ export namespace Prisma {
     tenant?: TenantOmit
     user?: UserOmit
     department?: DepartmentOmit
+    column?: ColumnOmit
     ticket?: TicketOmit
     ticketComment?: TicketCommentOmit
     attachment?: AttachmentOmit
@@ -1556,6 +1647,7 @@ export namespace Prisma {
     users: number
     departments: number
     tickets: number
+    columns: number
     slas: number
     workflows: number
   }
@@ -1564,6 +1656,7 @@ export namespace Prisma {
     users?: boolean | TenantCountOutputTypeCountUsersArgs
     departments?: boolean | TenantCountOutputTypeCountDepartmentsArgs
     tickets?: boolean | TenantCountOutputTypeCountTicketsArgs
+    columns?: boolean | TenantCountOutputTypeCountColumnsArgs
     slas?: boolean | TenantCountOutputTypeCountSlasArgs
     workflows?: boolean | TenantCountOutputTypeCountWorkflowsArgs
   }
@@ -1598,6 +1691,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountColumnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ColumnWhereInput
   }
 
   /**
@@ -1691,6 +1791,37 @@ export namespace Prisma {
    * DepartmentCountOutputType without action
    */
   export type DepartmentCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+
+  /**
+   * Count Type ColumnCountOutputType
+   */
+
+  export type ColumnCountOutputType = {
+    tickets: number
+  }
+
+  export type ColumnCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tickets?: boolean | ColumnCountOutputTypeCountTicketsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ColumnCountOutputType without action
+   */
+  export type ColumnCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnCountOutputType
+     */
+    select?: ColumnCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ColumnCountOutputType without action
+   */
+  export type ColumnCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
   }
 
@@ -1921,6 +2052,7 @@ export namespace Prisma {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     departments?: boolean | Tenant$departmentsArgs<ExtArgs>
     tickets?: boolean | Tenant$ticketsArgs<ExtArgs>
+    columns?: boolean | Tenant$columnsArgs<ExtArgs>
     slas?: boolean | Tenant$slasArgs<ExtArgs>
     workflows?: boolean | Tenant$workflowsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
@@ -1949,6 +2081,7 @@ export namespace Prisma {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     departments?: boolean | Tenant$departmentsArgs<ExtArgs>
     tickets?: boolean | Tenant$ticketsArgs<ExtArgs>
+    columns?: boolean | Tenant$columnsArgs<ExtArgs>
     slas?: boolean | Tenant$slasArgs<ExtArgs>
     workflows?: boolean | Tenant$workflowsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
@@ -1962,6 +2095,7 @@ export namespace Prisma {
       users: Prisma.$UserPayload<ExtArgs>[]
       departments: Prisma.$DepartmentPayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
+      columns: Prisma.$ColumnPayload<ExtArgs>[]
       slas: Prisma.$SLAPayload<ExtArgs>[]
       workflows: Prisma.$WorkflowPayload<ExtArgs>[]
     }
@@ -2366,6 +2500,7 @@ export namespace Prisma {
     users<T extends Tenant$usersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     departments<T extends Tenant$departmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tickets<T extends Tenant$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    columns<T extends Tenant$columnsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$columnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     slas<T extends Tenant$slasArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$slasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SLAPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workflows<T extends Tenant$workflowsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workflowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -2857,6 +2992,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.columns
+   */
+  export type Tenant$columnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    where?: ColumnWhereInput
+    orderBy?: ColumnOrderByWithRelationInput | ColumnOrderByWithRelationInput[]
+    cursor?: ColumnWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ColumnScalarFieldEnum | ColumnScalarFieldEnum[]
   }
 
   /**
@@ -5263,13 +5422,1197 @@ export namespace Prisma {
 
 
   /**
+   * Model Column
+   */
+
+  export type AggregateColumn = {
+    _count: ColumnCountAggregateOutputType | null
+    _avg: ColumnAvgAggregateOutputType | null
+    _sum: ColumnSumAggregateOutputType | null
+    _min: ColumnMinAggregateOutputType | null
+    _max: ColumnMaxAggregateOutputType | null
+  }
+
+  export type ColumnAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ColumnSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ColumnMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    description: string | null
+    order: number | null
+    color: string | null
+    isDefault: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ColumnMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    description: string | null
+    order: number | null
+    color: string | null
+    isDefault: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ColumnCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    name: number
+    description: number
+    order: number
+    color: number
+    isDefault: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ColumnAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type ColumnSumAggregateInputType = {
+    order?: true
+  }
+
+  export type ColumnMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    description?: true
+    order?: true
+    color?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ColumnMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    description?: true
+    order?: true
+    color?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ColumnCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    description?: true
+    order?: true
+    color?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ColumnAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Column to aggregate.
+     */
+    where?: ColumnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Columns to fetch.
+     */
+    orderBy?: ColumnOrderByWithRelationInput | ColumnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ColumnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Columns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Columns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Columns
+    **/
+    _count?: true | ColumnCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ColumnAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ColumnSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ColumnMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ColumnMaxAggregateInputType
+  }
+
+  export type GetColumnAggregateType<T extends ColumnAggregateArgs> = {
+        [P in keyof T & keyof AggregateColumn]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateColumn[P]>
+      : GetScalarType<T[P], AggregateColumn[P]>
+  }
+
+
+
+
+  export type ColumnGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ColumnWhereInput
+    orderBy?: ColumnOrderByWithAggregationInput | ColumnOrderByWithAggregationInput[]
+    by: ColumnScalarFieldEnum[] | ColumnScalarFieldEnum
+    having?: ColumnScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ColumnCountAggregateInputType | true
+    _avg?: ColumnAvgAggregateInputType
+    _sum?: ColumnSumAggregateInputType
+    _min?: ColumnMinAggregateInputType
+    _max?: ColumnMaxAggregateInputType
+  }
+
+  export type ColumnGroupByOutputType = {
+    id: string
+    tenantId: string
+    name: string
+    description: string | null
+    order: number
+    color: string | null
+    isDefault: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ColumnCountAggregateOutputType | null
+    _avg: ColumnAvgAggregateOutputType | null
+    _sum: ColumnSumAggregateOutputType | null
+    _min: ColumnMinAggregateOutputType | null
+    _max: ColumnMaxAggregateOutputType | null
+  }
+
+  type GetColumnGroupByPayload<T extends ColumnGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ColumnGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ColumnGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ColumnGroupByOutputType[P]>
+            : GetScalarType<T[P], ColumnGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ColumnSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    color?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tickets?: boolean | Column$ticketsArgs<ExtArgs>
+    _count?: boolean | ColumnCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["column"]>
+
+  export type ColumnSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    color?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["column"]>
+
+  export type ColumnSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    color?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["column"]>
+
+  export type ColumnSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    color?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ColumnOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "order" | "color" | "isDefault" | "createdAt" | "updatedAt", ExtArgs["result"]["column"]>
+  export type ColumnInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tickets?: boolean | Column$ticketsArgs<ExtArgs>
+    _count?: boolean | ColumnCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ColumnIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type ColumnIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $ColumnPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Column"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      tickets: Prisma.$TicketPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      name: string
+      description: string | null
+      order: number
+      color: string | null
+      isDefault: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["column"]>
+    composites: {}
+  }
+
+  type ColumnGetPayload<S extends boolean | null | undefined | ColumnDefaultArgs> = $Result.GetResult<Prisma.$ColumnPayload, S>
+
+  type ColumnCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ColumnFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ColumnCountAggregateInputType | true
+    }
+
+  export interface ColumnDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Column'], meta: { name: 'Column' } }
+    /**
+     * Find zero or one Column that matches the filter.
+     * @param {ColumnFindUniqueArgs} args - Arguments to find a Column
+     * @example
+     * // Get one Column
+     * const column = await prisma.column.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ColumnFindUniqueArgs>(args: SelectSubset<T, ColumnFindUniqueArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Column that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ColumnFindUniqueOrThrowArgs} args - Arguments to find a Column
+     * @example
+     * // Get one Column
+     * const column = await prisma.column.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ColumnFindUniqueOrThrowArgs>(args: SelectSubset<T, ColumnFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Column that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnFindFirstArgs} args - Arguments to find a Column
+     * @example
+     * // Get one Column
+     * const column = await prisma.column.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ColumnFindFirstArgs>(args?: SelectSubset<T, ColumnFindFirstArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Column that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnFindFirstOrThrowArgs} args - Arguments to find a Column
+     * @example
+     * // Get one Column
+     * const column = await prisma.column.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ColumnFindFirstOrThrowArgs>(args?: SelectSubset<T, ColumnFindFirstOrThrowArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Columns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Columns
+     * const columns = await prisma.column.findMany()
+     * 
+     * // Get first 10 Columns
+     * const columns = await prisma.column.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const columnWithIdOnly = await prisma.column.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ColumnFindManyArgs>(args?: SelectSubset<T, ColumnFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Column.
+     * @param {ColumnCreateArgs} args - Arguments to create a Column.
+     * @example
+     * // Create one Column
+     * const Column = await prisma.column.create({
+     *   data: {
+     *     // ... data to create a Column
+     *   }
+     * })
+     * 
+     */
+    create<T extends ColumnCreateArgs>(args: SelectSubset<T, ColumnCreateArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Columns.
+     * @param {ColumnCreateManyArgs} args - Arguments to create many Columns.
+     * @example
+     * // Create many Columns
+     * const column = await prisma.column.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ColumnCreateManyArgs>(args?: SelectSubset<T, ColumnCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Columns and returns the data saved in the database.
+     * @param {ColumnCreateManyAndReturnArgs} args - Arguments to create many Columns.
+     * @example
+     * // Create many Columns
+     * const column = await prisma.column.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Columns and only return the `id`
+     * const columnWithIdOnly = await prisma.column.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ColumnCreateManyAndReturnArgs>(args?: SelectSubset<T, ColumnCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Column.
+     * @param {ColumnDeleteArgs} args - Arguments to delete one Column.
+     * @example
+     * // Delete one Column
+     * const Column = await prisma.column.delete({
+     *   where: {
+     *     // ... filter to delete one Column
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ColumnDeleteArgs>(args: SelectSubset<T, ColumnDeleteArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Column.
+     * @param {ColumnUpdateArgs} args - Arguments to update one Column.
+     * @example
+     * // Update one Column
+     * const column = await prisma.column.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ColumnUpdateArgs>(args: SelectSubset<T, ColumnUpdateArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Columns.
+     * @param {ColumnDeleteManyArgs} args - Arguments to filter Columns to delete.
+     * @example
+     * // Delete a few Columns
+     * const { count } = await prisma.column.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ColumnDeleteManyArgs>(args?: SelectSubset<T, ColumnDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Columns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Columns
+     * const column = await prisma.column.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ColumnUpdateManyArgs>(args: SelectSubset<T, ColumnUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Columns and returns the data updated in the database.
+     * @param {ColumnUpdateManyAndReturnArgs} args - Arguments to update many Columns.
+     * @example
+     * // Update many Columns
+     * const column = await prisma.column.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Columns and only return the `id`
+     * const columnWithIdOnly = await prisma.column.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ColumnUpdateManyAndReturnArgs>(args: SelectSubset<T, ColumnUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Column.
+     * @param {ColumnUpsertArgs} args - Arguments to update or create a Column.
+     * @example
+     * // Update or create a Column
+     * const column = await prisma.column.upsert({
+     *   create: {
+     *     // ... data to create a Column
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Column we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ColumnUpsertArgs>(args: SelectSubset<T, ColumnUpsertArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Columns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnCountArgs} args - Arguments to filter Columns to count.
+     * @example
+     * // Count the number of Columns
+     * const count = await prisma.column.count({
+     *   where: {
+     *     // ... the filter for the Columns we want to count
+     *   }
+     * })
+    **/
+    count<T extends ColumnCountArgs>(
+      args?: Subset<T, ColumnCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ColumnCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Column.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ColumnAggregateArgs>(args: Subset<T, ColumnAggregateArgs>): Prisma.PrismaPromise<GetColumnAggregateType<T>>
+
+    /**
+     * Group by Column.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ColumnGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ColumnGroupByArgs['orderBy'] }
+        : { orderBy?: ColumnGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ColumnGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetColumnGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Column model
+   */
+  readonly fields: ColumnFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Column.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ColumnClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tickets<T extends Column$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Column$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Column model
+   */
+  interface ColumnFieldRefs {
+    readonly id: FieldRef<"Column", 'String'>
+    readonly tenantId: FieldRef<"Column", 'String'>
+    readonly name: FieldRef<"Column", 'String'>
+    readonly description: FieldRef<"Column", 'String'>
+    readonly order: FieldRef<"Column", 'Int'>
+    readonly color: FieldRef<"Column", 'String'>
+    readonly isDefault: FieldRef<"Column", 'Boolean'>
+    readonly createdAt: FieldRef<"Column", 'DateTime'>
+    readonly updatedAt: FieldRef<"Column", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Column findUnique
+   */
+  export type ColumnFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * Filter, which Column to fetch.
+     */
+    where: ColumnWhereUniqueInput
+  }
+
+  /**
+   * Column findUniqueOrThrow
+   */
+  export type ColumnFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * Filter, which Column to fetch.
+     */
+    where: ColumnWhereUniqueInput
+  }
+
+  /**
+   * Column findFirst
+   */
+  export type ColumnFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * Filter, which Column to fetch.
+     */
+    where?: ColumnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Columns to fetch.
+     */
+    orderBy?: ColumnOrderByWithRelationInput | ColumnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Columns.
+     */
+    cursor?: ColumnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Columns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Columns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Columns.
+     */
+    distinct?: ColumnScalarFieldEnum | ColumnScalarFieldEnum[]
+  }
+
+  /**
+   * Column findFirstOrThrow
+   */
+  export type ColumnFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * Filter, which Column to fetch.
+     */
+    where?: ColumnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Columns to fetch.
+     */
+    orderBy?: ColumnOrderByWithRelationInput | ColumnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Columns.
+     */
+    cursor?: ColumnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Columns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Columns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Columns.
+     */
+    distinct?: ColumnScalarFieldEnum | ColumnScalarFieldEnum[]
+  }
+
+  /**
+   * Column findMany
+   */
+  export type ColumnFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * Filter, which Columns to fetch.
+     */
+    where?: ColumnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Columns to fetch.
+     */
+    orderBy?: ColumnOrderByWithRelationInput | ColumnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Columns.
+     */
+    cursor?: ColumnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Columns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Columns.
+     */
+    skip?: number
+    distinct?: ColumnScalarFieldEnum | ColumnScalarFieldEnum[]
+  }
+
+  /**
+   * Column create
+   */
+  export type ColumnCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Column.
+     */
+    data: XOR<ColumnCreateInput, ColumnUncheckedCreateInput>
+  }
+
+  /**
+   * Column createMany
+   */
+  export type ColumnCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Columns.
+     */
+    data: ColumnCreateManyInput | ColumnCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Column createManyAndReturn
+   */
+  export type ColumnCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * The data used to create many Columns.
+     */
+    data: ColumnCreateManyInput | ColumnCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Column update
+   */
+  export type ColumnUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Column.
+     */
+    data: XOR<ColumnUpdateInput, ColumnUncheckedUpdateInput>
+    /**
+     * Choose, which Column to update.
+     */
+    where: ColumnWhereUniqueInput
+  }
+
+  /**
+   * Column updateMany
+   */
+  export type ColumnUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Columns.
+     */
+    data: XOR<ColumnUpdateManyMutationInput, ColumnUncheckedUpdateManyInput>
+    /**
+     * Filter which Columns to update
+     */
+    where?: ColumnWhereInput
+    /**
+     * Limit how many Columns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Column updateManyAndReturn
+   */
+  export type ColumnUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * The data used to update Columns.
+     */
+    data: XOR<ColumnUpdateManyMutationInput, ColumnUncheckedUpdateManyInput>
+    /**
+     * Filter which Columns to update
+     */
+    where?: ColumnWhereInput
+    /**
+     * Limit how many Columns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Column upsert
+   */
+  export type ColumnUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Column to update in case it exists.
+     */
+    where: ColumnWhereUniqueInput
+    /**
+     * In case the Column found by the `where` argument doesn't exist, create a new Column with this data.
+     */
+    create: XOR<ColumnCreateInput, ColumnUncheckedCreateInput>
+    /**
+     * In case the Column was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ColumnUpdateInput, ColumnUncheckedUpdateInput>
+  }
+
+  /**
+   * Column delete
+   */
+  export type ColumnDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    /**
+     * Filter which Column to delete.
+     */
+    where: ColumnWhereUniqueInput
+  }
+
+  /**
+   * Column deleteMany
+   */
+  export type ColumnDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Columns to delete
+     */
+    where?: ColumnWhereInput
+    /**
+     * Limit how many Columns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Column.tickets
+   */
+  export type Column$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ticket
+     */
+    omit?: TicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Column without action
+   */
+  export type ColumnDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Ticket
    */
 
   export type AggregateTicket = {
     _count: TicketCountAggregateOutputType | null
+    _avg: TicketAvgAggregateOutputType | null
+    _sum: TicketSumAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
+  }
+
+  export type TicketAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type TicketSumAggregateOutputType = {
+    order: number | null
   }
 
   export type TicketMinAggregateOutputType = {
@@ -5279,6 +6622,8 @@ export namespace Prisma {
     description: string | null
     status: $Enums.TicketStatus | null
     priority: $Enums.TicketPriority | null
+    order: number | null
+    columnId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     closedAt: Date | null
@@ -5295,6 +6640,8 @@ export namespace Prisma {
     description: string | null
     status: $Enums.TicketStatus | null
     priority: $Enums.TicketPriority | null
+    order: number | null
+    columnId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     closedAt: Date | null
@@ -5311,6 +6658,8 @@ export namespace Prisma {
     description: number
     status: number
     priority: number
+    order: number
+    columnId: number
     createdAt: number
     updatedAt: number
     closedAt: number
@@ -5322,6 +6671,14 @@ export namespace Prisma {
   }
 
 
+  export type TicketAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type TicketSumAggregateInputType = {
+    order?: true
+  }
+
   export type TicketMinAggregateInputType = {
     id?: true
     tenantId?: true
@@ -5329,6 +6686,8 @@ export namespace Prisma {
     description?: true
     status?: true
     priority?: true
+    order?: true
+    columnId?: true
     createdAt?: true
     updatedAt?: true
     closedAt?: true
@@ -5345,6 +6704,8 @@ export namespace Prisma {
     description?: true
     status?: true
     priority?: true
+    order?: true
+    columnId?: true
     createdAt?: true
     updatedAt?: true
     closedAt?: true
@@ -5361,6 +6722,8 @@ export namespace Prisma {
     description?: true
     status?: true
     priority?: true
+    order?: true
+    columnId?: true
     createdAt?: true
     updatedAt?: true
     closedAt?: true
@@ -5409,6 +6772,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TicketAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TicketSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TicketMinAggregateInputType
@@ -5439,6 +6814,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TicketCountAggregateInputType | true
+    _avg?: TicketAvgAggregateInputType
+    _sum?: TicketSumAggregateInputType
     _min?: TicketMinAggregateInputType
     _max?: TicketMaxAggregateInputType
   }
@@ -5450,6 +6827,8 @@ export namespace Prisma {
     description: string | null
     status: $Enums.TicketStatus
     priority: $Enums.TicketPriority
+    order: number
+    columnId: string | null
     createdAt: Date
     updatedAt: Date
     closedAt: Date | null
@@ -5458,6 +6837,8 @@ export namespace Prisma {
     assigneeId: string | null
     departmentId: string | null
     _count: TicketCountAggregateOutputType | null
+    _avg: TicketAvgAggregateOutputType | null
+    _sum: TicketSumAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
   }
@@ -5483,6 +6864,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    order?: boolean
+    columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     closedAt?: boolean
@@ -5491,6 +6874,7 @@ export namespace Prisma {
     assigneeId?: boolean
     departmentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     department?: boolean | Ticket$departmentArgs<ExtArgs>
@@ -5506,6 +6890,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    order?: boolean
+    columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     closedAt?: boolean
@@ -5514,6 +6900,7 @@ export namespace Prisma {
     assigneeId?: boolean
     departmentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     department?: boolean | Ticket$departmentArgs<ExtArgs>
@@ -5526,6 +6913,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    order?: boolean
+    columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     closedAt?: boolean
@@ -5534,6 +6923,7 @@ export namespace Prisma {
     assigneeId?: boolean
     departmentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     department?: boolean | Ticket$departmentArgs<ExtArgs>
@@ -5546,6 +6936,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    order?: boolean
+    columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     closedAt?: boolean
@@ -5555,9 +6947,10 @@ export namespace Prisma {
     departmentId?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "priority" | "createdAt" | "updatedAt" | "closedAt" | "deletedAt" | "creatorId" | "assigneeId" | "departmentId", ExtArgs["result"]["ticket"]>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "priority" | "order" | "columnId" | "createdAt" | "updatedAt" | "closedAt" | "deletedAt" | "creatorId" | "assigneeId" | "departmentId", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     department?: boolean | Ticket$departmentArgs<ExtArgs>
@@ -5567,12 +6960,14 @@ export namespace Prisma {
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     department?: boolean | Ticket$departmentArgs<ExtArgs>
   }
   export type TicketIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     department?: boolean | Ticket$departmentArgs<ExtArgs>
@@ -5582,6 +6977,7 @@ export namespace Prisma {
     name: "Ticket"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      column: Prisma.$ColumnPayload<ExtArgs> | null
       creator: Prisma.$UserPayload<ExtArgs>
       assignee: Prisma.$UserPayload<ExtArgs> | null
       department: Prisma.$DepartmentPayload<ExtArgs> | null
@@ -5595,6 +6991,8 @@ export namespace Prisma {
       description: string | null
       status: $Enums.TicketStatus
       priority: $Enums.TicketPriority
+      order: number
+      columnId: string | null
       createdAt: Date
       updatedAt: Date
       closedAt: Date | null
@@ -5997,6 +7395,7 @@ export namespace Prisma {
   export interface Prisma__TicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    column<T extends Ticket$columnArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$columnArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     assignee<T extends Ticket$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     department<T extends Ticket$departmentArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$departmentArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -6037,6 +7436,8 @@ export namespace Prisma {
     readonly description: FieldRef<"Ticket", 'String'>
     readonly status: FieldRef<"Ticket", 'TicketStatus'>
     readonly priority: FieldRef<"Ticket", 'TicketPriority'>
+    readonly order: FieldRef<"Ticket", 'Int'>
+    readonly columnId: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly closedAt: FieldRef<"Ticket", 'DateTime'>
@@ -6437,6 +7838,25 @@ export namespace Prisma {
      * Limit how many Tickets to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Ticket.column
+   */
+  export type Ticket$columnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    where?: ColumnWhereInput
   }
 
   /**
@@ -11237,6 +12657,21 @@ export namespace Prisma {
   export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
 
 
+  export const ColumnScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    name: 'name',
+    description: 'description',
+    order: 'order',
+    color: 'color',
+    isDefault: 'isDefault',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ColumnScalarFieldEnum = (typeof ColumnScalarFieldEnum)[keyof typeof ColumnScalarFieldEnum]
+
+
   export const TicketScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -11244,6 +12679,8 @@ export namespace Prisma {
     description: 'description',
     status: 'status',
     priority: 'priority',
+    order: 'order',
+    columnId: 'columnId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     closedAt: 'closedAt',
@@ -11423,6 +12860,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'TicketStatus'
    */
   export type EnumTicketStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketStatus'>
@@ -11447,20 +12898,6 @@ export namespace Prisma {
    * Reference to a field of type 'TicketPriority[]'
    */
   export type ListEnumTicketPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketPriority[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -11505,6 +12942,7 @@ export namespace Prisma {
     users?: UserListRelationFilter
     departments?: DepartmentListRelationFilter
     tickets?: TicketListRelationFilter
+    columns?: ColumnListRelationFilter
     slas?: SLAListRelationFilter
     workflows?: WorkflowListRelationFilter
   }
@@ -11516,6 +12954,7 @@ export namespace Prisma {
     users?: UserOrderByRelationAggregateInput
     departments?: DepartmentOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
+    columns?: ColumnOrderByRelationAggregateInput
     slas?: SLAOrderByRelationAggregateInput
     workflows?: WorkflowOrderByRelationAggregateInput
   }
@@ -11530,6 +12969,7 @@ export namespace Prisma {
     users?: UserListRelationFilter
     departments?: DepartmentListRelationFilter
     tickets?: TicketListRelationFilter
+    columns?: ColumnListRelationFilter
     slas?: SLAListRelationFilter
     workflows?: WorkflowListRelationFilter
   }, "id">
@@ -11714,6 +13154,86 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Department"> | Date | string
   }
 
+  export type ColumnWhereInput = {
+    AND?: ColumnWhereInput | ColumnWhereInput[]
+    OR?: ColumnWhereInput[]
+    NOT?: ColumnWhereInput | ColumnWhereInput[]
+    id?: StringFilter<"Column"> | string
+    tenantId?: StringFilter<"Column"> | string
+    name?: StringFilter<"Column"> | string
+    description?: StringNullableFilter<"Column"> | string | null
+    order?: IntFilter<"Column"> | number
+    color?: StringNullableFilter<"Column"> | string | null
+    isDefault?: BoolFilter<"Column"> | boolean
+    createdAt?: DateTimeFilter<"Column"> | Date | string
+    updatedAt?: DateTimeFilter<"Column"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tickets?: TicketListRelationFilter
+  }
+
+  export type ColumnOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    color?: SortOrderInput | SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    tickets?: TicketOrderByRelationAggregateInput
+  }
+
+  export type ColumnWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ColumnWhereInput | ColumnWhereInput[]
+    OR?: ColumnWhereInput[]
+    NOT?: ColumnWhereInput | ColumnWhereInput[]
+    tenantId?: StringFilter<"Column"> | string
+    name?: StringFilter<"Column"> | string
+    description?: StringNullableFilter<"Column"> | string | null
+    order?: IntFilter<"Column"> | number
+    color?: StringNullableFilter<"Column"> | string | null
+    isDefault?: BoolFilter<"Column"> | boolean
+    createdAt?: DateTimeFilter<"Column"> | Date | string
+    updatedAt?: DateTimeFilter<"Column"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tickets?: TicketListRelationFilter
+  }, "id">
+
+  export type ColumnOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    color?: SortOrderInput | SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ColumnCountOrderByAggregateInput
+    _avg?: ColumnAvgOrderByAggregateInput
+    _max?: ColumnMaxOrderByAggregateInput
+    _min?: ColumnMinOrderByAggregateInput
+    _sum?: ColumnSumOrderByAggregateInput
+  }
+
+  export type ColumnScalarWhereWithAggregatesInput = {
+    AND?: ColumnScalarWhereWithAggregatesInput | ColumnScalarWhereWithAggregatesInput[]
+    OR?: ColumnScalarWhereWithAggregatesInput[]
+    NOT?: ColumnScalarWhereWithAggregatesInput | ColumnScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Column"> | string
+    tenantId?: StringWithAggregatesFilter<"Column"> | string
+    name?: StringWithAggregatesFilter<"Column"> | string
+    description?: StringNullableWithAggregatesFilter<"Column"> | string | null
+    order?: IntWithAggregatesFilter<"Column"> | number
+    color?: StringNullableWithAggregatesFilter<"Column"> | string | null
+    isDefault?: BoolWithAggregatesFilter<"Column"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Column"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Column"> | Date | string
+  }
+
   export type TicketWhereInput = {
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
@@ -11724,6 +13244,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Ticket"> | string | null
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
+    order?: IntFilter<"Ticket"> | number
+    columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     closedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
@@ -11732,6 +13254,7 @@ export namespace Prisma {
     assigneeId?: StringNullableFilter<"Ticket"> | string | null
     departmentId?: StringNullableFilter<"Ticket"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    column?: XOR<ColumnNullableScalarRelationFilter, ColumnWhereInput> | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     department?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
@@ -11746,6 +13269,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
+    order?: SortOrder
+    columnId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     closedAt?: SortOrderInput | SortOrder
@@ -11754,6 +13279,7 @@ export namespace Prisma {
     assigneeId?: SortOrderInput | SortOrder
     departmentId?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
+    column?: ColumnOrderByWithRelationInput
     creator?: UserOrderByWithRelationInput
     assignee?: UserOrderByWithRelationInput
     department?: DepartmentOrderByWithRelationInput
@@ -11771,6 +13297,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Ticket"> | string | null
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
+    order?: IntFilter<"Ticket"> | number
+    columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     closedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
@@ -11779,6 +13307,7 @@ export namespace Prisma {
     assigneeId?: StringNullableFilter<"Ticket"> | string | null
     departmentId?: StringNullableFilter<"Ticket"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    column?: XOR<ColumnNullableScalarRelationFilter, ColumnWhereInput> | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     department?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
@@ -11793,6 +13322,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
+    order?: SortOrder
+    columnId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     closedAt?: SortOrderInput | SortOrder
@@ -11801,8 +13332,10 @@ export namespace Prisma {
     assigneeId?: SortOrderInput | SortOrder
     departmentId?: SortOrderInput | SortOrder
     _count?: TicketCountOrderByAggregateInput
+    _avg?: TicketAvgOrderByAggregateInput
     _max?: TicketMaxOrderByAggregateInput
     _min?: TicketMinOrderByAggregateInput
+    _sum?: TicketSumOrderByAggregateInput
   }
 
   export type TicketScalarWhereWithAggregatesInput = {
@@ -11815,6 +13348,8 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     status?: EnumTicketStatusWithAggregatesFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityWithAggregatesFilter<"Ticket"> | $Enums.TicketPriority
+    order?: IntWithAggregatesFilter<"Ticket"> | number
+    columnId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     closedAt?: DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
@@ -12164,6 +13699,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
   }
@@ -12175,6 +13711,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
   }
@@ -12186,6 +13723,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
   }
@@ -12197,6 +13735,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
   }
@@ -12401,17 +13940,106 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ColumnCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutColumnsInput
+    tickets?: TicketCreateNestedManyWithoutColumnInput
+  }
+
+  export type ColumnUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutColumnInput
+  }
+
+  export type ColumnUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutColumnsNestedInput
+    tickets?: TicketUpdateManyWithoutColumnNestedInput
+  }
+
+  export type ColumnUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutColumnNestedInput
+  }
+
+  export type ColumnCreateManyInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ColumnUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TicketCreateInput = {
     id?: string
     title: string
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -12426,6 +14054,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -12443,11 +14073,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -12462,6 +14094,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12480,6 +14114,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -12495,6 +14131,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12508,6 +14145,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12923,6 +14562,12 @@ export namespace Prisma {
     none?: TicketWhereInput
   }
 
+  export type ColumnListRelationFilter = {
+    every?: ColumnWhereInput
+    some?: ColumnWhereInput
+    none?: ColumnWhereInput
+  }
+
   export type SLAListRelationFilter = {
     every?: SLAWhereInput
     some?: SLAWhereInput
@@ -12944,6 +14589,10 @@ export namespace Prisma {
   }
 
   export type TicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ColumnOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13185,6 +14834,77 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type ColumnCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    color?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ColumnAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ColumnMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    color?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ColumnMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    color?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ColumnSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type EnumTicketStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
@@ -13197,6 +14917,11 @@ export namespace Prisma {
     in?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
     notIn?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
     not?: NestedEnumTicketPriorityFilter<$PrismaModel> | $Enums.TicketPriority
+  }
+
+  export type ColumnNullableScalarRelationFilter = {
+    is?: ColumnWhereInput | null
+    isNot?: ColumnWhereInput | null
   }
 
   export type UserScalarRelationFilter = {
@@ -13231,6 +14956,8 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    order?: SortOrder
+    columnId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     closedAt?: SortOrder
@@ -13240,6 +14967,10 @@ export namespace Prisma {
     departmentId?: SortOrder
   }
 
+  export type TicketAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
   export type TicketMaxOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -13247,6 +14978,8 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    order?: SortOrder
+    columnId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     closedAt?: SortOrder
@@ -13263,6 +14996,8 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    order?: SortOrder
+    columnId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     closedAt?: SortOrder
@@ -13270,6 +15005,10 @@ export namespace Prisma {
     creatorId?: SortOrder
     assigneeId?: SortOrder
     departmentId?: SortOrder
+  }
+
+  export type TicketSumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type EnumTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13319,17 +15058,6 @@ export namespace Prisma {
     userId?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type TicketNullableScalarRelationFilter = {
@@ -13402,22 +15130,6 @@ export namespace Prisma {
 
   export type AttachmentSumOrderByAggregateInput = {
     size?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -13623,6 +15335,13 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type ColumnCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ColumnCreateWithoutTenantInput, ColumnUncheckedCreateWithoutTenantInput> | ColumnCreateWithoutTenantInput[] | ColumnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutTenantInput | ColumnCreateOrConnectWithoutTenantInput[]
+    createMany?: ColumnCreateManyTenantInputEnvelope
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+  }
+
   export type SLACreateNestedManyWithoutTenantInput = {
     create?: XOR<SLACreateWithoutTenantInput, SLAUncheckedCreateWithoutTenantInput> | SLACreateWithoutTenantInput[] | SLAUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: SLACreateOrConnectWithoutTenantInput | SLACreateOrConnectWithoutTenantInput[]
@@ -13656,6 +15375,13 @@ export namespace Prisma {
     connectOrCreate?: TicketCreateOrConnectWithoutTenantInput | TicketCreateOrConnectWithoutTenantInput[]
     createMany?: TicketCreateManyTenantInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type ColumnUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ColumnCreateWithoutTenantInput, ColumnUncheckedCreateWithoutTenantInput> | ColumnCreateWithoutTenantInput[] | ColumnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutTenantInput | ColumnCreateOrConnectWithoutTenantInput[]
+    createMany?: ColumnCreateManyTenantInputEnvelope
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
   }
 
   export type SLAUncheckedCreateNestedManyWithoutTenantInput = {
@@ -13720,6 +15446,20 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutTenantInput | TicketUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutTenantInput | TicketUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ColumnUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ColumnCreateWithoutTenantInput, ColumnUncheckedCreateWithoutTenantInput> | ColumnCreateWithoutTenantInput[] | ColumnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutTenantInput | ColumnCreateOrConnectWithoutTenantInput[]
+    upsert?: ColumnUpsertWithWhereUniqueWithoutTenantInput | ColumnUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ColumnCreateManyTenantInputEnvelope
+    set?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    disconnect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    delete?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    update?: ColumnUpdateWithWhereUniqueWithoutTenantInput | ColumnUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ColumnUpdateManyWithWhereWithoutTenantInput | ColumnUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
   }
 
   export type SLAUpdateManyWithoutTenantNestedInput = {
@@ -13790,6 +15530,20 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutTenantInput | TicketUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutTenantInput | TicketUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ColumnUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ColumnCreateWithoutTenantInput, ColumnUncheckedCreateWithoutTenantInput> | ColumnCreateWithoutTenantInput[] | ColumnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutTenantInput | ColumnCreateOrConnectWithoutTenantInput[]
+    upsert?: ColumnUpsertWithWhereUniqueWithoutTenantInput | ColumnUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ColumnCreateManyTenantInputEnvelope
+    set?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    disconnect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    delete?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    update?: ColumnUpdateWithWhereUniqueWithoutTenantInput | ColumnUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ColumnUpdateManyWithWhereWithoutTenantInput | ColumnUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
   }
 
   export type SLAUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -14032,10 +15786,80 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type TenantCreateNestedOneWithoutColumnsInput = {
+    create?: XOR<TenantCreateWithoutColumnsInput, TenantUncheckedCreateWithoutColumnsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutColumnsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TicketCreateNestedManyWithoutColumnInput = {
+    create?: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput> | TicketCreateWithoutColumnInput[] | TicketUncheckedCreateWithoutColumnInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutColumnInput | TicketCreateOrConnectWithoutColumnInput[]
+    createMany?: TicketCreateManyColumnInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutColumnInput = {
+    create?: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput> | TicketCreateWithoutColumnInput[] | TicketUncheckedCreateWithoutColumnInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutColumnInput | TicketCreateOrConnectWithoutColumnInput[]
+    createMany?: TicketCreateManyColumnInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type TenantUpdateOneRequiredWithoutColumnsNestedInput = {
+    create?: XOR<TenantCreateWithoutColumnsInput, TenantUncheckedCreateWithoutColumnsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutColumnsInput
+    upsert?: TenantUpsertWithoutColumnsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutColumnsInput, TenantUpdateWithoutColumnsInput>, TenantUncheckedUpdateWithoutColumnsInput>
+  }
+
+  export type TicketUpdateManyWithoutColumnNestedInput = {
+    create?: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput> | TicketCreateWithoutColumnInput[] | TicketUncheckedCreateWithoutColumnInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutColumnInput | TicketCreateOrConnectWithoutColumnInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutColumnInput | TicketUpsertWithWhereUniqueWithoutColumnInput[]
+    createMany?: TicketCreateManyColumnInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutColumnInput | TicketUpdateWithWhereUniqueWithoutColumnInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutColumnInput | TicketUpdateManyWithWhereWithoutColumnInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutColumnNestedInput = {
+    create?: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput> | TicketCreateWithoutColumnInput[] | TicketUncheckedCreateWithoutColumnInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutColumnInput | TicketCreateOrConnectWithoutColumnInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutColumnInput | TicketUpsertWithWhereUniqueWithoutColumnInput[]
+    createMany?: TicketCreateManyColumnInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutColumnInput | TicketUpdateWithWhereUniqueWithoutColumnInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutColumnInput | TicketUpdateManyWithWhereWithoutColumnInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutTicketsInput = {
     create?: XOR<TenantCreateWithoutTicketsInput, TenantUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutTicketsInput
     connect?: TenantWhereUniqueInput
+  }
+
+  export type ColumnCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<ColumnCreateWithoutTicketsInput, ColumnUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: ColumnCreateOrConnectWithoutTicketsInput
+    connect?: ColumnWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutTicketsCreatedInput = {
@@ -14098,6 +15922,16 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutTicketsInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTicketsInput, TenantUpdateWithoutTicketsInput>, TenantUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type ColumnUpdateOneWithoutTicketsNestedInput = {
+    create?: XOR<ColumnCreateWithoutTicketsInput, ColumnUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: ColumnCreateOrConnectWithoutTicketsInput
+    upsert?: ColumnUpsertWithoutTicketsInput
+    disconnect?: ColumnWhereInput | boolean
+    delete?: ColumnWhereInput | boolean
+    connect?: ColumnWhereUniqueInput
+    update?: XOR<XOR<ColumnUpdateToOneWithWhereWithoutTicketsInput, ColumnUpdateWithoutTicketsInput>, ColumnUncheckedUpdateWithoutTicketsInput>
   }
 
   export type UserUpdateOneRequiredWithoutTicketsCreatedNestedInput = {
@@ -14264,14 +16098,6 @@ export namespace Prisma {
     create?: XOR<TicketCommentCreateWithoutAttachmentsInput, TicketCommentUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: TicketCommentCreateOrConnectWithoutAttachmentsInput
     connect?: TicketCommentWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type TicketUpdateOneWithoutAttachmentsNestedInput = {
@@ -14486,6 +16312,33 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumTicketStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
@@ -14518,33 +16371,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTicketPriorityFilter<$PrismaModel>
     _max?: NestedEnumTicketPriorityFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -14671,10 +16497,12 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -14688,6 +16516,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -14706,6 +16536,40 @@ export namespace Prisma {
 
   export type TicketCreateManyTenantInputEnvelope = {
     data: TicketCreateManyTenantInput | TicketCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ColumnCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketCreateNestedManyWithoutColumnInput
+  }
+
+  export type ColumnUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutColumnInput
+  }
+
+  export type ColumnCreateOrConnectWithoutTenantInput = {
+    where: ColumnWhereUniqueInput
+    create: XOR<ColumnCreateWithoutTenantInput, ColumnUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ColumnCreateManyTenantInputEnvelope = {
+    data: ColumnCreateManyTenantInput | ColumnCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -14865,6 +16729,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Ticket"> | string | null
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
+    order?: IntFilter<"Ticket"> | number
+    columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     closedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
@@ -14872,6 +16738,37 @@ export namespace Prisma {
     creatorId?: StringFilter<"Ticket"> | string
     assigneeId?: StringNullableFilter<"Ticket"> | string | null
     departmentId?: StringNullableFilter<"Ticket"> | string | null
+  }
+
+  export type ColumnUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ColumnWhereUniqueInput
+    update: XOR<ColumnUpdateWithoutTenantInput, ColumnUncheckedUpdateWithoutTenantInput>
+    create: XOR<ColumnCreateWithoutTenantInput, ColumnUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ColumnUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ColumnWhereUniqueInput
+    data: XOR<ColumnUpdateWithoutTenantInput, ColumnUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ColumnUpdateManyWithWhereWithoutTenantInput = {
+    where: ColumnScalarWhereInput
+    data: XOR<ColumnUpdateManyMutationInput, ColumnUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ColumnScalarWhereInput = {
+    AND?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
+    OR?: ColumnScalarWhereInput[]
+    NOT?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
+    id?: StringFilter<"Column"> | string
+    tenantId?: StringFilter<"Column"> | string
+    name?: StringFilter<"Column"> | string
+    description?: StringNullableFilter<"Column"> | string | null
+    order?: IntFilter<"Column"> | number
+    color?: StringNullableFilter<"Column"> | string | null
+    isDefault?: BoolFilter<"Column"> | boolean
+    createdAt?: DateTimeFilter<"Column"> | Date | string
+    updatedAt?: DateTimeFilter<"Column"> | Date | string
   }
 
   export type SLAUpsertWithWhereUniqueWithoutTenantInput = {
@@ -14944,6 +16841,7 @@ export namespace Prisma {
     createdAt?: Date | string
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
   }
@@ -14954,6 +16852,7 @@ export namespace Prisma {
     createdAt?: Date | string
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
   }
@@ -14969,11 +16868,13 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
     comments?: TicketCommentCreateNestedManyWithoutTicketInput
@@ -14987,6 +16888,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -15013,11 +16916,13 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
     comments?: TicketCommentCreateNestedManyWithoutTicketInput
@@ -15031,6 +16936,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -15094,6 +17001,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
   }
@@ -15104,6 +17012,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
   }
@@ -15173,6 +17082,7 @@ export namespace Prisma {
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
   }
@@ -15183,6 +17093,7 @@ export namespace Prisma {
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
   }
@@ -15198,11 +17109,13 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     comments?: TicketCommentCreateNestedManyWithoutTicketInput
@@ -15216,6 +17129,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -15253,6 +17168,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
   }
@@ -15263,6 +17179,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
   }
@@ -15283,12 +17200,137 @@ export namespace Prisma {
     data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutDepartmentInput>
   }
 
+  export type TenantCreateWithoutColumnsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutTenantInput
+    departments?: DepartmentCreateNestedManyWithoutTenantInput
+    tickets?: TicketCreateNestedManyWithoutTenantInput
+    slas?: SLACreateNestedManyWithoutTenantInput
+    workflows?: WorkflowCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutColumnsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
+    workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutColumnsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutColumnsInput, TenantUncheckedCreateWithoutColumnsInput>
+  }
+
+  export type TicketCreateWithoutColumnInput = {
+    id?: string
+    title: string
+    description?: string | null
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    tenant: TenantCreateNestedOneWithoutTicketsInput
+    creator: UserCreateNestedOneWithoutTicketsCreatedInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
+    department?: DepartmentCreateNestedOneWithoutTicketsInput
+    comments?: TicketCommentCreateNestedManyWithoutTicketInput
+    attachments?: AttachmentCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutColumnInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    creatorId: string
+    assigneeId?: string | null
+    departmentId?: string | null
+    comments?: TicketCommentUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutColumnInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput>
+  }
+
+  export type TicketCreateManyColumnInputEnvelope = {
+    data: TicketCreateManyColumnInput | TicketCreateManyColumnInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutColumnsInput = {
+    update: XOR<TenantUpdateWithoutColumnsInput, TenantUncheckedUpdateWithoutColumnsInput>
+    create: XOR<TenantCreateWithoutColumnsInput, TenantUncheckedCreateWithoutColumnsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutColumnsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutColumnsInput, TenantUncheckedUpdateWithoutColumnsInput>
+  }
+
+  export type TenantUpdateWithoutColumnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutTenantNestedInput
+    departments?: DepartmentUpdateManyWithoutTenantNestedInput
+    tickets?: TicketUpdateManyWithoutTenantNestedInput
+    slas?: SLAUpdateManyWithoutTenantNestedInput
+    workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutColumnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
+    workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TicketUpsertWithWhereUniqueWithoutColumnInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutColumnInput, TicketUncheckedUpdateWithoutColumnInput>
+    create: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutColumnInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutColumnInput, TicketUncheckedUpdateWithoutColumnInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutColumnInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutColumnInput>
+  }
+
   export type TenantCreateWithoutTicketsInput = {
     id?: string
     name: string
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
   }
@@ -15299,6 +17341,7 @@ export namespace Prisma {
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
   }
@@ -15306,6 +17349,35 @@ export namespace Prisma {
   export type TenantCreateOrConnectWithoutTicketsInput = {
     where: TenantWhereUniqueInput
     create: XOR<TenantCreateWithoutTicketsInput, TenantUncheckedCreateWithoutTicketsInput>
+  }
+
+  export type ColumnCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutColumnsInput
+  }
+
+  export type ColumnUncheckedCreateWithoutTicketsInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnCreateOrConnectWithoutTicketsInput = {
+    where: ColumnWhereUniqueInput
+    create: XOR<ColumnCreateWithoutTicketsInput, ColumnUncheckedCreateWithoutTicketsInput>
   }
 
   export type UserCreateWithoutTicketsCreatedInput = {
@@ -15496,6 +17568,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
   }
@@ -15506,8 +17579,44 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ColumnUpsertWithoutTicketsInput = {
+    update: XOR<ColumnUpdateWithoutTicketsInput, ColumnUncheckedUpdateWithoutTicketsInput>
+    create: XOR<ColumnCreateWithoutTicketsInput, ColumnUncheckedCreateWithoutTicketsInput>
+    where?: ColumnWhereInput
+  }
+
+  export type ColumnUpdateToOneWithWhereWithoutTicketsInput = {
+    where?: ColumnWhereInput
+    data: XOR<ColumnUpdateWithoutTicketsInput, ColumnUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type ColumnUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutColumnsNestedInput
+  }
+
+  export type ColumnUncheckedUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -15688,11 +17797,13 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -15706,6 +17817,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -15821,11 +17934,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -15839,6 +17954,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15916,11 +18033,13 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -15934,6 +18053,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -15987,11 +18108,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -16005,6 +18128,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16049,6 +18174,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
   }
 
@@ -16059,6 +18185,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -16085,6 +18212,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
   }
 
@@ -16095,6 +18223,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -16105,6 +18234,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
   }
 
@@ -16115,6 +18245,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -16141,6 +18272,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
   }
 
@@ -16151,6 +18283,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -16182,6 +18315,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -16189,6 +18324,17 @@ export namespace Prisma {
     creatorId: string
     assigneeId?: string | null
     departmentId?: string | null
+  }
+
+  export type ColumnCreateManyTenantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SLACreateManyTenantInput = {
@@ -16295,10 +18441,12 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -16312,6 +18460,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16329,6 +18479,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16336,6 +18488,41 @@ export namespace Prisma {
     creatorId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ColumnUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUpdateManyWithoutColumnNestedInput
+  }
+
+  export type ColumnUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutColumnNestedInput
+  }
+
+  export type ColumnUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SLAUpdateWithoutTenantInput = {
@@ -16417,6 +18604,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -16432,6 +18621,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -16453,11 +18644,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
     comments?: TicketCommentUpdateManyWithoutTicketNestedInput
@@ -16471,6 +18664,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16488,6 +18683,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16502,11 +18699,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
     comments?: TicketCommentUpdateManyWithoutTicketNestedInput
@@ -16520,6 +18719,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16537,6 +18738,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16575,6 +18778,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
+    order?: number
+    columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -16589,11 +18794,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     comments?: TicketCommentUpdateManyWithoutTicketNestedInput
@@ -16607,6 +18814,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16624,12 +18833,86 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     creatorId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TicketCreateManyColumnInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    creatorId: string
+    assigneeId?: string | null
+    departmentId?: string | null
+  }
+
+  export type TicketUpdateWithoutColumnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
+    department?: DepartmentUpdateOneWithoutTicketsNestedInput
+    comments?: TicketCommentUpdateManyWithoutTicketNestedInput
+    attachments?: AttachmentUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutColumnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: TicketCommentUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateManyWithoutColumnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketCommentCreateManyTicketInput = {

@@ -36,6 +36,7 @@ model Tenant {
   users       User[]
   departments Department[]
   tickets     Ticket[]
+  columns     Column[]
   slas        SLA[]
   workflows   Workflow[]
 }
@@ -70,6 +71,23 @@ model Department {
   updatedAt   DateTime @updatedAt
 }
 
+model Column {
+  id          String   @id @default(uuid())
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId    String
+  name        String   @db.VarChar(100)
+  description String?
+  order       Int      @default(0) // Thứ tự hiển thị của column
+  color       String?  @db.VarChar(7) // Màu hex cho column (ví dụ: #FF5733)
+  isDefault   Boolean  @default(false) // Column mặc định
+  tickets     Ticket[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([order])
+}
+
 model Ticket {
   id           String          @id @default(uuid())
   tenant       Tenant          @relation(fields: [tenantId], references: [id])
@@ -78,6 +96,9 @@ model Ticket {
   description  String?
   status       TicketStatus    @default(open)
   priority     TicketPriority  @default(medium)
+  order        Int             @default(0) // Thứ tự trong column
+  column       Column?         @relation(fields: [columnId], references: [id])
+  columnId     String? // ID của column chứa ticket này
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   closedAt     DateTime?
@@ -94,6 +115,8 @@ model Ticket {
   @@index([tenantId])
   @@index([status])
   @@index([priority])
+  @@index([columnId])
+  @@index([order])
   @@index([createdAt])
   @@index([closedAt])
   @@index([deletedAt])

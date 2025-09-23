@@ -7,7 +7,22 @@ export class TicketRepository {
   }
 
   async create(data: Prisma.TicketUncheckedCreateInput): Promise<PrismaTicket> {
-    return this.prisma.ticket.create({ data });
+    // Nếu không có order được chỉ định, lấy order tiếp theo trong column
+    if (data.columnId && data.order === undefined) {
+      const maxOrder = await this.prisma.ticket.findFirst({
+        where: { columnId: data.columnId },
+        orderBy: { order: 'desc' },
+        select: { order: true }
+      });
+      data.order = (maxOrder?.order || 0) + 1;
+    }
+
+    return this.prisma.ticket.create({ 
+      data: {
+        ...data,
+        order: data.order || 0
+      }
+    });
   }
 
   async findById(id: string, tenantId: string): Promise<PrismaTicket | null> {
@@ -50,6 +65,52 @@ export class TicketRepository {
     return this.prisma.ticket.update({
       where: { id },
       data: { deletedAt: new Date() },
+    });
+  }
+
+  async findByColumn(columnId: string): Promise<PrismaTicket[]> {
+    return this.prisma.ticket.findMany({
+      where: { columnId, deletedAt: null },
+      orderBy: { order: 'asc' },
+      include: {
+        creator: { select: { id: true, username: true, email: true } },
+        assignee: { select: { id: true, username: true, email: true } },
+        department: { select: { id: true, name: true } }
+      }
+    });
+  }
+
+  async updateOrder(ticketId: string, newOrder: number, columnId?: string): Promise<PrismaTicket | null> {
+    return this.prisma.ticket.update({
+      where: { id: ticketId },
+      data: {
+        order: newOrder,
+        ...(columnId && { columnId })
+      }
+    });
+  }
+
+  async moveToColumn(ticketId: string, columnId: string, newOrder: number): Promise<PrismaTicket | null> {
+    return this.prisma.$transaction(async (tx) => {
+      // Cập nhật ticket
+      const updatedTicket = await tx.ticket.update({
+        where: { id: ticketId },
+        data: { columnId, order: newOrder }
+      });
+
+      // Cập nhật thứ tự của các tickets khác trong column đích
+      await tx.ticket.updateMany({
+        where: {
+          columnId,
+          id: { not: ticketId },
+          order: { gte: newOrder }
+        },
+        data: {
+          order: { increment: 1 }
+        }
+      });
+
+      return updatedTicket;
     });
   }
 }

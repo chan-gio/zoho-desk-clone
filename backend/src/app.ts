@@ -24,6 +24,7 @@ import notificationRoutes from './routes/notification.routes.js';
 import auditRoutes from './routes/audit.routes.js';
 import metricsRoutes from './routes/metrics.routes.js';
 import tenantRoutes from './routes/tenant.routes.js';
+import columnRoutes from './routes/column.routes.js';
 
 // Import middleware
 import { errorHandler } from './middleware/error.middleware.js';
@@ -98,6 +99,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/metrics', metricsRoutes);
 app.use('/api', tenantRoutes);
+app.use('/api/columns', columnRoutes);
 
 // WebSocket connection handling
 io.on('connection', (socket) => {

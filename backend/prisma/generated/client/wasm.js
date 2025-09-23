@@ -150,6 +150,18 @@ exports.Prisma.DepartmentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ColumnScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  description: 'description',
+  order: 'order',
+  color: 'color',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TicketScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -157,6 +169,8 @@ exports.Prisma.TicketScalarFieldEnum = {
   description: 'description',
   status: 'status',
   priority: 'priority',
+  order: 'order',
+  columnId: 'columnId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   closedAt: 'closedAt',
@@ -272,6 +286,7 @@ exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   User: 'User',
   Department: 'Department',
+  Column: 'Column',
   Ticket: 'Ticket',
   TicketComment: 'TicketComment',
   Attachment: 'Attachment',
