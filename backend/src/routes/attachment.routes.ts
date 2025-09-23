@@ -3,18 +3,23 @@ import { AttachmentController } from '../controllers/attachment.controller.js';
 import { apiRateLimiter } from '../middleware/rate-limit.middleware.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import cloudinary, { cloudinaryUploadOptions } from '../config/cloudinary.config.js';
 
 const router = Router();
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, process.env.UPLOAD_PATH || './uploads');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
-  }
+// Configure Cloudinary storage
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: (req, file) => ({
+    folder: 'zoho-desk-attachments',
+    resource_type: 'auto',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'],
+    transformation: {
+      quality: 'auto',
+      fetch_format: 'auto'
+    }
+  })
 });
 
 const upload = multer({

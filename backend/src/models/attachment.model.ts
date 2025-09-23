@@ -53,6 +53,13 @@ export interface FileUploadResult {
   attachment?: Attachment;
   error?: string;
   message?: string;
+  cloudinaryData?: {
+    public_id: string;
+    secure_url: string;
+    format: string;
+    width?: number;
+    height?: number;
+  };
 }
 
 export interface FileValidationResult {

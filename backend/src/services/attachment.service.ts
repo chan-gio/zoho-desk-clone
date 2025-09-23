@@ -2,6 +2,7 @@ import { getPrismaClient } from '../database/postgres.js';
 import { Attachment, CreateAttachmentInput, UpdateAttachmentInput, AttachmentFilter, FileUploadResult, FileValidationResult } from '../models/attachment.model.js';
 import { promises as fs } from 'fs';
 import path from 'path';
+import cloudinary from '../config/cloudinary.config.js';
 
 export class AttachmentService {
   private get prisma() {
@@ -168,11 +169,15 @@ export class AttachmentService {
 
     if (!attachment) return false;
 
-    // Delete file from filesystem
+    // Delete file from Cloudinary
     try {
-      await fs.unlink(attachment.filePath);
+      // Extract public_id from Cloudinary URL
+      const publicId = this.extractPublicIdFromUrl(attachment.url);
+      if (publicId) {
+        await cloudinary.uploader.destroy(publicId);
+      }
     } catch (error) {
-      console.error('Error deleting file:', error);
+      console.error('Error deleting file from Cloudinary:', error);
     }
 
     // Delete from database
@@ -181,6 +186,26 @@ export class AttachmentService {
     });
 
     return true;
+  }
+
+  private extractPublicIdFromUrl(url: string): string | null {
+    try {
+      // Cloudinary URL format: https://res.cloudinary.com/{cloud_name}/image/upload/v{version}/{public_id}.{format}
+      const urlParts = url.split('/');
+      const uploadIndex = urlParts.findIndex(part => part === 'upload');
+      if (uploadIndex !== -1 && uploadIndex + 2 < urlParts.length) {
+        const publicIdWithVersion = urlParts[uploadIndex + 2];
+        if (publicIdWithVersion) {
+          // Remove version prefix (v1234567890)
+          const publicId = publicIdWithVersion.replace(/^v\d+_/, '');
+          return publicId;
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error('Error extracting public ID from URL:', error);
+      return null;
+    }
   }
 
   async validateFile(file: any): Promise<FileValidationResult> {
@@ -237,26 +262,25 @@ export class AttachmentService {
         };
       }
 
-      // Generate unique filename
-      const timestamp = Date.now();
-      const ext = path.extname(file.originalname);
-      const filename = `${timestamp}_${file.originalname}`;
-      const filePath = path.join(this.uploadPath, filename);
-
-      // Ensure upload directory exists
-      await fs.mkdir(this.uploadPath, { recursive: true });
-
-      // Move file to upload directory
-      await fs.rename(file.path, filePath);
+      // Upload to Cloudinary
+      const cloudinaryResult = await cloudinary.uploader.upload(file.path, {
+        folder: `zoho-desk-attachments/${data.tenantId}`,
+        resource_type: 'auto',
+        public_id: `${Date.now()}_${file.originalname.replace(/\.[^/.]+$/, '')}`,
+        transformation: {
+          quality: 'auto',
+          fetch_format: 'auto'
+        }
+      });
 
       // Create attachment record
       const attachment = await this.createAttachment({
-        filename,
+        filename: cloudinaryResult.public_id,
         originalName: file.originalname,
         mimeType: file.mimetype,
         size: file.size,
-        filePath: filePath,
-        url: `/uploads/${filename}`,
+        filePath: cloudinaryResult.secure_url, // Store Cloudinary URL as filePath
+        url: cloudinaryResult.secure_url,
         ...(data.ticketId && { ticketId: data.ticketId }),
         ...(data.commentId && { commentId: data.commentId }),
         uploadedBy: data.uploadedBy,
@@ -266,7 +290,14 @@ export class AttachmentService {
       return {
         success: true,
         attachment,
-        message: 'File uploaded successfully'
+        message: 'File uploaded successfully to Cloudinary',
+        cloudinaryData: {
+          public_id: cloudinaryResult.public_id,
+          secure_url: cloudinaryResult.secure_url,
+          format: cloudinaryResult.format,
+          width: cloudinaryResult.width,
+          height: cloudinaryResult.height
+        }
       };
     } catch (error) {
       return {
