@@ -76,175 +76,73 @@ services:
       timeout: 10s
       retries: 3
 
-  # API Gateway
-  api-gateway:
+  # Monolith Application
+  zoho-desk-monolith:
     build:
       context: .
-      dockerfile: api-gateway/Dockerfile
-    container_name: zoho-desk-api-gateway
+      dockerfile: Dockerfile
+    container_name: zoho-desk-monolith
     ports:
       - "8080:8080"
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       PORT: 8080
-      AUTH_SERVICE_URL: http://auth-service:3000
-      TICKETING_SERVICE_URL: http://ticketing-service:3001
-      KNOWLEDGE_SERVICE_URL: http://knowledge-service:3002
-      INTEGRATION_SERVICE_URL: http://integration-gateway:3003
-      ANALYTICS_SERVICE_URL: http://analytics-service:3004
-    depends_on:
-      - auth-service
-      - ticketing-service
-      - knowledge-service
-      - integration-gateway
-      - analytics-service
-    networks:
-      - zoho-desk-network
-    restart: unless-stopped
-
-  # Auth Service
-  auth-service:
-    build:
-      context: .
-      dockerfile: services/auth-service/Dockerfile
-    container_name: zoho-desk-auth-service
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: development
-      PORT: 3000
+      
+      # Database URLs
       DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/zoho_desk
-      JWT_SECRET: your-super-secret-jwt-key-dev
-      JWT_EXPIRES_IN: 24h
-      REFRESH_TOKEN_SECRET: your-super-secret-refresh-key-dev
-      REFRESH_TOKEN_EXPIRES_IN: 7d
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - zoho-desk-network
-    restart: unless-stopped
-
-  # Ticketing Service
-  ticketing-service:
-    build:
-      context: .
-      dockerfile: services/ticketing-service/Dockerfile
-    container_name: zoho-desk-ticketing-service
-    ports:
-      - "3001:3001"
-    environment:
-      NODE_ENV: development
-      PORT: 3001
-      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/zoho_desk
-      REDIS_URL: redis://redis:6379
-      RABBITMQ_URL: amqp://admin:admin123@rabbitmq:5672
-      AUTH_SERVICE_URL: http://auth-service:3000
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - zoho-desk-network
-    restart: unless-stopped
-
-  # Knowledge Service
-  knowledge-service:
-    build:
-      context: .
-      dockerfile: services/knowledge-service/Dockerfile
-    container_name: zoho-desk-knowledge-service
-    ports:
-      - "3002:3002"
-    environment:
-      NODE_ENV: development
-      PORT: 3002
       MONGODB_URL: mongodb://admin:admin123@mongodb:27017/zoho_desk?authSource=admin
       REDIS_URL: redis://redis:6379
-      AUTH_SERVICE_URL: http://auth-service:3000
-    depends_on:
-      mongodb:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - zoho-desk-network
-    restart: unless-stopped
-
-  # Integration Gateway
-  integration-gateway:
-    build:
-      context: .
-      dockerfile: services/integration-gateway/Dockerfile
-    container_name: zoho-desk-integration-gateway
-    ports:
-      - "3003:3003"
-    environment:
-      NODE_ENV: development
-      PORT: 3003
-      REDIS_URL: redis://redis:6379
       RABBITMQ_URL: amqp://admin:admin123@rabbitmq:5672
-      AUTH_SERVICE_URL: http://auth-service:3000
-      # Integration API Keys (for development)
+      
+      # JWT Configuration
+      JWT_SECRET: your-super-secret-jwt-key-prod
+      JWT_EXPIRES_IN: 24h
+      REFRESH_TOKEN_SECRET: your-super-secret-refresh-key-prod
+      REFRESH_TOKEN_EXPIRES_IN: 7d
+      
+      # Frontend URL
+      FRONTEND_URL: http://localhost:3000
+      
+      # Integration API Keys (set these in production)
       SENDGRID_API_KEY: your-sendgrid-api-key
       TWILIO_ACCOUNT_SID: your-twilio-account-sid
       TWILIO_AUTH_TOKEN: your-twilio-auth-token
+      
+      # Logging
+      LOG_LEVEL: info
     depends_on:
-      redis:
+      postgres:
         condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - zoho-desk-network
-    restart: unless-stopped
-
-  # Analytics Service
-  analytics-service:
-    build:
-      context: .
-      dockerfile: services/analytics-service/Dockerfile
-    container_name: zoho-desk-analytics-service
-    ports:
-      - "3004:3004"
-    environment:
-      NODE_ENV: development
-      PORT: 3004
-      MONGODB_URL: mongodb://admin:admin123@mongodb:27017/zoho_desk?authSource=admin
-      REDIS_URL: redis://redis:6379
-      TICKETING_SERVICE_URL: http://ticketing-service:3001
-      AUTH_SERVICE_URL: http://auth-service:3000
-    depends_on:
       mongodb:
         condition: service_healthy
       redis:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - zoho-desk-network
     restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-  # Message Queue Service
-  message-queue:
-    build:
-      context: .
-      dockerfile: message-queue/Dockerfile
-    container_name: zoho-desk-message-queue
+  # Nginx Reverse Proxy (Optional)
+  nginx:
+    image: nginx:alpine
+    container_name: zoho-desk-nginx
     ports:
-      - "3005:3005"
-    environment:
-      NODE_ENV: development
-      PORT: 3005
-      RABBITMQ_URL: amqp://admin:admin123@rabbitmq:5672
-      REDIS_URL: redis://redis:6379
-      AUTH_SERVICE_URL: http://auth-service:3000
-      TICKETING_SERVICE_URL: http://ticketing-service:3001
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
     depends_on:
-      rabbitmq:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - zoho-desk-monolith
     networks:
       - zoho-desk-network
     restart: unless-stopped

@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  super_admin
+  admin
+  agent
+  customer
+}
+
+enum TicketStatus {
+  open
+  in_progress
+  closed
+  escalated
+}
+
+enum TicketPriority {
+  low
+  medium
+  high
+  urgent
+}
+
+model Tenant {
+  id          String       @id @default(uuid())
+  name        String       @db.VarChar(255)
+  createdAt   DateTime     @default(now())
+  users       User[]
+  departments Department[]
+  tickets     Ticket[]
+  slas        SLA[]
+  workflows   Workflow[]
+}
+
+model User {
+  id                       String          @id @default(uuid())
+  tenant                   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                 String
+  username                 String          @unique @db.VarChar(100)
+  email                    String          @unique @db.VarChar(255)
+  passwordHash             String          @db.VarChar(255)
+  role                     UserRole        @default(customer)
+  isActive                 Boolean         @default(true)
+  createdAt                DateTime        @default(now())
+  deletedAt                DateTime?
+  refreshToken             String?
+  resetPasswordToken       String?
+  resetPasswordTokenExpiry DateTime?
+  ticketsCreated           Ticket[]        @relation("TicketCreator")
+  ticketsAssigned          Ticket[]        @relation("TicketAssignee")
+  comments                 TicketComment[]
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId    String
+  name        String   @db.VarChar(100)
+  description String?
+  tickets     Ticket[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Ticket {
+  id           String          @id @default(uuid())
+  tenant       Tenant          @relation(fields: [tenantId], references: [id])
+  tenantId     String
+  title        String          @db.VarChar(255)
+  description  String?
+  status       TicketStatus    @default(open)
+  priority     TicketPriority  @default(medium)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  closedAt     DateTime?
+  deletedAt    DateTime?
+  creator      User            @relation("TicketCreator", fields: [creatorId], references: [id])
+  creatorId    String
+  assignee     User?           @relation("TicketAssignee", fields: [assigneeId], references: [id])
+  assigneeId   String?
+  department   Department?     @relation(fields: [departmentId], references: [id])
+  departmentId String?
+  comments     TicketComment[]
+  attachments  Attachment[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
+  @@index([closedAt])
+  @@index([deletedAt])
+}
+
+model TicketComment {
+  id          String       @id @default(uuid())
+  ticket      Ticket       @relation(fields: [ticketId], references: [id])
+  ticketId    String
+  user        User         @relation(fields: [userId], references: [id])
+  userId      String
+  comment     String
+  createdAt   DateTime     @default(now())
+  attachments Attachment[]
+}
+
+model Attachment {
+  id           String         @id @default(uuid())
+  filename     String         @db.VarChar(255)
+  originalName String         @db.VarChar(255)
+  mimeType     String         @db.VarChar(100)
+  size         Int
+  filePath     String         @db.VarChar(255)
+  url          String         @db.VarChar(500)
+  ticket       Ticket?        @relation(fields: [ticketId], references: [id])
+  ticketId     String?
+  comment      TicketComment? @relation(fields: [commentId], references: [id])
+  commentId    String?
+  uploadedBy   String
+  tenantId     String
+  uploadedAt   DateTime       @default(now())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?
+}
+
+model SLA {
+  id              String         @id @default(uuid())
+  tenant          Tenant         @relation(fields: [tenantId], references: [id])
+  tenantId        String
+  name            String         @db.VarChar(100)
+  description     String?
+  responseTime    Int            @default(24) // hours
+  resolutionTime  Int            @default(72) // hours
+  priority        TicketPriority @default(medium)
+  departmentId    String?
+  isActive        Boolean        @default(true)
+  escalationRules Json?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Workflow {
+  id          String   @id @default(uuid())
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId    String
+  name        String   @db.VarChar(100)
+  description String?
+  rules       Json
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tenantId])
+}
