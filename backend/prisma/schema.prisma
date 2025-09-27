@@ -15,23 +15,46 @@ enum UserRole {
   customer
 }
 
-enum TicketStatus {
-  open
-  in_progress
-  closed
-  escalated
+// TicketStatus removed - using String instead
+
+// Priority table thay thế cho enum
+model Priority {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(50)
+  color     String   @db.VarChar(7) // Hex color
+  order     Int      @default(0)
+  isDefault Boolean  @default(false)
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tickets   Ticket[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([order])
 }
 
-enum TicketPriority {
-  low
-  medium
-  high
-  urgent
+// Status table thay thế cho enum
+model Status {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(50)
+  color     String   @db.VarChar(7) // Hex color
+  order     Int      @default(0)
+  isDefault Boolean  @default(false)
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  columns   Column[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([order])
 }
 
 model Tenant {
   id         String    @id @default(uuid())
   name       String    @db.VarChar(255)
+  avatar     String?   @db.VarChar(500) // URL của avatar trên Cloudinary
   createdAt  DateTime  @default(now())
   users      User[]
   departments Department[]
@@ -39,6 +62,8 @@ model Tenant {
   columns    Column[]
   slas       SLA[]
   workflows  Workflow[]
+  priorities Priority[]
+  statuses   Status[]
 }
 
 model User {
@@ -50,6 +75,7 @@ model User {
   passwordHash String   @db.VarChar(255)
   role         UserRole @default(customer)
   isActive     Boolean  @default(true)
+  avatar       String?  @db.VarChar(500) // URL của avatar trên Cloudinary
   createdAt    DateTime @default(now())
   deletedAt    DateTime?
   refreshToken String?
@@ -80,12 +106,15 @@ model Column {
   order       Int       @default(0) // Thứ tự hiển thị của column
   color       String?   @db.VarChar(7) // Màu hex cho column (ví dụ: #FF5733)
   isDefault   Boolean   @default(false) // Column mặc định
+  status      Status?   @relation(fields: [statusId], references: [id])
+  statusId    String?   // ID của status tương ứng
   tickets     Ticket[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   @@index([tenantId])
   @@index([order])
+  @@index([statusId])
 }
 
 model Ticket {
@@ -94,8 +123,9 @@ model Ticket {
   tenantId    String
   title       String    @db.VarChar(255)
   description String?
-  status      TicketStatus @default(open)
-  priority    TicketPriority @default(medium)
+  status      String       @default("open")
+  priority    Priority?    @relation(fields: [priorityId], references: [id])
+  priorityId  String?      // ID của priority
   order       Int       @default(0) // Thứ tự trong column
   column      Column?   @relation(fields: [columnId], references: [id])
   columnId    String?   // ID của column chứa ticket này
@@ -114,7 +144,7 @@ model Ticket {
 
   @@index([tenantId])
   @@index([status])
-  @@index([priority])
+  @@index([priorityId])
   @@index([columnId])
   @@index([order])
   @@index([createdAt])
@@ -161,7 +191,7 @@ model SLA {
   description    String?
   responseTime   Int      @default(24) // hours
   resolutionTime Int      @default(72) // hours
-  priority       TicketPriority @default(medium)
+  priority       String         @default("medium")
   departmentId   String?
   isActive       Boolean  @default(true)
   escalationRules Json?

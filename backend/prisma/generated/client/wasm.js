@@ -120,9 +120,32 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.PriorityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color',
+  order: 'order',
+  isDefault: 'isDefault',
+  tenantId: 'tenantId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StatusScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color',
+  order: 'order',
+  isDefault: 'isDefault',
+  tenantId: 'tenantId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TenantScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  avatar: 'avatar',
   createdAt: 'createdAt'
 };
 
@@ -134,6 +157,7 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   isActive: 'isActive',
+  avatar: 'avatar',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt',
   refreshToken: 'refreshToken',
@@ -158,6 +182,7 @@ exports.Prisma.ColumnScalarFieldEnum = {
   order: 'order',
   color: 'color',
   isDefault: 'isDefault',
+  statusId: 'statusId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -168,7 +193,7 @@ exports.Prisma.TicketScalarFieldEnum = {
   title: 'title',
   description: 'description',
   status: 'status',
-  priority: 'priority',
+  priorityId: 'priorityId',
   order: 'order',
   columnId: 'columnId',
   createdAt: 'createdAt',
@@ -268,21 +293,9 @@ exports.UserRole = exports.$Enums.UserRole = {
   customer: 'customer'
 };
 
-exports.TicketStatus = exports.$Enums.TicketStatus = {
-  open: 'open',
-  in_progress: 'in_progress',
-  closed: 'closed',
-  escalated: 'escalated'
-};
-
-exports.TicketPriority = exports.$Enums.TicketPriority = {
-  low: 'low',
-  medium: 'medium',
-  high: 'high',
-  urgent: 'urgent'
-};
-
 exports.Prisma.ModelName = {
+  Priority: 'Priority',
+  Status: 'Status',
   Tenant: 'Tenant',
   User: 'User',
   Department: 'Department',

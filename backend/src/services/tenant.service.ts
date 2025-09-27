@@ -2,6 +2,9 @@ import { TenantRepository } from '../repositories/tenant.repository.js';
 import { UserRepository } from '../repositories/user.repository.js';
 import { getPrismaClient } from '../database/postgres.js';
 import { PrismaClient } from 'prisma/generated/client/index.js';
+import { ColumnService } from './column.service.js';
+import { PriorityService } from './priority.service.js';
+import { StatusService } from './status.service.js';
 
 export interface CreateTenantInput {
   name: string;
@@ -102,7 +105,28 @@ export class TenantService {
   }
 
   async createTenant(data: CreateTenantInput) {
-    return this.tenantRepo.create(data);
+    const tenant = await this.tenantRepo.create(data);
+    
+    // Tự động khởi tạo columns, priorities và statuses mặc định cho tenant mới
+    try {
+      const columnService = new ColumnService();
+      const priorityService = new PriorityService();
+      const statusService = new StatusService();
+
+      // Khởi tạo song song
+      await Promise.all([
+        columnService.initializeDefaultColumns(tenant.id),
+        priorityService.initializeDefaultPriorities(tenant.id),
+        statusService.initializeDefaultStatuses(tenant.id)
+      ]);
+
+      console.log('Default columns, priorities and statuses initialized for tenant:', tenant.name);
+    } catch (error) {
+      console.error('Failed to initialize default data for tenant:', tenant.name, error);
+      // Không throw error để không làm fail việc tạo tenant
+    }
+    
+    return tenant;
   }
 
   async updateTenant(id: string, data: UpdateTenantInput) {

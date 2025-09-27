@@ -7,12 +7,18 @@ export class TenantRepository {
     return this.prisma;
   }
 
-  async create(data: { name: string; description?: string }) {
+  async create(data: { name: string }) {
     const prisma = this.getPrisma();
+    
+    // Kiểm tra tenant đã tồn tại chưa
+    const existingTenant = await this.findByName(data.name);
+    if (existingTenant) {
+      throw new Error(`Tenant with name "${data.name}" already exists`);
+    }
+    
     return prisma.tenant.create({
       data: {
-        name: data.name,
-        ...(data.description && { description: data.description })
+        name: data.name
       }
     });
   }
@@ -88,13 +94,12 @@ export class TenantRepository {
     });
   }
 
-  async update(id: string, data: { name?: string; description?: string }) {
+  async update(id: string, data: { name?: string }) {
     const prisma = this.getPrisma();
     return prisma.tenant.update({
       where: { id },
       data: {
-        ...(data.name && { name: data.name }),
-        ...(data.description && { description: data.description })
+        ...(data.name && { name: data.name })
       }
     });
   }
@@ -125,6 +130,25 @@ export class TenantRepository {
           }
         }
       }
+    });
+  }
+
+  async findAll() {
+    const prisma = this.getPrisma();
+    return prisma.tenant.findMany({
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        _count: {
+          select: {
+            users: true,
+            tickets: true,
+            departments: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
     });
   }
 }

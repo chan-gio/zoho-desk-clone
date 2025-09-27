@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { successResponse, errorResponse } from '../shared/utils/response.js';
 import { ColumnService } from '../services/column.service.js';
+import { AuthRequest } from '../middleware/auth.middleware.js';
 
 // Lazy initialization để tránh vấn đề khởi tạo Prisma client
 let columnService: ColumnService | null = null;
@@ -218,12 +219,23 @@ export class ColumnController {
   }
 
   // Lấy tickets trong column
-  static async getTicketsByColumn(req: Request, res: Response, next: NextFunction) {
+  static async getTicketsByColumn(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { columnId } = req.params;
+      const tenantId = req.user?.tenantId;
 
       if (!columnId) {
         return res.status(400).json(errorResponse({ error: 'Column ID is required' }));
+      }
+
+      if (!tenantId) {
+        return res.status(400).json(errorResponse({ error: 'Tenant ID is required' }));
+      }
+
+      // Kiểm tra column thuộc về tenant hiện tại
+      const column = await getColumnService().getColumnById(columnId);
+      if (!column || column.tenantId !== tenantId) {
+        return res.status(404).json(errorResponse({ error: 'Column not found' }));
       }
 
       const tickets = await getColumnService().getTicketsByColumn(columnId);

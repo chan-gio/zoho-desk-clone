@@ -17,10 +17,25 @@ export class TicketRepository {
       data.order = (maxOrder?.order || 0) + 1;
     }
 
+    // Tách các relation IDs ra để sử dụng connect
+    const { tenantId, creatorId, assigneeId, departmentId, columnId, priorityId, ...ticketData } = data;
+
     return this.prisma.ticket.create({ 
       data: {
-        ...data,
-        order: data.order || 0
+        title: data.title,
+        description: data.description ?? null,
+        status: data.status ?? 'open',
+        order: data.order || 0,
+        createdAt: data.createdAt ?? new Date(),
+        updatedAt: data.updatedAt ?? new Date(),
+        closedAt: data.closedAt ?? null,
+        deletedAt: data.deletedAt ?? null,
+        tenant: { connect: { id: tenantId } },
+        creator: { connect: { id: creatorId } },
+        ...(assigneeId && { assignee: { connect: { id: assigneeId } } }),
+        ...(departmentId && { department: { connect: { id: departmentId } } }),
+        ...(columnId && { column: { connect: { id: columnId } } }),
+        ...(priorityId && { priority: { connect: { id: priorityId } } })
       }
     });
   }
@@ -34,14 +49,14 @@ export class TicketRepository {
   async findMany(params: {
     tenantId: string;
     status?: string;
-    priority?: string;
+    priorityId?: string;
     page?: number;
     limit?: number;
   }): Promise<{ data: PrismaTicket[]; total: number }> {
-    const { tenantId, status, priority, page = 1, limit = 20 } = params;
+    const { tenantId, status, priorityId, page = 1, limit = 20 } = params;
     const where: any = { tenantId, deletedAt: null };
     if (status) where.status = status;
-    if (priority) where.priority = priority;
+    if (priorityId) where.priorityId = priorityId;
     const [data, total] = await Promise.all([
       this.prisma.ticket.findMany({
         where,
@@ -75,7 +90,8 @@ export class TicketRepository {
       include: {
         creator: { select: { id: true, username: true, email: true } },
         assignee: { select: { id: true, username: true, email: true } },
-        department: { select: { id: true, name: true } }
+        department: { select: { id: true, name: true } },
+        priority: { select: { id: true, name: true, color: true } }
       }
     });
   }

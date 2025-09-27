@@ -4,13 +4,15 @@ export const tenantGuard = (req: Request, res: Response, next: NextFunction) => 
   const tenantId = req.headers['x-tenant-id'] as string;
   const user = (req as any).user;
 
-  if (!tenantId && !user?.tenantId) {
-    return res.status(400).json({ error: 'Tenant context required' });
+  // Check if user has tenantId from JWT (new multi-tenant flow)
+  if (user?.tenantId) {
+    req.headers['x-tenant-id'] = user.tenantId;
+    return next();
   }
 
-  // Set tenantId from user if not provided in headers
-  if (!tenantId && user?.tenantId) {
-    req.headers['x-tenant-id'] = user.tenantId;
+  // Fallback to header-based tenant (legacy flow)
+  if (!tenantId) {
+    return res.status(400).json({ error: 'Tenant context required. Please select a tenant first.' });
   }
 
   return next();

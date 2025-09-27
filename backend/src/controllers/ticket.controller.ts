@@ -47,8 +47,10 @@ export class TicketController {
   createTicket = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenantId = (req as any).user?.tenantId;
+      const creatorId = (req as any).user?.id;
       if (!tenantId) return res.status(400).json({ message: 'Missing tenantId' });
-      const data = { ...req.body, tenantId };
+      if (!creatorId) return res.status(400).json({ message: 'Missing creatorId' });
+      const data = { ...req.body, tenantId, creatorId };
       const ticket = await this.ticketService.createTicket(data);
       return res.status(201).json(ticket);
     } catch (err) { 

@@ -1,4 +1,4 @@
-export type TicketStatus = 'open' | 'in_progress' | 'closed' | 'resolved';
+export type TicketStatus = string; // Now using string instead of enum
 export type TicketPriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export interface Ticket {

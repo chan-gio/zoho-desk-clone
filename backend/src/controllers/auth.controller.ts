@@ -13,9 +13,9 @@ export class AuthController {
     const { email, password } = req.body;
 
     try {
-      const { access_token, refresh_token, user } = await authService.login(email, password);
+      const { access_token, refresh_token, user, tenants } = await authService.login(email, password);
       res.status(200).json(successResponse({
-        data: { access_token, refresh_token, user },
+        data: { access_token, refresh_token, user, tenants },
         message: 'Login successful.',
         statusCode: 200,
       }));
@@ -89,6 +89,53 @@ export class AuthController {
       res.status(200).json(successResponse({
         data: null,
         message: 'Password reset successful.',
+        statusCode: 200,
+      }));
+    } catch (error) {
+      next(error);
+      return;
+    }
+  }
+
+  static async selectTenant(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { tenantId } = req.body;
+      const userId = (req as any).user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ error: 'User not authenticated' });
+      }
+
+      if (!tenantId) {
+        return res.status(400).json({ error: 'Tenant ID is required' });
+      }
+
+      const { access_token } = await authService.selectTenant(userId, tenantId);
+      
+      return res.status(200).json(successResponse({
+        data: { access_token },
+        message: 'Tenant selected successfully.',
+        statusCode: 200,
+      }));
+    } catch (error) {
+      next(error);
+      return;
+    }
+  }
+
+  static async getUserTenants(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = (req as any).user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ error: 'User not authenticated' });
+      }
+
+      const tenants = await authService.getUserTenants(userId);
+      
+      return res.status(200).json(successResponse({
+        data: { tenants },
+        message: 'User tenants retrieved successfully.',
         statusCode: 200,
       }));
     } catch (error) {

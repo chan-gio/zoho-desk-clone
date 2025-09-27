@@ -25,6 +25,8 @@ import auditRoutes from './routes/audit.routes.js';
 import metricsRoutes from './routes/metrics.routes.js';
 import tenantRoutes from './routes/tenant.routes.js';
 import columnRoutes from './routes/column.routes.js';
+import priorityRoutes from './routes/priority.routes.js';
+import statusRoutes from './routes/status.routes.js';
 
 // Import middleware
 import { errorHandler } from './middleware/error.middleware.js';
@@ -45,8 +47,21 @@ const app = express();
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
-    methods: ["GET", "POST"]
+    origin: [
+      process.env.FRONTEND_URL || "http://localhost:3000",
+      "http://localhost:3000",
+      "http://localhost:3001", 
+      "http://localhost:5173",
+      "http://localhost:8080",
+      "http://localhost:4200",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:3001",
+      "http://127.0.0.1:5173",
+      "http://127.0.0.1:8080",
+      "http://127.0.0.1:4200"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    credentials: true
   }
 });
 
@@ -61,10 +76,45 @@ const limiter = rateLimit({
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
-  credentials: true
-}));
+
+// Cho phép tất cả origin (dev/test)
+app.use(cors());
+
+// // Cấu hình CORS chi tiết hơn
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Cho phép requests không có origin (mobile apps, Postman, etc.)
+//     if (!origin) return callback(null, true);
+    
+//     const allowedOrigins = [
+//       process.env.FRONTEND_URL || "http://localhost:3000",
+//       "http://localhost:3000",
+//       "http://localhost:3001", 
+//       "http://localhost:5173", // Vite default port
+//       "http://localhost:8080", // Vue CLI default port
+//       "http://localhost:4200", // Angular default port
+//       "http://127.0.0.1:3000",
+//       "http://127.0.0.1:3001",
+//       "http://127.0.0.1:5173",
+//       "http://127.0.0.1:8080",
+//       "http://127.0.0.1:4200"
+//     ];
+    
+//     if (allowedOrigins.includes(origin)) {
+//       return callback(null, true);
+//     }
+    
+//     // Trong development, cho phép tất cả localhost
+//     if (process.env.NODE_ENV === 'development' && origin.includes('localhost')) {
+//       return callback(null, true);
+//     }
+    
+//     return callback(new Error('Not allowed by CORS'));
+//   },
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+// }));
 app.use(morgan('combined'));
 app.use(limiter);
 app.use(express.json({ limit: '10mb' }));
@@ -100,6 +150,8 @@ app.use('/api/audit', auditRoutes);
 app.use('/api/metrics', metricsRoutes);
 app.use('/api', tenantRoutes);
 app.use('/api/columns', columnRoutes);
+app.use('/api/priorities', priorityRoutes);
+app.use('/api/statuses', statusRoutes);
 
 // WebSocket connection handling
 io.on('connection', (socket) => {

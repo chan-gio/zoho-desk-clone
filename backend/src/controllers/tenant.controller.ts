@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { successResponse, errorResponse } from '../shared/utils/response.js';
 import { TenantService } from '../services/tenant.service.js';
+import { AvatarService } from '../services/avatar.service.js';
+import { AuthRequest } from '../middleware/auth.middleware.js';
+import multer from 'multer';
+import path from 'path';
 
 // Lazy initialization to avoid Prisma client initialization issues
 let tenantService: TenantService | null = null;
@@ -11,6 +15,23 @@ const getTenantService = (): TenantService => {
   }
   return tenantService;
 };
+
+// Multer configuration for tenant avatar uploads (memory storage)
+const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'));
+  }
+};
+
+export const uploadTenantAvatar = multer({
+  storage: multer.memoryStorage(), // Sử dụng memory storage thay vì disk storage
+  fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  }
+});
 
 export class TenantController {
   // Get all tenants
@@ -91,18 +112,23 @@ export class TenantController {
   }
 
   // Update tenant
-  static async updateTenant(req: Request, res: Response, next: NextFunction) {
+  static async updateTenant(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       if (!id) {
         return res.status(400).json(errorResponse({ error: 'Tenant ID is required' }));
       }
 
-      const { name, description } = req.body;
-      const tenant = await getTenantService().updateTenant(id, {
-        name,
-        description
-      });
+      let updateData = { ...req.body };
+
+      // Nếu có file avatar được upload
+      if (req.file) {
+        const avatarService = new AvatarService();
+        const avatarUrl = await avatarService.uploadTenantAvatar(id, req.file);
+        updateData.avatar = avatarUrl;
+      }
+
+      const tenant = await getTenantService().updateTenant(id, updateData);
 
       if (!tenant) {
         return res.status(404).json(errorResponse({ error: 'Tenant not found' }));
@@ -182,4 +208,5 @@ export class TenantController {
       return;
     }
   }
+
 }

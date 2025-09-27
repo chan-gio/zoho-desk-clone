@@ -59,23 +59,33 @@ export class ColumnService {
   }
 
   async initializeDefaultColumns(tenantId: string): Promise<Column[]> {
+    // Lấy các statuses mặc định để map với columns
+    const statuses = await this.prisma.status.findMany({
+      where: { tenantId },
+      orderBy: { order: 'asc' }
+    });
+
     const defaultColumns = [
-      { name: 'To Do', description: 'Tickets cần được xử lý', color: '#FF6B6B', isDefault: true },
-      { name: 'In Progress', description: 'Tickets đang được xử lý', color: '#4ECDC4', isDefault: false },
-      { name: 'Review', description: 'Tickets cần được review', color: '#45B7D1', isDefault: false },
-      { name: 'Done', description: 'Tickets đã hoàn thành', color: '#96CEB4', isDefault: false }
+      { name: 'To Do', description: 'Tickets cần được xử lý', color: '#FF6B6B', isDefault: true, statusName: 'Open' },
+      { name: 'In Progress', description: 'Tickets đang được xử lý', color: '#4ECDC4', isDefault: false, statusName: 'In Progress' },
+      { name: 'Review', description: 'Tickets cần được review', color: '#45B7D1', isDefault: false, statusName: 'Review' },
+      { name: 'Done', description: 'Tickets đã hoàn thành', color: '#96CEB4', isDefault: false, statusName: 'Closed' }
     ];
 
     const createdColumns = [];
     for (let i = 0; i < defaultColumns.length; i++) {
       const columnData = defaultColumns[i];
       if (columnData) {
+        // Tìm status tương ứng
+        const status = statuses.find(s => s.name === columnData.statusName);
+        
         const column = await this.columnRepo.create({
           name: columnData.name,
           description: columnData.description,
           color: columnData.color,
           isDefault: columnData.isDefault,
-          tenantId
+          tenantId,
+          ...(status?.id && { statusId: status.id })
         });
         createdColumns.push(column);
       }
@@ -89,7 +99,27 @@ export class ColumnService {
   }
 
   async getTicketsByColumn(columnId: string): Promise<any[]> {
-    const column = await this.columnRepo.findById(columnId);
-    return column?.tickets || [];
+    const tickets = await this.prisma.ticket.findMany({
+      where: { 
+        columnId,
+        deletedAt: null // Chỉ lấy tickets chưa bị xóa
+      },
+      orderBy: { order: 'asc' },
+      include: {
+        creator: { select: { id: true, username: true, email: true } },
+        assignee: { select: { id: true, username: true, email: true } },
+        department: { select: { id: true, name: true } },
+        priority: { select: { id: true, name: true, color: true } },
+        attachments: true,
+        comments: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+          include: {
+            user: { select: { id: true, username: true, email: true } }
+          }
+        }
+      }
+    });
+    return tickets;
   }
 }

@@ -7,6 +7,9 @@ import { Resend } from 'resend';
 import { v4 as uuidv4 } from 'uuid';
 import { TenantRepository } from '../repositories/tenant.repository.js';
 import { PrismaClient } from '../../prisma/generated/client/index.js';
+import { ColumnService } from './column.service.js';
+import { PriorityService } from './priority.service.js';
+import { StatusService } from './status.service.js';
 
 const prisma = new PrismaClient();
 const tenantRepo = new TenantRepository(prisma);
@@ -17,17 +20,63 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export class AuthService {
   constructor(private userRepo: UserRepository) {}
 
-  async login(email: string, password: string): Promise<{ access_token: string; refresh_token: string; user: User }> {
+  async login(email: string, password: string): Promise<{ access_token: string; refresh_token: string; user: User; tenants: any[] }> {
     const user = await this.userRepo.findByEmail(email);
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    const access_token = generateJWT({ id: user.id, role: user.role, tenantId: user.tenantId });
+    // Tạo JWT không có tenantId ban đầu
+    const access_token = generateJWT({ id: user.id, role: user.role });
     const refresh_token = generateRefreshToken({ sub: user.id, type: 'refresh' });
     await this.userRepo.saveRefreshToken(user.id, refresh_token);
 
-    return { access_token, refresh_token, user };
+    // Lấy danh sách tenants mà user có quyền truy cập
+    const tenants = await this.getUserTenants(user.id);
+
+    return { access_token, refresh_token, user, tenants };
+  }
+
+  async getUserTenants(userId: string): Promise<any[]> {
+    // Lấy user với thông tin tenant
+    const user = await this.userRepo.findById(userId);
+    if (!user) {
+      throw new UnauthorizedError('User not found');
+    }
+
+    // Nếu user có tenantId, trả về tenant đó
+    if (user.tenantId) {
+      const tenant = await tenantRepo.findById(user.tenantId);
+      return tenant ? [tenant] : [];
+    }
+
+    // Nếu là super_admin, trả về tất cả tenants
+    if (user.role === 'super_admin') {
+      return await tenantRepo.findAll();
+    }
+
+    return [];
+  }
+
+  async selectTenant(userId: string, tenantId: string): Promise<{ access_token: string; tenant: any }> {
+    // Kiểm tra user có quyền truy cập tenant này không
+    const userTenants = await this.getUserTenants(userId);
+    const hasAccess = userTenants.some(tenant => tenant.id === tenantId);
+    
+    if (!hasAccess) {
+      throw new UnauthorizedError('User does not have access to this tenant');
+    }
+
+    // Tạo JWT mới với tenantId
+    const user = await this.userRepo.findById(userId);
+    if (!user) {
+      throw new UnauthorizedError('User not found');
+    }
+
+    const access_token = generateJWT({ id: user.id, role: user.role, tenantId });
+    const tenant = await tenantRepo.findById(tenantId);
+
+    return { access_token, tenant };
   }
 
   async validateToken(token: string): Promise<any> {
@@ -37,19 +86,55 @@ export class AuthService {
   async register({ username, email, password, role, tenantName }: { username: string; email: string; password: string; role: string; tenantName?: string }) {
     // Validate input
     if (!username || !email || !password || !role) throw new Error('Missing required fields');
+    
     // Check if user exists
     const existing = await this.userRepo.findByEmail(email);
     if (existing) throw new Error('User already exists');
+    
     // Hash password
     const passwordHash = await hashPassword(password);
     let tenantId: string | undefined = undefined;
+    
     if (role === 'admin' && tenantName) {
-      // Create tenant if admin and tenantName provided
-      const tenant = await tenantRepo.create({ name: tenantName });
-      tenantId = tenant.id;
+      // Kiểm tra tenant đã tồn tại chưa
+      const existingTenant = await tenantRepo.findByName(tenantName);
+      console.log('Looking for tenant:', tenantName);
+      console.log('Existing tenant found:', existingTenant);
+      
+      if (existingTenant) {
+        // Nếu tenant đã tồn tại, sử dụng tenant đó
+        tenantId = existingTenant.id;
+        console.log('Using existing tenant ID:', tenantId);
+      } else {
+        // Nếu tenant chưa tồn tại, tạo mới
+        console.log('Creating new tenant:', tenantName);
+        const tenant = await tenantRepo.create({ name: tenantName });
+        tenantId = tenant.id;
+        console.log('Created new tenant ID:', tenantId);
+        
+        // Tự động khởi tạo columns, priorities và statuses mặc định cho tenant mới
+        try {
+          const columnService = new ColumnService();
+          const priorityService = new PriorityService();
+          const statusService = new StatusService();
+
+          // Khởi tạo song song
+          await Promise.all([
+            columnService.initializeDefaultColumns(tenantId),
+            priorityService.initializeDefaultPriorities(tenantId),
+            statusService.initializeDefaultStatuses(tenantId)
+          ]);
+
+          console.log('Default columns, priorities and statuses initialized for tenant:', tenantName);
+        } catch (error) {
+          console.error('Failed to initialize default data:', error);
+          // Không throw error để không làm fail việc tạo user
+        }
+      }
     } else if (role !== 'admin' && !tenantName) {
       throw new Error('Tenant required for non-admin');
     }
+    
     // Create user
     const user = await this.userRepo.createUser({
       username,
@@ -66,7 +151,7 @@ export class AuthService {
     const user = await this.userRepo.getUserByRefreshToken(refreshToken);
     if (!user) throw new UnauthorizedError('Invalid refresh token');
     // Generate new access token
-    const token = generateJWT({ sub: user.id, role: user.role, tenantId: user.tenantId });
+    const token = generateJWT({ id: user.id, role: user.role, tenantId: user.tenantId });
     return { access_token: token };
   }
 

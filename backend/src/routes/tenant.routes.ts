@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { TenantController } from '../controllers/tenant.controller.js';
+import { TenantController, uploadTenantAvatar } from '../controllers/tenant.controller.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 import { requireRole } from '../middleware/rbac.middleware.js';
 
@@ -16,7 +16,7 @@ router.use(authMiddleware);
 
 // Admin only routes
 router.post('/tenants', requireRole('admin', 'super_admin'), TenantController.createTenant);
-router.put('/tenants/:id', requireRole('admin', 'super_admin'), TenantController.updateTenant);
+router.put('/tenants/:id', requireRole('admin', 'super_admin'), uploadTenantAvatar.single('avatar'), TenantController.updateTenant);
 router.delete('/tenants/:id', requireRole('admin', 'super_admin'), TenantController.deleteTenant);
 
 // Tenant management routes

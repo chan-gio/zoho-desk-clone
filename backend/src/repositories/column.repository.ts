@@ -9,6 +9,7 @@ export class ColumnRepository {
     color?: string;
     isDefault?: boolean;
     tenantId: string;
+    statusId?: string;
   }) {
     // Lấy order tiếp theo
     const maxOrder = await this.prisma.column.findFirst({
@@ -22,14 +23,17 @@ export class ColumnRepository {
     return this.prisma.column.create({
       data: {
         ...data,
-        order: nextOrder
+        order: nextOrder,
+        ...(data.statusId && { status: { connect: { id: data.statusId } } })
       },
       include: {
+        status: { select: { id: true, name: true, color: true } },
         tickets: {
           orderBy: { order: 'asc' },
           include: {
             creator: { select: { id: true, username: true, email: true } },
-            assignee: { select: { id: true, username: true, email: true } }
+            assignee: { select: { id: true, username: true, email: true } },
+            priority: { select: { id: true, name: true, color: true } }
           }
         }
       }
@@ -40,11 +44,13 @@ export class ColumnRepository {
     return this.prisma.column.findUnique({
       where: { id },
       include: {
+        status: { select: { id: true, name: true, color: true } },
         tickets: {
           orderBy: { order: 'asc' },
           include: {
             creator: { select: { id: true, username: true, email: true } },
-            assignee: { select: { id: true, username: true, email: true } }
+            assignee: { select: { id: true, username: true, email: true } },
+            priority: { select: { id: true, name: true, color: true } }
           }
         }
       }
@@ -56,11 +62,13 @@ export class ColumnRepository {
       where: { tenantId },
       orderBy: { order: 'asc' },
       include: {
+        status: { select: { id: true, name: true, color: true } },
         tickets: {
           orderBy: { order: 'asc' },
           include: {
             creator: { select: { id: true, username: true, email: true } },
-            assignee: { select: { id: true, username: true, email: true } }
+            assignee: { select: { id: true, username: true, email: true } },
+            priority: { select: { id: true, name: true, color: true } }
           }
         }
       }
@@ -73,16 +81,23 @@ export class ColumnRepository {
     order?: number;
     color?: string;
     isDefault?: boolean;
+    statusId?: string;
   }) {
+    const { statusId, ...updateData } = data;
     return this.prisma.column.update({
       where: { id },
-      data,
+      data: {
+        ...updateData,
+        ...(statusId && { status: { connect: { id: statusId } } })
+      },
       include: {
+        status: { select: { id: true, name: true, color: true } },
         tickets: {
           orderBy: { order: 'asc' },
           include: {
             creator: { select: { id: true, username: true, email: true } },
-            assignee: { select: { id: true, username: true, email: true } }
+            assignee: { select: { id: true, username: true, email: true } },
+            priority: { select: { id: true, name: true, color: true } }
           }
         }
       }
@@ -165,7 +180,8 @@ export class ColumnRepository {
         orderBy: { order: 'asc' },
         include: {
           creator: { select: { id: true, username: true, email: true } },
-          assignee: { select: { id: true, username: true, email: true } }
+          assignee: { select: { id: true, username: true, email: true } },
+          priority: { select: { id: true, name: true, color: true } }
         }
       });
     });

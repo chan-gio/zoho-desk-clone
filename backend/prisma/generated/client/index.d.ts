@@ -14,6 +14,16 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Priority
+ * 
+ */
+export type Priority = $Result.DefaultSelection<Prisma.$PriorityPayload>
+/**
+ * Model Status
+ * 
+ */
+export type Status = $Result.DefaultSelection<Prisma.$StatusPayload>
+/**
  * Model Tenant
  * 
  */
@@ -72,39 +82,11 @@ export namespace $Enums {
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
-
-export const TicketStatus: {
-  open: 'open',
-  in_progress: 'in_progress',
-  closed: 'closed',
-  escalated: 'escalated'
-};
-
-export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]
-
-
-export const TicketPriority: {
-  low: 'low',
-  medium: 'medium',
-  high: 'high',
-  urgent: 'urgent'
-};
-
-export type TicketPriority = (typeof TicketPriority)[keyof typeof TicketPriority]
-
 }
 
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
-
-export type TicketStatus = $Enums.TicketStatus
-
-export const TicketStatus: typeof $Enums.TicketStatus
-
-export type TicketPriority = $Enums.TicketPriority
-
-export const TicketPriority: typeof $Enums.TicketPriority
 
 /**
  * ##  Prisma Client ʲˢ
@@ -113,8 +95,8 @@ export const TicketPriority: typeof $Enums.TicketPriority
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Tenants
- * const tenants = await prisma.tenant.findMany()
+ * // Fetch zero or more Priorities
+ * const priorities = await prisma.priority.findMany()
  * ```
  *
  *
@@ -134,8 +116,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Tenants
-   * const tenants = await prisma.tenant.findMany()
+   * // Fetch zero or more Priorities
+   * const priorities = await prisma.priority.findMany()
    * ```
    *
    *
@@ -232,6 +214,26 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.priority`: Exposes CRUD operations for the **Priority** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Priorities
+    * const priorities = await prisma.priority.findMany()
+    * ```
+    */
+  get priority(): Prisma.PriorityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.status`: Exposes CRUD operations for the **Status** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Statuses
+    * const statuses = await prisma.status.findMany()
+    * ```
+    */
+  get status(): Prisma.StatusDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.tenant`: Exposes CRUD operations for the **Tenant** model.
     * Example usage:
     * ```ts
@@ -760,6 +762,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Priority: 'Priority',
+    Status: 'Status',
     Tenant: 'Tenant',
     User: 'User',
     Department: 'Department',
@@ -787,10 +791,158 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "user" | "department" | "column" | "ticket" | "ticketComment" | "attachment" | "sLA" | "workflow"
+      modelProps: "priority" | "status" | "tenant" | "user" | "department" | "column" | "ticket" | "ticketComment" | "attachment" | "sLA" | "workflow"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Priority: {
+        payload: Prisma.$PriorityPayload<ExtArgs>
+        fields: Prisma.PriorityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PriorityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PriorityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>
+          }
+          findFirst: {
+            args: Prisma.PriorityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PriorityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>
+          }
+          findMany: {
+            args: Prisma.PriorityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>[]
+          }
+          create: {
+            args: Prisma.PriorityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>
+          }
+          createMany: {
+            args: Prisma.PriorityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PriorityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>[]
+          }
+          delete: {
+            args: Prisma.PriorityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>
+          }
+          update: {
+            args: Prisma.PriorityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>
+          }
+          deleteMany: {
+            args: Prisma.PriorityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PriorityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PriorityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>[]
+          }
+          upsert: {
+            args: Prisma.PriorityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriorityPayload>
+          }
+          aggregate: {
+            args: Prisma.PriorityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePriority>
+          }
+          groupBy: {
+            args: Prisma.PriorityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PriorityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PriorityCountArgs<ExtArgs>
+            result: $Utils.Optional<PriorityCountAggregateOutputType> | number
+          }
+        }
+      }
+      Status: {
+        payload: Prisma.$StatusPayload<ExtArgs>
+        fields: Prisma.StatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>
+          }
+          findFirst: {
+            args: Prisma.StatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>
+          }
+          findMany: {
+            args: Prisma.StatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>[]
+          }
+          create: {
+            args: Prisma.StatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>
+          }
+          createMany: {
+            args: Prisma.StatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>[]
+          }
+          delete: {
+            args: Prisma.StatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>
+          }
+          update: {
+            args: Prisma.StatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.StatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StatusUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>[]
+          }
+          upsert: {
+            args: Prisma.StatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusPayload>
+          }
+          aggregate: {
+            args: Prisma.StatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStatus>
+          }
+          groupBy: {
+            args: Prisma.StatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StatusCountArgs<ExtArgs>
+            result: $Utils.Optional<StatusCountAggregateOutputType> | number
+          }
+        }
+      }
       Tenant: {
         payload: Prisma.$TenantPayload<ExtArgs>
         fields: Prisma.TenantFieldRefs
@@ -1541,6 +1693,8 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    priority?: PriorityOmit
+    status?: StatusOmit
     tenant?: TenantOmit
     user?: UserOmit
     department?: DepartmentOmit
@@ -1640,6 +1794,68 @@ export namespace Prisma {
 
 
   /**
+   * Count Type PriorityCountOutputType
+   */
+
+  export type PriorityCountOutputType = {
+    tickets: number
+  }
+
+  export type PriorityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tickets?: boolean | PriorityCountOutputTypeCountTicketsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PriorityCountOutputType without action
+   */
+  export type PriorityCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriorityCountOutputType
+     */
+    select?: PriorityCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PriorityCountOutputType without action
+   */
+  export type PriorityCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+
+  /**
+   * Count Type StatusCountOutputType
+   */
+
+  export type StatusCountOutputType = {
+    columns: number
+  }
+
+  export type StatusCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    columns?: boolean | StatusCountOutputTypeCountColumnsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StatusCountOutputType without action
+   */
+  export type StatusCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusCountOutputType
+     */
+    select?: StatusCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StatusCountOutputType without action
+   */
+  export type StatusCountOutputTypeCountColumnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ColumnWhereInput
+  }
+
+
+  /**
    * Count Type TenantCountOutputType
    */
 
@@ -1650,6 +1866,8 @@ export namespace Prisma {
     columns: number
     slas: number
     workflows: number
+    priorities: number
+    statuses: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1659,6 +1877,8 @@ export namespace Prisma {
     columns?: boolean | TenantCountOutputTypeCountColumnsArgs
     slas?: boolean | TenantCountOutputTypeCountSlasArgs
     workflows?: boolean | TenantCountOutputTypeCountWorkflowsArgs
+    priorities?: boolean | TenantCountOutputTypeCountPrioritiesArgs
+    statuses?: boolean | TenantCountOutputTypeCountStatusesArgs
   }
 
   // Custom InputTypes
@@ -1712,6 +1932,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountWorkflowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WorkflowWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPrioritiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PriorityWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StatusWhereInput
   }
 
 
@@ -1902,6 +2136,2328 @@ export namespace Prisma {
    */
 
   /**
+   * Model Priority
+   */
+
+  export type AggregatePriority = {
+    _count: PriorityCountAggregateOutputType | null
+    _avg: PriorityAvgAggregateOutputType | null
+    _sum: PrioritySumAggregateOutputType | null
+    _min: PriorityMinAggregateOutputType | null
+    _max: PriorityMaxAggregateOutputType | null
+  }
+
+  export type PriorityAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type PrioritySumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type PriorityMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    isDefault: boolean | null
+    tenantId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PriorityMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    isDefault: boolean | null
+    tenantId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PriorityCountAggregateOutputType = {
+    id: number
+    name: number
+    color: number
+    order: number
+    isDefault: number
+    tenantId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PriorityAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type PrioritySumAggregateInputType = {
+    order?: true
+  }
+
+  export type PriorityMinAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    isDefault?: true
+    tenantId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PriorityMaxAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    isDefault?: true
+    tenantId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PriorityCountAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    isDefault?: true
+    tenantId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PriorityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Priority to aggregate.
+     */
+    where?: PriorityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Priorities to fetch.
+     */
+    orderBy?: PriorityOrderByWithRelationInput | PriorityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PriorityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Priorities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Priorities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Priorities
+    **/
+    _count?: true | PriorityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PriorityAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PrioritySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PriorityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PriorityMaxAggregateInputType
+  }
+
+  export type GetPriorityAggregateType<T extends PriorityAggregateArgs> = {
+        [P in keyof T & keyof AggregatePriority]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePriority[P]>
+      : GetScalarType<T[P], AggregatePriority[P]>
+  }
+
+
+
+
+  export type PriorityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PriorityWhereInput
+    orderBy?: PriorityOrderByWithAggregationInput | PriorityOrderByWithAggregationInput[]
+    by: PriorityScalarFieldEnum[] | PriorityScalarFieldEnum
+    having?: PriorityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PriorityCountAggregateInputType | true
+    _avg?: PriorityAvgAggregateInputType
+    _sum?: PrioritySumAggregateInputType
+    _min?: PriorityMinAggregateInputType
+    _max?: PriorityMaxAggregateInputType
+  }
+
+  export type PriorityGroupByOutputType = {
+    id: string
+    name: string
+    color: string
+    order: number
+    isDefault: boolean
+    tenantId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PriorityCountAggregateOutputType | null
+    _avg: PriorityAvgAggregateOutputType | null
+    _sum: PrioritySumAggregateOutputType | null
+    _min: PriorityMinAggregateOutputType | null
+    _max: PriorityMaxAggregateOutputType | null
+  }
+
+  type GetPriorityGroupByPayload<T extends PriorityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PriorityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PriorityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PriorityGroupByOutputType[P]>
+            : GetScalarType<T[P], PriorityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PrioritySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tickets?: boolean | Priority$ticketsArgs<ExtArgs>
+    _count?: boolean | PriorityCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["priority"]>
+
+  export type PrioritySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["priority"]>
+
+  export type PrioritySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["priority"]>
+
+  export type PrioritySelectScalar = {
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PriorityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "color" | "order" | "isDefault" | "tenantId" | "createdAt" | "updatedAt", ExtArgs["result"]["priority"]>
+  export type PriorityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tickets?: boolean | Priority$ticketsArgs<ExtArgs>
+    _count?: boolean | PriorityCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PriorityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PriorityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $PriorityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Priority"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      tickets: Prisma.$TicketPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      color: string
+      order: number
+      isDefault: boolean
+      tenantId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["priority"]>
+    composites: {}
+  }
+
+  type PriorityGetPayload<S extends boolean | null | undefined | PriorityDefaultArgs> = $Result.GetResult<Prisma.$PriorityPayload, S>
+
+  type PriorityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PriorityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PriorityCountAggregateInputType | true
+    }
+
+  export interface PriorityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Priority'], meta: { name: 'Priority' } }
+    /**
+     * Find zero or one Priority that matches the filter.
+     * @param {PriorityFindUniqueArgs} args - Arguments to find a Priority
+     * @example
+     * // Get one Priority
+     * const priority = await prisma.priority.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PriorityFindUniqueArgs>(args: SelectSubset<T, PriorityFindUniqueArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Priority that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PriorityFindUniqueOrThrowArgs} args - Arguments to find a Priority
+     * @example
+     * // Get one Priority
+     * const priority = await prisma.priority.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PriorityFindUniqueOrThrowArgs>(args: SelectSubset<T, PriorityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Priority that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityFindFirstArgs} args - Arguments to find a Priority
+     * @example
+     * // Get one Priority
+     * const priority = await prisma.priority.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PriorityFindFirstArgs>(args?: SelectSubset<T, PriorityFindFirstArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Priority that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityFindFirstOrThrowArgs} args - Arguments to find a Priority
+     * @example
+     * // Get one Priority
+     * const priority = await prisma.priority.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PriorityFindFirstOrThrowArgs>(args?: SelectSubset<T, PriorityFindFirstOrThrowArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Priorities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Priorities
+     * const priorities = await prisma.priority.findMany()
+     * 
+     * // Get first 10 Priorities
+     * const priorities = await prisma.priority.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const priorityWithIdOnly = await prisma.priority.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PriorityFindManyArgs>(args?: SelectSubset<T, PriorityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Priority.
+     * @param {PriorityCreateArgs} args - Arguments to create a Priority.
+     * @example
+     * // Create one Priority
+     * const Priority = await prisma.priority.create({
+     *   data: {
+     *     // ... data to create a Priority
+     *   }
+     * })
+     * 
+     */
+    create<T extends PriorityCreateArgs>(args: SelectSubset<T, PriorityCreateArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Priorities.
+     * @param {PriorityCreateManyArgs} args - Arguments to create many Priorities.
+     * @example
+     * // Create many Priorities
+     * const priority = await prisma.priority.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PriorityCreateManyArgs>(args?: SelectSubset<T, PriorityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Priorities and returns the data saved in the database.
+     * @param {PriorityCreateManyAndReturnArgs} args - Arguments to create many Priorities.
+     * @example
+     * // Create many Priorities
+     * const priority = await prisma.priority.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Priorities and only return the `id`
+     * const priorityWithIdOnly = await prisma.priority.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PriorityCreateManyAndReturnArgs>(args?: SelectSubset<T, PriorityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Priority.
+     * @param {PriorityDeleteArgs} args - Arguments to delete one Priority.
+     * @example
+     * // Delete one Priority
+     * const Priority = await prisma.priority.delete({
+     *   where: {
+     *     // ... filter to delete one Priority
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PriorityDeleteArgs>(args: SelectSubset<T, PriorityDeleteArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Priority.
+     * @param {PriorityUpdateArgs} args - Arguments to update one Priority.
+     * @example
+     * // Update one Priority
+     * const priority = await prisma.priority.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PriorityUpdateArgs>(args: SelectSubset<T, PriorityUpdateArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Priorities.
+     * @param {PriorityDeleteManyArgs} args - Arguments to filter Priorities to delete.
+     * @example
+     * // Delete a few Priorities
+     * const { count } = await prisma.priority.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PriorityDeleteManyArgs>(args?: SelectSubset<T, PriorityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Priorities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Priorities
+     * const priority = await prisma.priority.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PriorityUpdateManyArgs>(args: SelectSubset<T, PriorityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Priorities and returns the data updated in the database.
+     * @param {PriorityUpdateManyAndReturnArgs} args - Arguments to update many Priorities.
+     * @example
+     * // Update many Priorities
+     * const priority = await prisma.priority.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Priorities and only return the `id`
+     * const priorityWithIdOnly = await prisma.priority.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PriorityUpdateManyAndReturnArgs>(args: SelectSubset<T, PriorityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Priority.
+     * @param {PriorityUpsertArgs} args - Arguments to update or create a Priority.
+     * @example
+     * // Update or create a Priority
+     * const priority = await prisma.priority.upsert({
+     *   create: {
+     *     // ... data to create a Priority
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Priority we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PriorityUpsertArgs>(args: SelectSubset<T, PriorityUpsertArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Priorities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityCountArgs} args - Arguments to filter Priorities to count.
+     * @example
+     * // Count the number of Priorities
+     * const count = await prisma.priority.count({
+     *   where: {
+     *     // ... the filter for the Priorities we want to count
+     *   }
+     * })
+    **/
+    count<T extends PriorityCountArgs>(
+      args?: Subset<T, PriorityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PriorityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Priority.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PriorityAggregateArgs>(args: Subset<T, PriorityAggregateArgs>): Prisma.PrismaPromise<GetPriorityAggregateType<T>>
+
+    /**
+     * Group by Priority.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriorityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PriorityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PriorityGroupByArgs['orderBy'] }
+        : { orderBy?: PriorityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PriorityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPriorityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Priority model
+   */
+  readonly fields: PriorityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Priority.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PriorityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tickets<T extends Priority$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Priority$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Priority model
+   */
+  interface PriorityFieldRefs {
+    readonly id: FieldRef<"Priority", 'String'>
+    readonly name: FieldRef<"Priority", 'String'>
+    readonly color: FieldRef<"Priority", 'String'>
+    readonly order: FieldRef<"Priority", 'Int'>
+    readonly isDefault: FieldRef<"Priority", 'Boolean'>
+    readonly tenantId: FieldRef<"Priority", 'String'>
+    readonly createdAt: FieldRef<"Priority", 'DateTime'>
+    readonly updatedAt: FieldRef<"Priority", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Priority findUnique
+   */
+  export type PriorityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * Filter, which Priority to fetch.
+     */
+    where: PriorityWhereUniqueInput
+  }
+
+  /**
+   * Priority findUniqueOrThrow
+   */
+  export type PriorityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * Filter, which Priority to fetch.
+     */
+    where: PriorityWhereUniqueInput
+  }
+
+  /**
+   * Priority findFirst
+   */
+  export type PriorityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * Filter, which Priority to fetch.
+     */
+    where?: PriorityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Priorities to fetch.
+     */
+    orderBy?: PriorityOrderByWithRelationInput | PriorityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Priorities.
+     */
+    cursor?: PriorityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Priorities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Priorities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Priorities.
+     */
+    distinct?: PriorityScalarFieldEnum | PriorityScalarFieldEnum[]
+  }
+
+  /**
+   * Priority findFirstOrThrow
+   */
+  export type PriorityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * Filter, which Priority to fetch.
+     */
+    where?: PriorityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Priorities to fetch.
+     */
+    orderBy?: PriorityOrderByWithRelationInput | PriorityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Priorities.
+     */
+    cursor?: PriorityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Priorities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Priorities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Priorities.
+     */
+    distinct?: PriorityScalarFieldEnum | PriorityScalarFieldEnum[]
+  }
+
+  /**
+   * Priority findMany
+   */
+  export type PriorityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * Filter, which Priorities to fetch.
+     */
+    where?: PriorityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Priorities to fetch.
+     */
+    orderBy?: PriorityOrderByWithRelationInput | PriorityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Priorities.
+     */
+    cursor?: PriorityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Priorities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Priorities.
+     */
+    skip?: number
+    distinct?: PriorityScalarFieldEnum | PriorityScalarFieldEnum[]
+  }
+
+  /**
+   * Priority create
+   */
+  export type PriorityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Priority.
+     */
+    data: XOR<PriorityCreateInput, PriorityUncheckedCreateInput>
+  }
+
+  /**
+   * Priority createMany
+   */
+  export type PriorityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Priorities.
+     */
+    data: PriorityCreateManyInput | PriorityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Priority createManyAndReturn
+   */
+  export type PriorityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * The data used to create many Priorities.
+     */
+    data: PriorityCreateManyInput | PriorityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Priority update
+   */
+  export type PriorityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Priority.
+     */
+    data: XOR<PriorityUpdateInput, PriorityUncheckedUpdateInput>
+    /**
+     * Choose, which Priority to update.
+     */
+    where: PriorityWhereUniqueInput
+  }
+
+  /**
+   * Priority updateMany
+   */
+  export type PriorityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Priorities.
+     */
+    data: XOR<PriorityUpdateManyMutationInput, PriorityUncheckedUpdateManyInput>
+    /**
+     * Filter which Priorities to update
+     */
+    where?: PriorityWhereInput
+    /**
+     * Limit how many Priorities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Priority updateManyAndReturn
+   */
+  export type PriorityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * The data used to update Priorities.
+     */
+    data: XOR<PriorityUpdateManyMutationInput, PriorityUncheckedUpdateManyInput>
+    /**
+     * Filter which Priorities to update
+     */
+    where?: PriorityWhereInput
+    /**
+     * Limit how many Priorities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Priority upsert
+   */
+  export type PriorityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Priority to update in case it exists.
+     */
+    where: PriorityWhereUniqueInput
+    /**
+     * In case the Priority found by the `where` argument doesn't exist, create a new Priority with this data.
+     */
+    create: XOR<PriorityCreateInput, PriorityUncheckedCreateInput>
+    /**
+     * In case the Priority was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PriorityUpdateInput, PriorityUncheckedUpdateInput>
+  }
+
+  /**
+   * Priority delete
+   */
+  export type PriorityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    /**
+     * Filter which Priority to delete.
+     */
+    where: PriorityWhereUniqueInput
+  }
+
+  /**
+   * Priority deleteMany
+   */
+  export type PriorityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Priorities to delete
+     */
+    where?: PriorityWhereInput
+    /**
+     * Limit how many Priorities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Priority.tickets
+   */
+  export type Priority$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ticket
+     */
+    omit?: TicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Priority without action
+   */
+  export type PriorityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Status
+   */
+
+  export type AggregateStatus = {
+    _count: StatusCountAggregateOutputType | null
+    _avg: StatusAvgAggregateOutputType | null
+    _sum: StatusSumAggregateOutputType | null
+    _min: StatusMinAggregateOutputType | null
+    _max: StatusMaxAggregateOutputType | null
+  }
+
+  export type StatusAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type StatusSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type StatusMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    isDefault: boolean | null
+    tenantId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StatusMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    isDefault: boolean | null
+    tenantId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StatusCountAggregateOutputType = {
+    id: number
+    name: number
+    color: number
+    order: number
+    isDefault: number
+    tenantId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StatusAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type StatusSumAggregateInputType = {
+    order?: true
+  }
+
+  export type StatusMinAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    isDefault?: true
+    tenantId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StatusMaxAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    isDefault?: true
+    tenantId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StatusCountAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    isDefault?: true
+    tenantId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Status to aggregate.
+     */
+    where?: StatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Statuses to fetch.
+     */
+    orderBy?: StatusOrderByWithRelationInput | StatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Statuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Statuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Statuses
+    **/
+    _count?: true | StatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StatusAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StatusSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StatusMaxAggregateInputType
+  }
+
+  export type GetStatusAggregateType<T extends StatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStatus[P]>
+      : GetScalarType<T[P], AggregateStatus[P]>
+  }
+
+
+
+
+  export type StatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StatusWhereInput
+    orderBy?: StatusOrderByWithAggregationInput | StatusOrderByWithAggregationInput[]
+    by: StatusScalarFieldEnum[] | StatusScalarFieldEnum
+    having?: StatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StatusCountAggregateInputType | true
+    _avg?: StatusAvgAggregateInputType
+    _sum?: StatusSumAggregateInputType
+    _min?: StatusMinAggregateInputType
+    _max?: StatusMaxAggregateInputType
+  }
+
+  export type StatusGroupByOutputType = {
+    id: string
+    name: string
+    color: string
+    order: number
+    isDefault: boolean
+    tenantId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: StatusCountAggregateOutputType | null
+    _avg: StatusAvgAggregateOutputType | null
+    _sum: StatusSumAggregateOutputType | null
+    _min: StatusMinAggregateOutputType | null
+    _max: StatusMaxAggregateOutputType | null
+  }
+
+  type GetStatusGroupByPayload<T extends StatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StatusGroupByOutputType[P]>
+            : GetScalarType<T[P], StatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    columns?: boolean | Status$columnsArgs<ExtArgs>
+    _count?: boolean | StatusCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["status"]>
+
+  export type StatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["status"]>
+
+  export type StatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["status"]>
+
+  export type StatusSelectScalar = {
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isDefault?: boolean
+    tenantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "color" | "order" | "isDefault" | "tenantId" | "createdAt" | "updatedAt", ExtArgs["result"]["status"]>
+  export type StatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    columns?: boolean | Status$columnsArgs<ExtArgs>
+    _count?: boolean | StatusCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type StatusIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $StatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Status"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      columns: Prisma.$ColumnPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      color: string
+      order: number
+      isDefault: boolean
+      tenantId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["status"]>
+    composites: {}
+  }
+
+  type StatusGetPayload<S extends boolean | null | undefined | StatusDefaultArgs> = $Result.GetResult<Prisma.$StatusPayload, S>
+
+  type StatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StatusFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StatusCountAggregateInputType | true
+    }
+
+  export interface StatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Status'], meta: { name: 'Status' } }
+    /**
+     * Find zero or one Status that matches the filter.
+     * @param {StatusFindUniqueArgs} args - Arguments to find a Status
+     * @example
+     * // Get one Status
+     * const status = await prisma.status.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StatusFindUniqueArgs>(args: SelectSubset<T, StatusFindUniqueArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Status that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StatusFindUniqueOrThrowArgs} args - Arguments to find a Status
+     * @example
+     * // Get one Status
+     * const status = await prisma.status.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StatusFindUniqueOrThrowArgs>(args: SelectSubset<T, StatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Status that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusFindFirstArgs} args - Arguments to find a Status
+     * @example
+     * // Get one Status
+     * const status = await prisma.status.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StatusFindFirstArgs>(args?: SelectSubset<T, StatusFindFirstArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Status that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusFindFirstOrThrowArgs} args - Arguments to find a Status
+     * @example
+     * // Get one Status
+     * const status = await prisma.status.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StatusFindFirstOrThrowArgs>(args?: SelectSubset<T, StatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Statuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Statuses
+     * const statuses = await prisma.status.findMany()
+     * 
+     * // Get first 10 Statuses
+     * const statuses = await prisma.status.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const statusWithIdOnly = await prisma.status.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StatusFindManyArgs>(args?: SelectSubset<T, StatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Status.
+     * @param {StatusCreateArgs} args - Arguments to create a Status.
+     * @example
+     * // Create one Status
+     * const Status = await prisma.status.create({
+     *   data: {
+     *     // ... data to create a Status
+     *   }
+     * })
+     * 
+     */
+    create<T extends StatusCreateArgs>(args: SelectSubset<T, StatusCreateArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Statuses.
+     * @param {StatusCreateManyArgs} args - Arguments to create many Statuses.
+     * @example
+     * // Create many Statuses
+     * const status = await prisma.status.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StatusCreateManyArgs>(args?: SelectSubset<T, StatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Statuses and returns the data saved in the database.
+     * @param {StatusCreateManyAndReturnArgs} args - Arguments to create many Statuses.
+     * @example
+     * // Create many Statuses
+     * const status = await prisma.status.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Statuses and only return the `id`
+     * const statusWithIdOnly = await prisma.status.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StatusCreateManyAndReturnArgs>(args?: SelectSubset<T, StatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Status.
+     * @param {StatusDeleteArgs} args - Arguments to delete one Status.
+     * @example
+     * // Delete one Status
+     * const Status = await prisma.status.delete({
+     *   where: {
+     *     // ... filter to delete one Status
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StatusDeleteArgs>(args: SelectSubset<T, StatusDeleteArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Status.
+     * @param {StatusUpdateArgs} args - Arguments to update one Status.
+     * @example
+     * // Update one Status
+     * const status = await prisma.status.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StatusUpdateArgs>(args: SelectSubset<T, StatusUpdateArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Statuses.
+     * @param {StatusDeleteManyArgs} args - Arguments to filter Statuses to delete.
+     * @example
+     * // Delete a few Statuses
+     * const { count } = await prisma.status.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StatusDeleteManyArgs>(args?: SelectSubset<T, StatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Statuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Statuses
+     * const status = await prisma.status.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StatusUpdateManyArgs>(args: SelectSubset<T, StatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Statuses and returns the data updated in the database.
+     * @param {StatusUpdateManyAndReturnArgs} args - Arguments to update many Statuses.
+     * @example
+     * // Update many Statuses
+     * const status = await prisma.status.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Statuses and only return the `id`
+     * const statusWithIdOnly = await prisma.status.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StatusUpdateManyAndReturnArgs>(args: SelectSubset<T, StatusUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Status.
+     * @param {StatusUpsertArgs} args - Arguments to update or create a Status.
+     * @example
+     * // Update or create a Status
+     * const status = await prisma.status.upsert({
+     *   create: {
+     *     // ... data to create a Status
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Status we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StatusUpsertArgs>(args: SelectSubset<T, StatusUpsertArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Statuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusCountArgs} args - Arguments to filter Statuses to count.
+     * @example
+     * // Count the number of Statuses
+     * const count = await prisma.status.count({
+     *   where: {
+     *     // ... the filter for the Statuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends StatusCountArgs>(
+      args?: Subset<T, StatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Status.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StatusAggregateArgs>(args: Subset<T, StatusAggregateArgs>): Prisma.PrismaPromise<GetStatusAggregateType<T>>
+
+    /**
+     * Group by Status.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StatusGroupByArgs['orderBy'] }
+        : { orderBy?: StatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Status model
+   */
+  readonly fields: StatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Status.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    columns<T extends Status$columnsArgs<ExtArgs> = {}>(args?: Subset<T, Status$columnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Status model
+   */
+  interface StatusFieldRefs {
+    readonly id: FieldRef<"Status", 'String'>
+    readonly name: FieldRef<"Status", 'String'>
+    readonly color: FieldRef<"Status", 'String'>
+    readonly order: FieldRef<"Status", 'Int'>
+    readonly isDefault: FieldRef<"Status", 'Boolean'>
+    readonly tenantId: FieldRef<"Status", 'String'>
+    readonly createdAt: FieldRef<"Status", 'DateTime'>
+    readonly updatedAt: FieldRef<"Status", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Status findUnique
+   */
+  export type StatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * Filter, which Status to fetch.
+     */
+    where: StatusWhereUniqueInput
+  }
+
+  /**
+   * Status findUniqueOrThrow
+   */
+  export type StatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * Filter, which Status to fetch.
+     */
+    where: StatusWhereUniqueInput
+  }
+
+  /**
+   * Status findFirst
+   */
+  export type StatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * Filter, which Status to fetch.
+     */
+    where?: StatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Statuses to fetch.
+     */
+    orderBy?: StatusOrderByWithRelationInput | StatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Statuses.
+     */
+    cursor?: StatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Statuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Statuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Statuses.
+     */
+    distinct?: StatusScalarFieldEnum | StatusScalarFieldEnum[]
+  }
+
+  /**
+   * Status findFirstOrThrow
+   */
+  export type StatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * Filter, which Status to fetch.
+     */
+    where?: StatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Statuses to fetch.
+     */
+    orderBy?: StatusOrderByWithRelationInput | StatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Statuses.
+     */
+    cursor?: StatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Statuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Statuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Statuses.
+     */
+    distinct?: StatusScalarFieldEnum | StatusScalarFieldEnum[]
+  }
+
+  /**
+   * Status findMany
+   */
+  export type StatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * Filter, which Statuses to fetch.
+     */
+    where?: StatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Statuses to fetch.
+     */
+    orderBy?: StatusOrderByWithRelationInput | StatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Statuses.
+     */
+    cursor?: StatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Statuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Statuses.
+     */
+    skip?: number
+    distinct?: StatusScalarFieldEnum | StatusScalarFieldEnum[]
+  }
+
+  /**
+   * Status create
+   */
+  export type StatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Status.
+     */
+    data: XOR<StatusCreateInput, StatusUncheckedCreateInput>
+  }
+
+  /**
+   * Status createMany
+   */
+  export type StatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Statuses.
+     */
+    data: StatusCreateManyInput | StatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Status createManyAndReturn
+   */
+  export type StatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * The data used to create many Statuses.
+     */
+    data: StatusCreateManyInput | StatusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Status update
+   */
+  export type StatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Status.
+     */
+    data: XOR<StatusUpdateInput, StatusUncheckedUpdateInput>
+    /**
+     * Choose, which Status to update.
+     */
+    where: StatusWhereUniqueInput
+  }
+
+  /**
+   * Status updateMany
+   */
+  export type StatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Statuses.
+     */
+    data: XOR<StatusUpdateManyMutationInput, StatusUncheckedUpdateManyInput>
+    /**
+     * Filter which Statuses to update
+     */
+    where?: StatusWhereInput
+    /**
+     * Limit how many Statuses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Status updateManyAndReturn
+   */
+  export type StatusUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * The data used to update Statuses.
+     */
+    data: XOR<StatusUpdateManyMutationInput, StatusUncheckedUpdateManyInput>
+    /**
+     * Filter which Statuses to update
+     */
+    where?: StatusWhereInput
+    /**
+     * Limit how many Statuses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Status upsert
+   */
+  export type StatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Status to update in case it exists.
+     */
+    where: StatusWhereUniqueInput
+    /**
+     * In case the Status found by the `where` argument doesn't exist, create a new Status with this data.
+     */
+    create: XOR<StatusCreateInput, StatusUncheckedCreateInput>
+    /**
+     * In case the Status was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StatusUpdateInput, StatusUncheckedUpdateInput>
+  }
+
+  /**
+   * Status delete
+   */
+  export type StatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    /**
+     * Filter which Status to delete.
+     */
+    where: StatusWhereUniqueInput
+  }
+
+  /**
+   * Status deleteMany
+   */
+  export type StatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Statuses to delete
+     */
+    where?: StatusWhereInput
+    /**
+     * Limit how many Statuses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Status.columns
+   */
+  export type Status$columnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Column
+     */
+    select?: ColumnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Column
+     */
+    omit?: ColumnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnInclude<ExtArgs> | null
+    where?: ColumnWhereInput
+    orderBy?: ColumnOrderByWithRelationInput | ColumnOrderByWithRelationInput[]
+    cursor?: ColumnWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ColumnScalarFieldEnum | ColumnScalarFieldEnum[]
+  }
+
+  /**
+   * Status without action
+   */
+  export type StatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Tenant
    */
 
@@ -1914,18 +4470,21 @@ export namespace Prisma {
   export type TenantMinAggregateOutputType = {
     id: string | null
     name: string | null
+    avatar: string | null
     createdAt: Date | null
   }
 
   export type TenantMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    avatar: string | null
     createdAt: Date | null
   }
 
   export type TenantCountAggregateOutputType = {
     id: number
     name: number
+    avatar: number
     createdAt: number
     _all: number
   }
@@ -1934,18 +4493,21 @@ export namespace Prisma {
   export type TenantMinAggregateInputType = {
     id?: true
     name?: true
+    avatar?: true
     createdAt?: true
   }
 
   export type TenantMaxAggregateInputType = {
     id?: true
     name?: true
+    avatar?: true
     createdAt?: true
   }
 
   export type TenantCountAggregateInputType = {
     id?: true
     name?: true
+    avatar?: true
     createdAt?: true
     _all?: true
   }
@@ -2025,6 +4587,7 @@ export namespace Prisma {
   export type TenantGroupByOutputType = {
     id: string
     name: string
+    avatar: string | null
     createdAt: Date
     _count: TenantCountAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
@@ -2048,6 +4611,7 @@ export namespace Prisma {
   export type TenantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    avatar?: boolean
     createdAt?: boolean
     users?: boolean | Tenant$usersArgs<ExtArgs>
     departments?: boolean | Tenant$departmentsArgs<ExtArgs>
@@ -2055,28 +4619,33 @@ export namespace Prisma {
     columns?: boolean | Tenant$columnsArgs<ExtArgs>
     slas?: boolean | Tenant$slasArgs<ExtArgs>
     workflows?: boolean | Tenant$workflowsArgs<ExtArgs>
+    priorities?: boolean | Tenant$prioritiesArgs<ExtArgs>
+    statuses?: boolean | Tenant$statusesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    avatar?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    avatar?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectScalar = {
     id?: boolean
     name?: boolean
+    avatar?: boolean
     createdAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "avatar" | "createdAt", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Tenant$usersArgs<ExtArgs>
     departments?: boolean | Tenant$departmentsArgs<ExtArgs>
@@ -2084,6 +4653,8 @@ export namespace Prisma {
     columns?: boolean | Tenant$columnsArgs<ExtArgs>
     slas?: boolean | Tenant$slasArgs<ExtArgs>
     workflows?: boolean | Tenant$workflowsArgs<ExtArgs>
+    priorities?: boolean | Tenant$prioritiesArgs<ExtArgs>
+    statuses?: boolean | Tenant$statusesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2098,10 +4669,13 @@ export namespace Prisma {
       columns: Prisma.$ColumnPayload<ExtArgs>[]
       slas: Prisma.$SLAPayload<ExtArgs>[]
       workflows: Prisma.$WorkflowPayload<ExtArgs>[]
+      priorities: Prisma.$PriorityPayload<ExtArgs>[]
+      statuses: Prisma.$StatusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      avatar: string | null
       createdAt: Date
     }, ExtArgs["result"]["tenant"]>
     composites: {}
@@ -2503,6 +5077,8 @@ export namespace Prisma {
     columns<T extends Tenant$columnsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$columnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     slas<T extends Tenant$slasArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$slasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SLAPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workflows<T extends Tenant$workflowsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workflowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    priorities<T extends Tenant$prioritiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$prioritiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    statuses<T extends Tenant$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2534,6 +5110,7 @@ export namespace Prisma {
   interface TenantFieldRefs {
     readonly id: FieldRef<"Tenant", 'String'>
     readonly name: FieldRef<"Tenant", 'String'>
+    readonly avatar: FieldRef<"Tenant", 'String'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
   }
     
@@ -3067,6 +5644,54 @@ export namespace Prisma {
   }
 
   /**
+   * Tenant.priorities
+   */
+  export type Tenant$prioritiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    where?: PriorityWhereInput
+    orderBy?: PriorityOrderByWithRelationInput | PriorityOrderByWithRelationInput[]
+    cursor?: PriorityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PriorityScalarFieldEnum | PriorityScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.statuses
+   */
+  export type Tenant$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    where?: StatusWhereInput
+    orderBy?: StatusOrderByWithRelationInput | StatusOrderByWithRelationInput[]
+    cursor?: StatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StatusScalarFieldEnum | StatusScalarFieldEnum[]
+  }
+
+  /**
    * Tenant without action
    */
   export type TenantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3103,6 +5728,7 @@ export namespace Prisma {
     passwordHash: string | null
     role: $Enums.UserRole | null
     isActive: boolean | null
+    avatar: string | null
     createdAt: Date | null
     deletedAt: Date | null
     refreshToken: string | null
@@ -3118,6 +5744,7 @@ export namespace Prisma {
     passwordHash: string | null
     role: $Enums.UserRole | null
     isActive: boolean | null
+    avatar: string | null
     createdAt: Date | null
     deletedAt: Date | null
     refreshToken: string | null
@@ -3133,6 +5760,7 @@ export namespace Prisma {
     passwordHash: number
     role: number
     isActive: number
+    avatar: number
     createdAt: number
     deletedAt: number
     refreshToken: number
@@ -3150,6 +5778,7 @@ export namespace Prisma {
     passwordHash?: true
     role?: true
     isActive?: true
+    avatar?: true
     createdAt?: true
     deletedAt?: true
     refreshToken?: true
@@ -3165,6 +5794,7 @@ export namespace Prisma {
     passwordHash?: true
     role?: true
     isActive?: true
+    avatar?: true
     createdAt?: true
     deletedAt?: true
     refreshToken?: true
@@ -3180,6 +5810,7 @@ export namespace Prisma {
     passwordHash?: true
     role?: true
     isActive?: true
+    avatar?: true
     createdAt?: true
     deletedAt?: true
     refreshToken?: true
@@ -3268,6 +5899,7 @@ export namespace Prisma {
     passwordHash: string
     role: $Enums.UserRole
     isActive: boolean
+    avatar: string | null
     createdAt: Date
     deletedAt: Date | null
     refreshToken: string | null
@@ -3300,6 +5932,7 @@ export namespace Prisma {
     passwordHash?: boolean
     role?: boolean
     isActive?: boolean
+    avatar?: boolean
     createdAt?: boolean
     deletedAt?: boolean
     refreshToken?: boolean
@@ -3320,6 +5953,7 @@ export namespace Prisma {
     passwordHash?: boolean
     role?: boolean
     isActive?: boolean
+    avatar?: boolean
     createdAt?: boolean
     deletedAt?: boolean
     refreshToken?: boolean
@@ -3336,6 +5970,7 @@ export namespace Prisma {
     passwordHash?: boolean
     role?: boolean
     isActive?: boolean
+    avatar?: boolean
     createdAt?: boolean
     deletedAt?: boolean
     refreshToken?: boolean
@@ -3352,6 +5987,7 @@ export namespace Prisma {
     passwordHash?: boolean
     role?: boolean
     isActive?: boolean
+    avatar?: boolean
     createdAt?: boolean
     deletedAt?: boolean
     refreshToken?: boolean
@@ -3359,7 +5995,7 @@ export namespace Prisma {
     resetPasswordTokenExpiry?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "username" | "email" | "passwordHash" | "role" | "isActive" | "createdAt" | "deletedAt" | "refreshToken" | "resetPasswordToken" | "resetPasswordTokenExpiry", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "username" | "email" | "passwordHash" | "role" | "isActive" | "avatar" | "createdAt" | "deletedAt" | "refreshToken" | "resetPasswordToken" | "resetPasswordTokenExpiry", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
@@ -3390,6 +6026,7 @@ export namespace Prisma {
       passwordHash: string
       role: $Enums.UserRole
       isActive: boolean
+      avatar: string | null
       createdAt: Date
       deletedAt: Date | null
       refreshToken: string | null
@@ -3829,6 +6466,7 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
     readonly isActive: FieldRef<"User", 'Boolean'>
+    readonly avatar: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
     readonly refreshToken: FieldRef<"User", 'String'>
@@ -5449,6 +8087,7 @@ export namespace Prisma {
     order: number | null
     color: string | null
     isDefault: boolean | null
+    statusId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5461,6 +8100,7 @@ export namespace Prisma {
     order: number | null
     color: string | null
     isDefault: boolean | null
+    statusId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5473,6 +8113,7 @@ export namespace Prisma {
     order: number
     color: number
     isDefault: number
+    statusId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5495,6 +8136,7 @@ export namespace Prisma {
     order?: true
     color?: true
     isDefault?: true
+    statusId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5507,6 +8149,7 @@ export namespace Prisma {
     order?: true
     color?: true
     isDefault?: true
+    statusId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5519,6 +8162,7 @@ export namespace Prisma {
     order?: true
     color?: true
     isDefault?: true
+    statusId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5618,6 +8262,7 @@ export namespace Prisma {
     order: number
     color: string | null
     isDefault: boolean
+    statusId: string | null
     createdAt: Date
     updatedAt: Date
     _count: ColumnCountAggregateOutputType | null
@@ -5649,9 +8294,11 @@ export namespace Prisma {
     order?: boolean
     color?: boolean
     isDefault?: boolean
+    statusId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    status?: boolean | Column$statusArgs<ExtArgs>
     tickets?: boolean | Column$ticketsArgs<ExtArgs>
     _count?: boolean | ColumnCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["column"]>
@@ -5664,9 +8311,11 @@ export namespace Prisma {
     order?: boolean
     color?: boolean
     isDefault?: boolean
+    statusId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    status?: boolean | Column$statusArgs<ExtArgs>
   }, ExtArgs["result"]["column"]>
 
   export type ColumnSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5677,9 +8326,11 @@ export namespace Prisma {
     order?: boolean
     color?: boolean
     isDefault?: boolean
+    statusId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    status?: boolean | Column$statusArgs<ExtArgs>
   }, ExtArgs["result"]["column"]>
 
   export type ColumnSelectScalar = {
@@ -5690,27 +8341,32 @@ export namespace Prisma {
     order?: boolean
     color?: boolean
     isDefault?: boolean
+    statusId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ColumnOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "order" | "color" | "isDefault" | "createdAt" | "updatedAt", ExtArgs["result"]["column"]>
+  export type ColumnOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "order" | "color" | "isDefault" | "statusId" | "createdAt" | "updatedAt", ExtArgs["result"]["column"]>
   export type ColumnInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    status?: boolean | Column$statusArgs<ExtArgs>
     tickets?: boolean | Column$ticketsArgs<ExtArgs>
     _count?: boolean | ColumnCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ColumnIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    status?: boolean | Column$statusArgs<ExtArgs>
   }
   export type ColumnIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    status?: boolean | Column$statusArgs<ExtArgs>
   }
 
   export type $ColumnPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Column"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      status: Prisma.$StatusPayload<ExtArgs> | null
       tickets: Prisma.$TicketPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5721,6 +8377,7 @@ export namespace Prisma {
       order: number
       color: string | null
       isDefault: boolean
+      statusId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["column"]>
@@ -6118,6 +8775,7 @@ export namespace Prisma {
   export interface Prisma__ColumnClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    status<T extends Column$statusArgs<ExtArgs> = {}>(args?: Subset<T, Column$statusArgs<ExtArgs>>): Prisma__StatusClient<$Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tickets<T extends Column$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Column$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6155,6 +8813,7 @@ export namespace Prisma {
     readonly order: FieldRef<"Column", 'Int'>
     readonly color: FieldRef<"Column", 'String'>
     readonly isDefault: FieldRef<"Column", 'Boolean'>
+    readonly statusId: FieldRef<"Column", 'String'>
     readonly createdAt: FieldRef<"Column", 'DateTime'>
     readonly updatedAt: FieldRef<"Column", 'DateTime'>
   }
@@ -6553,6 +9212,25 @@ export namespace Prisma {
   }
 
   /**
+   * Column.status
+   */
+  export type Column$statusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Status
+     */
+    select?: StatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Status
+     */
+    omit?: StatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatusInclude<ExtArgs> | null
+    where?: StatusWhereInput
+  }
+
+  /**
    * Column.tickets
    */
   export type Column$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6620,8 +9298,8 @@ export namespace Prisma {
     tenantId: string | null
     title: string | null
     description: string | null
-    status: $Enums.TicketStatus | null
-    priority: $Enums.TicketPriority | null
+    status: string | null
+    priorityId: string | null
     order: number | null
     columnId: string | null
     createdAt: Date | null
@@ -6638,8 +9316,8 @@ export namespace Prisma {
     tenantId: string | null
     title: string | null
     description: string | null
-    status: $Enums.TicketStatus | null
-    priority: $Enums.TicketPriority | null
+    status: string | null
+    priorityId: string | null
     order: number | null
     columnId: string | null
     createdAt: Date | null
@@ -6657,7 +9335,7 @@ export namespace Prisma {
     title: number
     description: number
     status: number
-    priority: number
+    priorityId: number
     order: number
     columnId: number
     createdAt: number
@@ -6685,7 +9363,7 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
-    priority?: true
+    priorityId?: true
     order?: true
     columnId?: true
     createdAt?: true
@@ -6703,7 +9381,7 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
-    priority?: true
+    priorityId?: true
     order?: true
     columnId?: true
     createdAt?: true
@@ -6721,7 +9399,7 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
-    priority?: true
+    priorityId?: true
     order?: true
     columnId?: true
     createdAt?: true
@@ -6825,8 +9503,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description: string | null
-    status: $Enums.TicketStatus
-    priority: $Enums.TicketPriority
+    status: string
+    priorityId: string | null
     order: number
     columnId: string | null
     createdAt: Date
@@ -6863,7 +9541,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
-    priority?: boolean
+    priorityId?: boolean
     order?: boolean
     columnId?: boolean
     createdAt?: boolean
@@ -6874,6 +9552,7 @@ export namespace Prisma {
     assigneeId?: boolean
     departmentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | Ticket$priorityArgs<ExtArgs>
     column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
@@ -6889,7 +9568,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
-    priority?: boolean
+    priorityId?: boolean
     order?: boolean
     columnId?: boolean
     createdAt?: boolean
@@ -6900,6 +9579,7 @@ export namespace Prisma {
     assigneeId?: boolean
     departmentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | Ticket$priorityArgs<ExtArgs>
     column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
@@ -6912,7 +9592,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
-    priority?: boolean
+    priorityId?: boolean
     order?: boolean
     columnId?: boolean
     createdAt?: boolean
@@ -6923,6 +9603,7 @@ export namespace Prisma {
     assigneeId?: boolean
     departmentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | Ticket$priorityArgs<ExtArgs>
     column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
@@ -6935,7 +9616,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
-    priority?: boolean
+    priorityId?: boolean
     order?: boolean
     columnId?: boolean
     createdAt?: boolean
@@ -6947,9 +9628,10 @@ export namespace Prisma {
     departmentId?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "priority" | "order" | "columnId" | "createdAt" | "updatedAt" | "closedAt" | "deletedAt" | "creatorId" | "assigneeId" | "departmentId", ExtArgs["result"]["ticket"]>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "priorityId" | "order" | "columnId" | "createdAt" | "updatedAt" | "closedAt" | "deletedAt" | "creatorId" | "assigneeId" | "departmentId", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | Ticket$priorityArgs<ExtArgs>
     column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
@@ -6960,6 +9642,7 @@ export namespace Prisma {
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | Ticket$priorityArgs<ExtArgs>
     column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
@@ -6967,6 +9650,7 @@ export namespace Prisma {
   }
   export type TicketIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | Ticket$priorityArgs<ExtArgs>
     column?: boolean | Ticket$columnArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
@@ -6977,6 +9661,7 @@ export namespace Prisma {
     name: "Ticket"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      priority: Prisma.$PriorityPayload<ExtArgs> | null
       column: Prisma.$ColumnPayload<ExtArgs> | null
       creator: Prisma.$UserPayload<ExtArgs>
       assignee: Prisma.$UserPayload<ExtArgs> | null
@@ -6989,8 +9674,8 @@ export namespace Prisma {
       tenantId: string
       title: string
       description: string | null
-      status: $Enums.TicketStatus
-      priority: $Enums.TicketPriority
+      status: string
+      priorityId: string | null
       order: number
       columnId: string | null
       createdAt: Date
@@ -7395,6 +10080,7 @@ export namespace Prisma {
   export interface Prisma__TicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    priority<T extends Ticket$priorityArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$priorityArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     column<T extends Ticket$columnArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$columnArgs<ExtArgs>>): Prisma__ColumnClient<$Result.GetResult<Prisma.$ColumnPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     assignee<T extends Ticket$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -7434,8 +10120,8 @@ export namespace Prisma {
     readonly tenantId: FieldRef<"Ticket", 'String'>
     readonly title: FieldRef<"Ticket", 'String'>
     readonly description: FieldRef<"Ticket", 'String'>
-    readonly status: FieldRef<"Ticket", 'TicketStatus'>
-    readonly priority: FieldRef<"Ticket", 'TicketPriority'>
+    readonly status: FieldRef<"Ticket", 'String'>
+    readonly priorityId: FieldRef<"Ticket", 'String'>
     readonly order: FieldRef<"Ticket", 'Int'>
     readonly columnId: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
@@ -7838,6 +10524,25 @@ export namespace Prisma {
      * Limit how many Tickets to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Ticket.priority
+   */
+  export type Ticket$priorityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    where?: PriorityWhereInput
   }
 
   /**
@@ -10357,7 +13062,7 @@ export namespace Prisma {
     description: string | null
     responseTime: number | null
     resolutionTime: number | null
-    priority: $Enums.TicketPriority | null
+    priority: string | null
     departmentId: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -10371,7 +13076,7 @@ export namespace Prisma {
     description: string | null
     responseTime: number | null
     resolutionTime: number | null
-    priority: $Enums.TicketPriority | null
+    priority: string | null
     departmentId: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -10542,7 +13247,7 @@ export namespace Prisma {
     description: string | null
     responseTime: number
     resolutionTime: number
-    priority: $Enums.TicketPriority
+    priority: string
     departmentId: string | null
     isActive: boolean
     escalationRules: JsonValue | null
@@ -10655,7 +13360,7 @@ export namespace Prisma {
       description: string | null
       responseTime: number
       resolutionTime: number
-      priority: $Enums.TicketPriority
+      priority: string
       departmentId: string | null
       isActive: boolean
       escalationRules: Prisma.JsonValue | null
@@ -11091,7 +13796,7 @@ export namespace Prisma {
     readonly description: FieldRef<"SLA", 'String'>
     readonly responseTime: FieldRef<"SLA", 'Int'>
     readonly resolutionTime: FieldRef<"SLA", 'Int'>
-    readonly priority: FieldRef<"SLA", 'TicketPriority'>
+    readonly priority: FieldRef<"SLA", 'String'>
     readonly departmentId: FieldRef<"SLA", 'String'>
     readonly isActive: FieldRef<"SLA", 'Boolean'>
     readonly escalationRules: FieldRef<"SLA", 'Json'>
@@ -12618,9 +15323,38 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const PriorityScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    color: 'color',
+    order: 'order',
+    isDefault: 'isDefault',
+    tenantId: 'tenantId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PriorityScalarFieldEnum = (typeof PriorityScalarFieldEnum)[keyof typeof PriorityScalarFieldEnum]
+
+
+  export const StatusScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    color: 'color',
+    order: 'order',
+    isDefault: 'isDefault',
+    tenantId: 'tenantId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StatusScalarFieldEnum = (typeof StatusScalarFieldEnum)[keyof typeof StatusScalarFieldEnum]
+
+
   export const TenantScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    avatar: 'avatar',
     createdAt: 'createdAt'
   };
 
@@ -12635,6 +15369,7 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     role: 'role',
     isActive: 'isActive',
+    avatar: 'avatar',
     createdAt: 'createdAt',
     deletedAt: 'deletedAt',
     refreshToken: 'refreshToken',
@@ -12665,6 +15400,7 @@ export namespace Prisma {
     order: 'order',
     color: 'color',
     isDefault: 'isDefault',
+    statusId: 'statusId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12678,7 +15414,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     status: 'status',
-    priority: 'priority',
+    priorityId: 'priorityId',
     order: 'order',
     columnId: 'columnId',
     createdAt: 'createdAt',
@@ -12825,6 +15561,27 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -12849,55 +15606,6 @@ export namespace Prisma {
    * Reference to a field of type 'UserRole[]'
    */
   export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'TicketStatus'
-   */
-  export type EnumTicketStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'TicketStatus[]'
-   */
-  export type ListEnumTicketStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'TicketPriority'
-   */
-  export type EnumTicketPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketPriority'>
-    
-
-
-  /**
-   * Reference to a field of type 'TicketPriority[]'
-   */
-  export type ListEnumTicketPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketPriority[]'>
     
 
 
@@ -12932,12 +15640,163 @@ export namespace Prisma {
    */
 
 
+  export type PriorityWhereInput = {
+    AND?: PriorityWhereInput | PriorityWhereInput[]
+    OR?: PriorityWhereInput[]
+    NOT?: PriorityWhereInput | PriorityWhereInput[]
+    id?: StringFilter<"Priority"> | string
+    name?: StringFilter<"Priority"> | string
+    color?: StringFilter<"Priority"> | string
+    order?: IntFilter<"Priority"> | number
+    isDefault?: BoolFilter<"Priority"> | boolean
+    tenantId?: StringFilter<"Priority"> | string
+    createdAt?: DateTimeFilter<"Priority"> | Date | string
+    updatedAt?: DateTimeFilter<"Priority"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tickets?: TicketListRelationFilter
+  }
+
+  export type PriorityOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    tickets?: TicketOrderByRelationAggregateInput
+  }
+
+  export type PriorityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PriorityWhereInput | PriorityWhereInput[]
+    OR?: PriorityWhereInput[]
+    NOT?: PriorityWhereInput | PriorityWhereInput[]
+    name?: StringFilter<"Priority"> | string
+    color?: StringFilter<"Priority"> | string
+    order?: IntFilter<"Priority"> | number
+    isDefault?: BoolFilter<"Priority"> | boolean
+    tenantId?: StringFilter<"Priority"> | string
+    createdAt?: DateTimeFilter<"Priority"> | Date | string
+    updatedAt?: DateTimeFilter<"Priority"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tickets?: TicketListRelationFilter
+  }, "id">
+
+  export type PriorityOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PriorityCountOrderByAggregateInput
+    _avg?: PriorityAvgOrderByAggregateInput
+    _max?: PriorityMaxOrderByAggregateInput
+    _min?: PriorityMinOrderByAggregateInput
+    _sum?: PrioritySumOrderByAggregateInput
+  }
+
+  export type PriorityScalarWhereWithAggregatesInput = {
+    AND?: PriorityScalarWhereWithAggregatesInput | PriorityScalarWhereWithAggregatesInput[]
+    OR?: PriorityScalarWhereWithAggregatesInput[]
+    NOT?: PriorityScalarWhereWithAggregatesInput | PriorityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Priority"> | string
+    name?: StringWithAggregatesFilter<"Priority"> | string
+    color?: StringWithAggregatesFilter<"Priority"> | string
+    order?: IntWithAggregatesFilter<"Priority"> | number
+    isDefault?: BoolWithAggregatesFilter<"Priority"> | boolean
+    tenantId?: StringWithAggregatesFilter<"Priority"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Priority"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Priority"> | Date | string
+  }
+
+  export type StatusWhereInput = {
+    AND?: StatusWhereInput | StatusWhereInput[]
+    OR?: StatusWhereInput[]
+    NOT?: StatusWhereInput | StatusWhereInput[]
+    id?: StringFilter<"Status"> | string
+    name?: StringFilter<"Status"> | string
+    color?: StringFilter<"Status"> | string
+    order?: IntFilter<"Status"> | number
+    isDefault?: BoolFilter<"Status"> | boolean
+    tenantId?: StringFilter<"Status"> | string
+    createdAt?: DateTimeFilter<"Status"> | Date | string
+    updatedAt?: DateTimeFilter<"Status"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    columns?: ColumnListRelationFilter
+  }
+
+  export type StatusOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    columns?: ColumnOrderByRelationAggregateInput
+  }
+
+  export type StatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StatusWhereInput | StatusWhereInput[]
+    OR?: StatusWhereInput[]
+    NOT?: StatusWhereInput | StatusWhereInput[]
+    name?: StringFilter<"Status"> | string
+    color?: StringFilter<"Status"> | string
+    order?: IntFilter<"Status"> | number
+    isDefault?: BoolFilter<"Status"> | boolean
+    tenantId?: StringFilter<"Status"> | string
+    createdAt?: DateTimeFilter<"Status"> | Date | string
+    updatedAt?: DateTimeFilter<"Status"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    columns?: ColumnListRelationFilter
+  }, "id">
+
+  export type StatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StatusCountOrderByAggregateInput
+    _avg?: StatusAvgOrderByAggregateInput
+    _max?: StatusMaxOrderByAggregateInput
+    _min?: StatusMinOrderByAggregateInput
+    _sum?: StatusSumOrderByAggregateInput
+  }
+
+  export type StatusScalarWhereWithAggregatesInput = {
+    AND?: StatusScalarWhereWithAggregatesInput | StatusScalarWhereWithAggregatesInput[]
+    OR?: StatusScalarWhereWithAggregatesInput[]
+    NOT?: StatusScalarWhereWithAggregatesInput | StatusScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Status"> | string
+    name?: StringWithAggregatesFilter<"Status"> | string
+    color?: StringWithAggregatesFilter<"Status"> | string
+    order?: IntWithAggregatesFilter<"Status"> | number
+    isDefault?: BoolWithAggregatesFilter<"Status"> | boolean
+    tenantId?: StringWithAggregatesFilter<"Status"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Status"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Status"> | Date | string
+  }
+
   export type TenantWhereInput = {
     AND?: TenantWhereInput | TenantWhereInput[]
     OR?: TenantWhereInput[]
     NOT?: TenantWhereInput | TenantWhereInput[]
     id?: StringFilter<"Tenant"> | string
     name?: StringFilter<"Tenant"> | string
+    avatar?: StringNullableFilter<"Tenant"> | string | null
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     users?: UserListRelationFilter
     departments?: DepartmentListRelationFilter
@@ -12945,11 +15804,14 @@ export namespace Prisma {
     columns?: ColumnListRelationFilter
     slas?: SLAListRelationFilter
     workflows?: WorkflowListRelationFilter
+    priorities?: PriorityListRelationFilter
+    statuses?: StatusListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
     departments?: DepartmentOrderByRelationAggregateInput
@@ -12957,6 +15819,8 @@ export namespace Prisma {
     columns?: ColumnOrderByRelationAggregateInput
     slas?: SLAOrderByRelationAggregateInput
     workflows?: WorkflowOrderByRelationAggregateInput
+    priorities?: PriorityOrderByRelationAggregateInput
+    statuses?: StatusOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -12965,6 +15829,7 @@ export namespace Prisma {
     OR?: TenantWhereInput[]
     NOT?: TenantWhereInput | TenantWhereInput[]
     name?: StringFilter<"Tenant"> | string
+    avatar?: StringNullableFilter<"Tenant"> | string | null
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     users?: UserListRelationFilter
     departments?: DepartmentListRelationFilter
@@ -12972,11 +15837,14 @@ export namespace Prisma {
     columns?: ColumnListRelationFilter
     slas?: SLAListRelationFilter
     workflows?: WorkflowListRelationFilter
+    priorities?: PriorityListRelationFilter
+    statuses?: StatusListRelationFilter
   }, "id">
 
   export type TenantOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: TenantCountOrderByAggregateInput
     _max?: TenantMaxOrderByAggregateInput
@@ -12989,6 +15857,7 @@ export namespace Prisma {
     NOT?: TenantScalarWhereWithAggregatesInput | TenantScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Tenant"> | string
     name?: StringWithAggregatesFilter<"Tenant"> | string
+    avatar?: StringNullableWithAggregatesFilter<"Tenant"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   }
 
@@ -13003,6 +15872,7 @@ export namespace Prisma {
     passwordHash?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isActive?: BoolFilter<"User"> | boolean
+    avatar?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     refreshToken?: StringNullableFilter<"User"> | string | null
@@ -13022,6 +15892,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
+    avatar?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     refreshToken?: SortOrderInput | SortOrder
@@ -13044,6 +15915,7 @@ export namespace Prisma {
     passwordHash?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isActive?: BoolFilter<"User"> | boolean
+    avatar?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     refreshToken?: StringNullableFilter<"User"> | string | null
@@ -13063,6 +15935,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
+    avatar?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     refreshToken?: SortOrderInput | SortOrder
@@ -13084,6 +15957,7 @@ export namespace Prisma {
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
+    avatar?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     refreshToken?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -13165,9 +16039,11 @@ export namespace Prisma {
     order?: IntFilter<"Column"> | number
     color?: StringNullableFilter<"Column"> | string | null
     isDefault?: BoolFilter<"Column"> | boolean
+    statusId?: StringNullableFilter<"Column"> | string | null
     createdAt?: DateTimeFilter<"Column"> | Date | string
     updatedAt?: DateTimeFilter<"Column"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    status?: XOR<StatusNullableScalarRelationFilter, StatusWhereInput> | null
     tickets?: TicketListRelationFilter
   }
 
@@ -13179,9 +16055,11 @@ export namespace Prisma {
     order?: SortOrder
     color?: SortOrderInput | SortOrder
     isDefault?: SortOrder
+    statusId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    status?: StatusOrderByWithRelationInput
     tickets?: TicketOrderByRelationAggregateInput
   }
 
@@ -13196,9 +16074,11 @@ export namespace Prisma {
     order?: IntFilter<"Column"> | number
     color?: StringNullableFilter<"Column"> | string | null
     isDefault?: BoolFilter<"Column"> | boolean
+    statusId?: StringNullableFilter<"Column"> | string | null
     createdAt?: DateTimeFilter<"Column"> | Date | string
     updatedAt?: DateTimeFilter<"Column"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    status?: XOR<StatusNullableScalarRelationFilter, StatusWhereInput> | null
     tickets?: TicketListRelationFilter
   }, "id">
 
@@ -13210,6 +16090,7 @@ export namespace Prisma {
     order?: SortOrder
     color?: SortOrderInput | SortOrder
     isDefault?: SortOrder
+    statusId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ColumnCountOrderByAggregateInput
@@ -13230,6 +16111,7 @@ export namespace Prisma {
     order?: IntWithAggregatesFilter<"Column"> | number
     color?: StringNullableWithAggregatesFilter<"Column"> | string | null
     isDefault?: BoolWithAggregatesFilter<"Column"> | boolean
+    statusId?: StringNullableWithAggregatesFilter<"Column"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Column"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Column"> | Date | string
   }
@@ -13242,8 +16124,8 @@ export namespace Prisma {
     tenantId?: StringFilter<"Ticket"> | string
     title?: StringFilter<"Ticket"> | string
     description?: StringNullableFilter<"Ticket"> | string | null
-    status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
+    status?: StringFilter<"Ticket"> | string
+    priorityId?: StringNullableFilter<"Ticket"> | string | null
     order?: IntFilter<"Ticket"> | number
     columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
@@ -13254,6 +16136,7 @@ export namespace Prisma {
     assigneeId?: StringNullableFilter<"Ticket"> | string | null
     departmentId?: StringNullableFilter<"Ticket"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    priority?: XOR<PriorityNullableScalarRelationFilter, PriorityWhereInput> | null
     column?: XOR<ColumnNullableScalarRelationFilter, ColumnWhereInput> | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -13268,7 +16151,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrderInput | SortOrder
     order?: SortOrder
     columnId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -13279,6 +16162,7 @@ export namespace Prisma {
     assigneeId?: SortOrderInput | SortOrder
     departmentId?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
+    priority?: PriorityOrderByWithRelationInput
     column?: ColumnOrderByWithRelationInput
     creator?: UserOrderByWithRelationInput
     assignee?: UserOrderByWithRelationInput
@@ -13295,8 +16179,8 @@ export namespace Prisma {
     tenantId?: StringFilter<"Ticket"> | string
     title?: StringFilter<"Ticket"> | string
     description?: StringNullableFilter<"Ticket"> | string | null
-    status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
+    status?: StringFilter<"Ticket"> | string
+    priorityId?: StringNullableFilter<"Ticket"> | string | null
     order?: IntFilter<"Ticket"> | number
     columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
@@ -13307,6 +16191,7 @@ export namespace Prisma {
     assigneeId?: StringNullableFilter<"Ticket"> | string | null
     departmentId?: StringNullableFilter<"Ticket"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    priority?: XOR<PriorityNullableScalarRelationFilter, PriorityWhereInput> | null
     column?: XOR<ColumnNullableScalarRelationFilter, ColumnWhereInput> | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -13321,7 +16206,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrderInput | SortOrder
     order?: SortOrder
     columnId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -13346,8 +16231,8 @@ export namespace Prisma {
     tenantId?: StringWithAggregatesFilter<"Ticket"> | string
     title?: StringWithAggregatesFilter<"Ticket"> | string
     description?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
-    status?: EnumTicketStatusWithAggregatesFilter<"Ticket"> | $Enums.TicketStatus
-    priority?: EnumTicketPriorityWithAggregatesFilter<"Ticket"> | $Enums.TicketPriority
+    status?: StringWithAggregatesFilter<"Ticket"> | string
+    priorityId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     order?: IntWithAggregatesFilter<"Ticket"> | number
     columnId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
@@ -13540,7 +16425,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"SLA"> | string | null
     responseTime?: IntFilter<"SLA"> | number
     resolutionTime?: IntFilter<"SLA"> | number
-    priority?: EnumTicketPriorityFilter<"SLA"> | $Enums.TicketPriority
+    priority?: StringFilter<"SLA"> | string
     departmentId?: StringNullableFilter<"SLA"> | string | null
     isActive?: BoolFilter<"SLA"> | boolean
     escalationRules?: JsonNullableFilter<"SLA">
@@ -13575,7 +16460,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"SLA"> | string | null
     responseTime?: IntFilter<"SLA"> | number
     resolutionTime?: IntFilter<"SLA"> | number
-    priority?: EnumTicketPriorityFilter<"SLA"> | $Enums.TicketPriority
+    priority?: StringFilter<"SLA"> | string
     departmentId?: StringNullableFilter<"SLA"> | string | null
     isActive?: BoolFilter<"SLA"> | boolean
     escalationRules?: JsonNullableFilter<"SLA">
@@ -13614,7 +16499,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"SLA"> | string | null
     responseTime?: IntWithAggregatesFilter<"SLA"> | number
     resolutionTime?: IntWithAggregatesFilter<"SLA"> | number
-    priority?: EnumTicketPriorityWithAggregatesFilter<"SLA"> | $Enums.TicketPriority
+    priority?: StringWithAggregatesFilter<"SLA"> | string
     departmentId?: StringNullableWithAggregatesFilter<"SLA"> | string | null
     isActive?: BoolWithAggregatesFilter<"SLA"> | boolean
     escalationRules?: JsonNullableWithAggregatesFilter<"SLA">
@@ -13692,9 +16577,170 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Workflow"> | Date | string
   }
 
+  export type PriorityCreateInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPrioritiesInput
+    tickets?: TicketCreateNestedManyWithoutPriorityInput
+  }
+
+  export type PriorityUncheckedCreateInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutPriorityInput
+  }
+
+  export type PriorityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPrioritiesNestedInput
+    tickets?: TicketUpdateManyWithoutPriorityNestedInput
+  }
+
+  export type PriorityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutPriorityNestedInput
+  }
+
+  export type PriorityCreateManyInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PriorityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PriorityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusCreateInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutStatusesInput
+    columns?: ColumnCreateNestedManyWithoutStatusInput
+  }
+
+  export type StatusUncheckedCreateInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    columns?: ColumnUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type StatusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutStatusesNestedInput
+    columns?: ColumnUpdateManyWithoutStatusNestedInput
+  }
+
+  export type StatusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    columns?: ColumnUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type StatusCreateManyInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
@@ -13702,11 +16748,14 @@ export namespace Prisma {
     columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
@@ -13714,11 +16763,14 @@ export namespace Prisma {
     columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
@@ -13726,11 +16778,14 @@ export namespace Prisma {
     columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
@@ -13738,23 +16793,28 @@ export namespace Prisma {
     columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
   }
 
   export type TenantUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13765,6 +16825,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -13784,6 +16845,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -13801,6 +16863,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13820,6 +16883,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13838,6 +16902,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -13852,6 +16917,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13867,6 +16933,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13950,6 +17017,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutColumnsInput
+    status?: StatusCreateNestedOneWithoutColumnsInput
     tickets?: TicketCreateNestedManyWithoutColumnInput
   }
 
@@ -13961,6 +17029,7 @@ export namespace Prisma {
     order?: number
     color?: string | null
     isDefault?: boolean
+    statusId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutColumnInput
@@ -13976,6 +17045,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutColumnsNestedInput
+    status?: StatusUpdateOneWithoutColumnsNestedInput
     tickets?: TicketUpdateManyWithoutColumnNestedInput
   }
 
@@ -13987,6 +17057,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutColumnNestedInput
@@ -14000,6 +17071,7 @@ export namespace Prisma {
     order?: number
     color?: string | null
     isDefault?: boolean
+    statusId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14023,6 +17095,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14031,14 +17104,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
@@ -14052,8 +17125,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -14071,14 +17144,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
@@ -14092,8 +17165,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14112,8 +17185,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -14129,8 +17202,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14143,8 +17215,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14344,7 +17416,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: $Enums.TicketPriority
+    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14360,7 +17432,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: $Enums.TicketPriority
+    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14374,7 +17446,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14390,7 +17462,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14405,7 +17477,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: $Enums.TicketPriority
+    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14419,7 +17491,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14434,7 +17506,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -14533,6 +17605,22 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14544,16 +17632,9 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
-  export type DepartmentListRelationFilter = {
-    every?: DepartmentWhereInput
-    some?: DepartmentWhereInput
-    none?: DepartmentWhereInput
+  export type TenantScalarRelationFilter = {
+    is?: TenantWhereInput
+    isNot?: TenantWhereInput
   }
 
   export type TicketListRelationFilter = {
@@ -14562,64 +17643,49 @@ export namespace Prisma {
     none?: TicketWhereInput
   }
 
-  export type ColumnListRelationFilter = {
-    every?: ColumnWhereInput
-    some?: ColumnWhereInput
-    none?: ColumnWhereInput
-  }
-
-  export type SLAListRelationFilter = {
-    every?: SLAWhereInput
-    some?: SLAWhereInput
-    none?: SLAWhereInput
-  }
-
-  export type WorkflowListRelationFilter = {
-    every?: WorkflowWhereInput
-    some?: WorkflowWhereInput
-    none?: WorkflowWhereInput
-  }
-
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DepartmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type TicketOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ColumnOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SLAOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type WorkflowOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type TenantCountOrderByAggregateInput = {
+  export type PriorityCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type TenantMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    createdAt?: SortOrder
+  export type PriorityAvgOrderByAggregateInput = {
+    order?: SortOrder
   }
 
-  export type TenantMinOrderByAggregateInput = {
+  export type PriorityMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PriorityMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrioritySumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -14640,6 +17706,30 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14654,27 +17744,55 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type EnumUserRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  export type ColumnListRelationFilter = {
+    every?: ColumnWhereInput
+    some?: ColumnWhereInput
+    none?: ColumnWhereInput
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type ColumnOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type StatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type StatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isDefault?: SortOrder
+    tenantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusSumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -14692,15 +17810,40 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type TenantScalarRelationFilter = {
-    is?: TenantWhereInput
-    isNot?: TenantWhereInput
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
   }
 
-  export type TicketCommentListRelationFilter = {
-    every?: TicketCommentWhereInput
-    some?: TicketCommentWhereInput
-    none?: TicketCommentWhereInput
+  export type DepartmentListRelationFilter = {
+    every?: DepartmentWhereInput
+    some?: DepartmentWhereInput
+    none?: DepartmentWhereInput
+  }
+
+  export type SLAListRelationFilter = {
+    every?: SLAWhereInput
+    some?: SLAWhereInput
+    none?: SLAWhereInput
+  }
+
+  export type WorkflowListRelationFilter = {
+    every?: WorkflowWhereInput
+    some?: WorkflowWhereInput
+    none?: WorkflowWhereInput
+  }
+
+  export type PriorityListRelationFilter = {
+    every?: PriorityWhereInput
+    some?: PriorityWhereInput
+    none?: PriorityWhereInput
+  }
+
+  export type StatusListRelationFilter = {
+    every?: StatusWhereInput
+    some?: StatusWhereInput
+    none?: StatusWhereInput
   }
 
   export type SortOrderInput = {
@@ -14708,85 +17851,49 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type TicketCommentOrderByRelationAggregateInput = {
+  export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type UserCountOrderByAggregateInput = {
+  export type DepartmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SLAOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkflowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PriorityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TenantCountOrderByAggregateInput = {
     id?: SortOrder
-    tenantId?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    passwordHash?: SortOrder
-    role?: SortOrder
-    isActive?: SortOrder
+    name?: SortOrder
+    avatar?: SortOrder
     createdAt?: SortOrder
-    deletedAt?: SortOrder
-    refreshToken?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordTokenExpiry?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
+  export type TenantMaxOrderByAggregateInput = {
     id?: SortOrder
-    tenantId?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    passwordHash?: SortOrder
-    role?: SortOrder
-    isActive?: SortOrder
+    name?: SortOrder
+    avatar?: SortOrder
     createdAt?: SortOrder
-    deletedAt?: SortOrder
-    refreshToken?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordTokenExpiry?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
+  export type TenantMinOrderByAggregateInput = {
     id?: SortOrder
-    tenantId?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    passwordHash?: SortOrder
-    role?: SortOrder
-    isActive?: SortOrder
+    name?: SortOrder
+    avatar?: SortOrder
     createdAt?: SortOrder
-    deletedAt?: SortOrder
-    refreshToken?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordTokenExpiry?: SortOrder
-  }
-
-  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumUserRoleFilter<$PrismaModel>
-    _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14805,6 +17912,106 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type TicketCommentListRelationFilter = {
+    every?: TicketCommentWhereInput
+    some?: TicketCommentWhereInput
+    none?: TicketCommentWhereInput
+  }
+
+  export type TicketCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    avatar?: SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrder
+    refreshToken?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordTokenExpiry?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    avatar?: SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrder
+    refreshToken?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordTokenExpiry?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    avatar?: SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrder
+    refreshToken?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordTokenExpiry?: SortOrder
+  }
+
+  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type DepartmentCountOrderByAggregateInput = {
@@ -14834,15 +18041,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type StatusNullableScalarRelationFilter = {
+    is?: StatusWhereInput | null
+    isNot?: StatusWhereInput | null
   }
 
   export type ColumnCountOrderByAggregateInput = {
@@ -14853,6 +18054,7 @@ export namespace Prisma {
     order?: SortOrder
     color?: SortOrder
     isDefault?: SortOrder
+    statusId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14869,6 +18071,7 @@ export namespace Prisma {
     order?: SortOrder
     color?: SortOrder
     isDefault?: SortOrder
+    statusId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14881,6 +18084,7 @@ export namespace Prisma {
     order?: SortOrder
     color?: SortOrder
     isDefault?: SortOrder
+    statusId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14889,34 +18093,9 @@ export namespace Prisma {
     order?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type EnumTicketStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketStatusFilter<$PrismaModel> | $Enums.TicketStatus
-  }
-
-  export type EnumTicketPriorityFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketPriority | EnumTicketPriorityFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketPriorityFilter<$PrismaModel> | $Enums.TicketPriority
+  export type PriorityNullableScalarRelationFilter = {
+    is?: PriorityWhereInput | null
+    isNot?: PriorityWhereInput | null
   }
 
   export type ColumnNullableScalarRelationFilter = {
@@ -14955,7 +18134,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrder
     order?: SortOrder
     columnId?: SortOrder
     createdAt?: SortOrder
@@ -14977,7 +18156,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrder
     order?: SortOrder
     columnId?: SortOrder
     createdAt?: SortOrder
@@ -14995,7 +18174,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrder
     order?: SortOrder
     columnId?: SortOrder
     createdAt?: SortOrder
@@ -15009,26 +18188,6 @@ export namespace Prisma {
 
   export type TicketSumOrderByAggregateInput = {
     order?: SortOrder
-  }
-
-  export type EnumTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketStatusWithAggregatesFilter<$PrismaModel> | $Enums.TicketStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTicketStatusFilter<$PrismaModel>
-    _max?: NestedEnumTicketStatusFilter<$PrismaModel>
-  }
-
-  export type EnumTicketPriorityWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketPriority | EnumTicketPriorityFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketPriorityWithAggregatesFilter<$PrismaModel> | $Enums.TicketPriority
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTicketPriorityFilter<$PrismaModel>
-    _max?: NestedEnumTicketPriorityFilter<$PrismaModel>
   }
 
   export type TicketScalarRelationFilter = {
@@ -15314,6 +18473,138 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type TenantCreateNestedOneWithoutPrioritiesInput = {
+    create?: XOR<TenantCreateWithoutPrioritiesInput, TenantUncheckedCreateWithoutPrioritiesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPrioritiesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TicketCreateNestedManyWithoutPriorityInput = {
+    create?: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput> | TicketCreateWithoutPriorityInput[] | TicketUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutPriorityInput | TicketCreateOrConnectWithoutPriorityInput[]
+    createMany?: TicketCreateManyPriorityInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutPriorityInput = {
+    create?: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput> | TicketCreateWithoutPriorityInput[] | TicketUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutPriorityInput | TicketCreateOrConnectWithoutPriorityInput[]
+    createMany?: TicketCreateManyPriorityInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type TenantUpdateOneRequiredWithoutPrioritiesNestedInput = {
+    create?: XOR<TenantCreateWithoutPrioritiesInput, TenantUncheckedCreateWithoutPrioritiesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPrioritiesInput
+    upsert?: TenantUpsertWithoutPrioritiesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPrioritiesInput, TenantUpdateWithoutPrioritiesInput>, TenantUncheckedUpdateWithoutPrioritiesInput>
+  }
+
+  export type TicketUpdateManyWithoutPriorityNestedInput = {
+    create?: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput> | TicketCreateWithoutPriorityInput[] | TicketUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutPriorityInput | TicketCreateOrConnectWithoutPriorityInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutPriorityInput | TicketUpsertWithWhereUniqueWithoutPriorityInput[]
+    createMany?: TicketCreateManyPriorityInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutPriorityInput | TicketUpdateWithWhereUniqueWithoutPriorityInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutPriorityInput | TicketUpdateManyWithWhereWithoutPriorityInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutPriorityNestedInput = {
+    create?: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput> | TicketCreateWithoutPriorityInput[] | TicketUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutPriorityInput | TicketCreateOrConnectWithoutPriorityInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutPriorityInput | TicketUpsertWithWhereUniqueWithoutPriorityInput[]
+    createMany?: TicketCreateManyPriorityInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutPriorityInput | TicketUpdateWithWhereUniqueWithoutPriorityInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutPriorityInput | TicketUpdateManyWithWhereWithoutPriorityInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutStatusesInput = {
+    create?: XOR<TenantCreateWithoutStatusesInput, TenantUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutStatusesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ColumnCreateNestedManyWithoutStatusInput = {
+    create?: XOR<ColumnCreateWithoutStatusInput, ColumnUncheckedCreateWithoutStatusInput> | ColumnCreateWithoutStatusInput[] | ColumnUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutStatusInput | ColumnCreateOrConnectWithoutStatusInput[]
+    createMany?: ColumnCreateManyStatusInputEnvelope
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+  }
+
+  export type ColumnUncheckedCreateNestedManyWithoutStatusInput = {
+    create?: XOR<ColumnCreateWithoutStatusInput, ColumnUncheckedCreateWithoutStatusInput> | ColumnCreateWithoutStatusInput[] | ColumnUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutStatusInput | ColumnCreateOrConnectWithoutStatusInput[]
+    createMany?: ColumnCreateManyStatusInputEnvelope
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutStatusesNestedInput = {
+    create?: XOR<TenantCreateWithoutStatusesInput, TenantUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutStatusesInput
+    upsert?: TenantUpsertWithoutStatusesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutStatusesInput, TenantUpdateWithoutStatusesInput>, TenantUncheckedUpdateWithoutStatusesInput>
+  }
+
+  export type ColumnUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<ColumnCreateWithoutStatusInput, ColumnUncheckedCreateWithoutStatusInput> | ColumnCreateWithoutStatusInput[] | ColumnUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutStatusInput | ColumnCreateOrConnectWithoutStatusInput[]
+    upsert?: ColumnUpsertWithWhereUniqueWithoutStatusInput | ColumnUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: ColumnCreateManyStatusInputEnvelope
+    set?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    disconnect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    delete?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    update?: ColumnUpdateWithWhereUniqueWithoutStatusInput | ColumnUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: ColumnUpdateManyWithWhereWithoutStatusInput | ColumnUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
+  }
+
+  export type ColumnUncheckedUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<ColumnCreateWithoutStatusInput, ColumnUncheckedCreateWithoutStatusInput> | ColumnCreateWithoutStatusInput[] | ColumnUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: ColumnCreateOrConnectWithoutStatusInput | ColumnCreateOrConnectWithoutStatusInput[]
+    upsert?: ColumnUpsertWithWhereUniqueWithoutStatusInput | ColumnUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: ColumnCreateManyStatusInputEnvelope
+    set?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    disconnect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    delete?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    connect?: ColumnWhereUniqueInput | ColumnWhereUniqueInput[]
+    update?: ColumnUpdateWithWhereUniqueWithoutStatusInput | ColumnUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: ColumnUpdateManyWithWhereWithoutStatusInput | ColumnUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
+  }
+
   export type UserCreateNestedManyWithoutTenantInput = {
     create?: XOR<UserCreateWithoutTenantInput, UserUncheckedCreateWithoutTenantInput> | UserCreateWithoutTenantInput[] | UserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: UserCreateOrConnectWithoutTenantInput | UserCreateOrConnectWithoutTenantInput[]
@@ -15354,6 +18645,20 @@ export namespace Prisma {
     connectOrCreate?: WorkflowCreateOrConnectWithoutTenantInput | WorkflowCreateOrConnectWithoutTenantInput[]
     createMany?: WorkflowCreateManyTenantInputEnvelope
     connect?: WorkflowWhereUniqueInput | WorkflowWhereUniqueInput[]
+  }
+
+  export type PriorityCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PriorityCreateWithoutTenantInput, PriorityUncheckedCreateWithoutTenantInput> | PriorityCreateWithoutTenantInput[] | PriorityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PriorityCreateOrConnectWithoutTenantInput | PriorityCreateOrConnectWithoutTenantInput[]
+    createMany?: PriorityCreateManyTenantInputEnvelope
+    connect?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+  }
+
+  export type StatusCreateNestedManyWithoutTenantInput = {
+    create?: XOR<StatusCreateWithoutTenantInput, StatusUncheckedCreateWithoutTenantInput> | StatusCreateWithoutTenantInput[] | StatusUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: StatusCreateOrConnectWithoutTenantInput | StatusCreateOrConnectWithoutTenantInput[]
+    createMany?: StatusCreateManyTenantInputEnvelope
+    connect?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutTenantInput = {
@@ -15398,12 +18703,22 @@ export namespace Prisma {
     connect?: WorkflowWhereUniqueInput | WorkflowWhereUniqueInput[]
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
+  export type PriorityUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PriorityCreateWithoutTenantInput, PriorityUncheckedCreateWithoutTenantInput> | PriorityCreateWithoutTenantInput[] | PriorityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PriorityCreateOrConnectWithoutTenantInput | PriorityCreateOrConnectWithoutTenantInput[]
+    createMany?: PriorityCreateManyTenantInputEnvelope
+    connect?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type StatusUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<StatusCreateWithoutTenantInput, StatusUncheckedCreateWithoutTenantInput> | StatusCreateWithoutTenantInput[] | StatusUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: StatusCreateOrConnectWithoutTenantInput | StatusCreateOrConnectWithoutTenantInput[]
+    createMany?: StatusCreateManyTenantInputEnvelope
+    connect?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type UserUpdateManyWithoutTenantNestedInput = {
@@ -15490,6 +18805,34 @@ export namespace Prisma {
     deleteMany?: WorkflowScalarWhereInput | WorkflowScalarWhereInput[]
   }
 
+  export type PriorityUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PriorityCreateWithoutTenantInput, PriorityUncheckedCreateWithoutTenantInput> | PriorityCreateWithoutTenantInput[] | PriorityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PriorityCreateOrConnectWithoutTenantInput | PriorityCreateOrConnectWithoutTenantInput[]
+    upsert?: PriorityUpsertWithWhereUniqueWithoutTenantInput | PriorityUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PriorityCreateManyTenantInputEnvelope
+    set?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    disconnect?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    delete?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    connect?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    update?: PriorityUpdateWithWhereUniqueWithoutTenantInput | PriorityUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PriorityUpdateManyWithWhereWithoutTenantInput | PriorityUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PriorityScalarWhereInput | PriorityScalarWhereInput[]
+  }
+
+  export type StatusUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<StatusCreateWithoutTenantInput, StatusUncheckedCreateWithoutTenantInput> | StatusCreateWithoutTenantInput[] | StatusUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: StatusCreateOrConnectWithoutTenantInput | StatusCreateOrConnectWithoutTenantInput[]
+    upsert?: StatusUpsertWithWhereUniqueWithoutTenantInput | StatusUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: StatusCreateManyTenantInputEnvelope
+    set?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    disconnect?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    delete?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    connect?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    update?: StatusUpdateWithWhereUniqueWithoutTenantInput | StatusUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: StatusUpdateManyWithWhereWithoutTenantInput | StatusUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: StatusScalarWhereInput | StatusScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<UserCreateWithoutTenantInput, UserUncheckedCreateWithoutTenantInput> | UserCreateWithoutTenantInput[] | UserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: UserCreateOrConnectWithoutTenantInput | UserCreateOrConnectWithoutTenantInput[]
@@ -15574,6 +18917,34 @@ export namespace Prisma {
     deleteMany?: WorkflowScalarWhereInput | WorkflowScalarWhereInput[]
   }
 
+  export type PriorityUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PriorityCreateWithoutTenantInput, PriorityUncheckedCreateWithoutTenantInput> | PriorityCreateWithoutTenantInput[] | PriorityUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PriorityCreateOrConnectWithoutTenantInput | PriorityCreateOrConnectWithoutTenantInput[]
+    upsert?: PriorityUpsertWithWhereUniqueWithoutTenantInput | PriorityUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PriorityCreateManyTenantInputEnvelope
+    set?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    disconnect?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    delete?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    connect?: PriorityWhereUniqueInput | PriorityWhereUniqueInput[]
+    update?: PriorityUpdateWithWhereUniqueWithoutTenantInput | PriorityUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PriorityUpdateManyWithWhereWithoutTenantInput | PriorityUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PriorityScalarWhereInput | PriorityScalarWhereInput[]
+  }
+
+  export type StatusUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<StatusCreateWithoutTenantInput, StatusUncheckedCreateWithoutTenantInput> | StatusCreateWithoutTenantInput[] | StatusUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: StatusCreateOrConnectWithoutTenantInput | StatusCreateOrConnectWithoutTenantInput[]
+    upsert?: StatusUpsertWithWhereUniqueWithoutTenantInput | StatusUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: StatusCreateManyTenantInputEnvelope
+    set?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    disconnect?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    delete?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    connect?: StatusWhereUniqueInput | StatusWhereUniqueInput[]
+    update?: StatusUpdateWithWhereUniqueWithoutTenantInput | StatusUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: StatusUpdateManyWithWhereWithoutTenantInput | StatusUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: StatusScalarWhereInput | StatusScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutUsersInput = {
     create?: XOR<TenantCreateWithoutUsersInput, TenantUncheckedCreateWithoutUsersInput>
     connectOrCreate?: TenantCreateOrConnectWithoutUsersInput
@@ -15626,16 +18997,8 @@ export namespace Prisma {
     set?: $Enums.UserRole
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type TenantUpdateOneRequiredWithoutUsersNestedInput = {
@@ -15792,6 +19155,12 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type StatusCreateNestedOneWithoutColumnsInput = {
+    create?: XOR<StatusCreateWithoutColumnsInput, StatusUncheckedCreateWithoutColumnsInput>
+    connectOrCreate?: StatusCreateOrConnectWithoutColumnsInput
+    connect?: StatusWhereUniqueInput
+  }
+
   export type TicketCreateNestedManyWithoutColumnInput = {
     create?: XOR<TicketCreateWithoutColumnInput, TicketUncheckedCreateWithoutColumnInput> | TicketCreateWithoutColumnInput[] | TicketUncheckedCreateWithoutColumnInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutColumnInput | TicketCreateOrConnectWithoutColumnInput[]
@@ -15806,20 +19175,22 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type TenantUpdateOneRequiredWithoutColumnsNestedInput = {
     create?: XOR<TenantCreateWithoutColumnsInput, TenantUncheckedCreateWithoutColumnsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutColumnsInput
     upsert?: TenantUpsertWithoutColumnsInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutColumnsInput, TenantUpdateWithoutColumnsInput>, TenantUncheckedUpdateWithoutColumnsInput>
+  }
+
+  export type StatusUpdateOneWithoutColumnsNestedInput = {
+    create?: XOR<StatusCreateWithoutColumnsInput, StatusUncheckedCreateWithoutColumnsInput>
+    connectOrCreate?: StatusCreateOrConnectWithoutColumnsInput
+    upsert?: StatusUpsertWithoutColumnsInput
+    disconnect?: StatusWhereInput | boolean
+    delete?: StatusWhereInput | boolean
+    connect?: StatusWhereUniqueInput
+    update?: XOR<XOR<StatusUpdateToOneWithWhereWithoutColumnsInput, StatusUpdateWithoutColumnsInput>, StatusUncheckedUpdateWithoutColumnsInput>
   }
 
   export type TicketUpdateManyWithoutColumnNestedInput = {
@@ -15854,6 +19225,12 @@ export namespace Prisma {
     create?: XOR<TenantCreateWithoutTicketsInput, TenantUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutTicketsInput
     connect?: TenantWhereUniqueInput
+  }
+
+  export type PriorityCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<PriorityCreateWithoutTicketsInput, PriorityUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: PriorityCreateOrConnectWithoutTicketsInput
+    connect?: PriorityWhereUniqueInput
   }
 
   export type ColumnCreateNestedOneWithoutTicketsInput = {
@@ -15908,20 +19285,22 @@ export namespace Prisma {
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
-  export type EnumTicketStatusFieldUpdateOperationsInput = {
-    set?: $Enums.TicketStatus
-  }
-
-  export type EnumTicketPriorityFieldUpdateOperationsInput = {
-    set?: $Enums.TicketPriority
-  }
-
   export type TenantUpdateOneRequiredWithoutTicketsNestedInput = {
     create?: XOR<TenantCreateWithoutTicketsInput, TenantUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutTicketsInput
     upsert?: TenantUpsertWithoutTicketsInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTicketsInput, TenantUpdateWithoutTicketsInput>, TenantUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type PriorityUpdateOneWithoutTicketsNestedInput = {
+    create?: XOR<PriorityCreateWithoutTicketsInput, PriorityUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: PriorityCreateOrConnectWithoutTicketsInput
+    upsert?: PriorityUpsertWithoutTicketsInput
+    disconnect?: PriorityWhereInput | boolean
+    delete?: PriorityWhereInput | boolean
+    connect?: PriorityWhereUniqueInput
+    update?: XOR<XOR<PriorityUpdateToOneWithWhereWithoutTicketsInput, PriorityUpdateWithoutTicketsInput>, PriorityUncheckedUpdateWithoutTicketsInput>
   }
 
   export type ColumnUpdateOneWithoutTicketsNestedInput = {
@@ -16162,6 +19541,22 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -16188,128 +19583,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumUserRoleFilter<$PrismaModel>
-    _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -16339,38 +19612,110 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumTicketStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketStatusFilter<$PrismaModel> | $Enums.TicketStatus
-  }
-
-  export type NestedEnumTicketPriorityFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketPriority | EnumTicketPriorityFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketPriorityFilter<$PrismaModel> | $Enums.TicketPriority
-  }
-
-  export type NestedEnumTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketStatusWithAggregatesFilter<$PrismaModel> | $Enums.TicketStatus
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTicketStatusFilter<$PrismaModel>
-    _max?: NestedEnumTicketStatusFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedEnumTicketPriorityWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TicketPriority | EnumTicketPriorityFieldRefInput<$PrismaModel>
-    in?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
-    not?: NestedEnumTicketPriorityWithAggregatesFilter<$PrismaModel> | $Enums.TicketPriority
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTicketPriorityFilter<$PrismaModel>
-    _max?: NestedEnumTicketPriorityFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -16419,6 +19764,303 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type TenantCreateWithoutPrioritiesInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutTenantInput
+    departments?: DepartmentCreateNestedManyWithoutTenantInput
+    tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
+    slas?: SLACreateNestedManyWithoutTenantInput
+    workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPrioritiesInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
+    slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
+    workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPrioritiesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPrioritiesInput, TenantUncheckedCreateWithoutPrioritiesInput>
+  }
+
+  export type TicketCreateWithoutPriorityInput = {
+    id?: string
+    title: string
+    description?: string | null
+    status?: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    tenant: TenantCreateNestedOneWithoutTicketsInput
+    column?: ColumnCreateNestedOneWithoutTicketsInput
+    creator: UserCreateNestedOneWithoutTicketsCreatedInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
+    department?: DepartmentCreateNestedOneWithoutTicketsInput
+    comments?: TicketCommentCreateNestedManyWithoutTicketInput
+    attachments?: AttachmentCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutPriorityInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: string
+    order?: number
+    columnId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    creatorId: string
+    assigneeId?: string | null
+    departmentId?: string | null
+    comments?: TicketCommentUncheckedCreateNestedManyWithoutTicketInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutPriorityInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput>
+  }
+
+  export type TicketCreateManyPriorityInputEnvelope = {
+    data: TicketCreateManyPriorityInput | TicketCreateManyPriorityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutPrioritiesInput = {
+    update: XOR<TenantUpdateWithoutPrioritiesInput, TenantUncheckedUpdateWithoutPrioritiesInput>
+    create: XOR<TenantCreateWithoutPrioritiesInput, TenantUncheckedCreateWithoutPrioritiesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPrioritiesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPrioritiesInput, TenantUncheckedUpdateWithoutPrioritiesInput>
+  }
+
+  export type TenantUpdateWithoutPrioritiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutTenantNestedInput
+    departments?: DepartmentUpdateManyWithoutTenantNestedInput
+    tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
+    slas?: SLAUpdateManyWithoutTenantNestedInput
+    workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPrioritiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
+    slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
+    workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TicketUpsertWithWhereUniqueWithoutPriorityInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutPriorityInput, TicketUncheckedUpdateWithoutPriorityInput>
+    create: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutPriorityInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutPriorityInput, TicketUncheckedUpdateWithoutPriorityInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutPriorityInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutPriorityInput>
+  }
+
+  export type TicketScalarWhereInput = {
+    AND?: TicketScalarWhereInput | TicketScalarWhereInput[]
+    OR?: TicketScalarWhereInput[]
+    NOT?: TicketScalarWhereInput | TicketScalarWhereInput[]
+    id?: StringFilter<"Ticket"> | string
+    tenantId?: StringFilter<"Ticket"> | string
+    title?: StringFilter<"Ticket"> | string
+    description?: StringNullableFilter<"Ticket"> | string | null
+    status?: StringFilter<"Ticket"> | string
+    priorityId?: StringNullableFilter<"Ticket"> | string | null
+    order?: IntFilter<"Ticket"> | number
+    columnId?: StringNullableFilter<"Ticket"> | string | null
+    createdAt?: DateTimeFilter<"Ticket"> | Date | string
+    updatedAt?: DateTimeFilter<"Ticket"> | Date | string
+    closedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
+    creatorId?: StringFilter<"Ticket"> | string
+    assigneeId?: StringNullableFilter<"Ticket"> | string | null
+    departmentId?: StringNullableFilter<"Ticket"> | string | null
+  }
+
+  export type TenantCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutTenantInput
+    departments?: DepartmentCreateNestedManyWithoutTenantInput
+    tickets?: TicketCreateNestedManyWithoutTenantInput
+    columns?: ColumnCreateNestedManyWithoutTenantInput
+    slas?: SLACreateNestedManyWithoutTenantInput
+    workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
+    columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
+    slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
+    workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutStatusesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutStatusesInput, TenantUncheckedCreateWithoutStatusesInput>
+  }
+
+  export type ColumnCreateWithoutStatusInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutColumnsInput
+    tickets?: TicketCreateNestedManyWithoutColumnInput
+  }
+
+  export type ColumnUncheckedCreateWithoutStatusInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutColumnInput
+  }
+
+  export type ColumnCreateOrConnectWithoutStatusInput = {
+    where: ColumnWhereUniqueInput
+    create: XOR<ColumnCreateWithoutStatusInput, ColumnUncheckedCreateWithoutStatusInput>
+  }
+
+  export type ColumnCreateManyStatusInputEnvelope = {
+    data: ColumnCreateManyStatusInput | ColumnCreateManyStatusInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutStatusesInput = {
+    update: XOR<TenantUpdateWithoutStatusesInput, TenantUncheckedUpdateWithoutStatusesInput>
+    create: XOR<TenantCreateWithoutStatusesInput, TenantUncheckedCreateWithoutStatusesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutStatusesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutStatusesInput, TenantUncheckedUpdateWithoutStatusesInput>
+  }
+
+  export type TenantUpdateWithoutStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutTenantNestedInput
+    departments?: DepartmentUpdateManyWithoutTenantNestedInput
+    tickets?: TicketUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUpdateManyWithoutTenantNestedInput
+    slas?: SLAUpdateManyWithoutTenantNestedInput
+    workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
+    columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
+    slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
+    workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ColumnUpsertWithWhereUniqueWithoutStatusInput = {
+    where: ColumnWhereUniqueInput
+    update: XOR<ColumnUpdateWithoutStatusInput, ColumnUncheckedUpdateWithoutStatusInput>
+    create: XOR<ColumnCreateWithoutStatusInput, ColumnUncheckedCreateWithoutStatusInput>
+  }
+
+  export type ColumnUpdateWithWhereUniqueWithoutStatusInput = {
+    where: ColumnWhereUniqueInput
+    data: XOR<ColumnUpdateWithoutStatusInput, ColumnUncheckedUpdateWithoutStatusInput>
+  }
+
+  export type ColumnUpdateManyWithWhereWithoutStatusInput = {
+    where: ColumnScalarWhereInput
+    data: XOR<ColumnUpdateManyMutationInput, ColumnUncheckedUpdateManyWithoutStatusInput>
+  }
+
+  export type ColumnScalarWhereInput = {
+    AND?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
+    OR?: ColumnScalarWhereInput[]
+    NOT?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
+    id?: StringFilter<"Column"> | string
+    tenantId?: StringFilter<"Column"> | string
+    name?: StringFilter<"Column"> | string
+    description?: StringNullableFilter<"Column"> | string | null
+    order?: IntFilter<"Column"> | number
+    color?: StringNullableFilter<"Column"> | string | null
+    isDefault?: BoolFilter<"Column"> | boolean
+    statusId?: StringNullableFilter<"Column"> | string | null
+    createdAt?: DateTimeFilter<"Column"> | Date | string
+    updatedAt?: DateTimeFilter<"Column"> | Date | string
+  }
+
   export type UserCreateWithoutTenantInput = {
     id?: string
     username: string
@@ -16426,6 +20068,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -16443,6 +20086,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -16495,13 +20139,13 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
@@ -16514,8 +20158,8 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -16548,6 +20192,7 @@ export namespace Prisma {
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: StatusCreateNestedOneWithoutColumnsInput
     tickets?: TicketCreateNestedManyWithoutColumnInput
   }
 
@@ -16558,6 +20203,7 @@ export namespace Prisma {
     order?: number
     color?: string | null
     isDefault?: boolean
+    statusId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutColumnInput
@@ -16579,7 +20225,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: $Enums.TicketPriority
+    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -16593,7 +20239,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: $Enums.TicketPriority
+    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -16641,6 +20287,70 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PriorityCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketCreateNestedManyWithoutPriorityInput
+  }
+
+  export type PriorityUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutPriorityInput
+  }
+
+  export type PriorityCreateOrConnectWithoutTenantInput = {
+    where: PriorityWhereUniqueInput
+    create: XOR<PriorityCreateWithoutTenantInput, PriorityUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PriorityCreateManyTenantInputEnvelope = {
+    data: PriorityCreateManyTenantInput | PriorityCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StatusCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    columns?: ColumnCreateNestedManyWithoutStatusInput
+  }
+
+  export type StatusUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    columns?: ColumnUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type StatusCreateOrConnectWithoutTenantInput = {
+    where: StatusWhereUniqueInput
+    create: XOR<StatusCreateWithoutTenantInput, StatusUncheckedCreateWithoutTenantInput>
+  }
+
+  export type StatusCreateManyTenantInputEnvelope = {
+    data: StatusCreateManyTenantInput | StatusCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutTenantInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutTenantInput, UserUncheckedUpdateWithoutTenantInput>
@@ -16668,6 +20378,7 @@ export namespace Prisma {
     passwordHash?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isActive?: BoolFilter<"User"> | boolean
+    avatar?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     refreshToken?: StringNullableFilter<"User"> | string | null
@@ -16719,27 +20430,6 @@ export namespace Prisma {
     data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutTenantInput>
   }
 
-  export type TicketScalarWhereInput = {
-    AND?: TicketScalarWhereInput | TicketScalarWhereInput[]
-    OR?: TicketScalarWhereInput[]
-    NOT?: TicketScalarWhereInput | TicketScalarWhereInput[]
-    id?: StringFilter<"Ticket"> | string
-    tenantId?: StringFilter<"Ticket"> | string
-    title?: StringFilter<"Ticket"> | string
-    description?: StringNullableFilter<"Ticket"> | string | null
-    status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
-    order?: IntFilter<"Ticket"> | number
-    columnId?: StringNullableFilter<"Ticket"> | string | null
-    createdAt?: DateTimeFilter<"Ticket"> | Date | string
-    updatedAt?: DateTimeFilter<"Ticket"> | Date | string
-    closedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
-    creatorId?: StringFilter<"Ticket"> | string
-    assigneeId?: StringNullableFilter<"Ticket"> | string | null
-    departmentId?: StringNullableFilter<"Ticket"> | string | null
-  }
-
   export type ColumnUpsertWithWhereUniqueWithoutTenantInput = {
     where: ColumnWhereUniqueInput
     update: XOR<ColumnUpdateWithoutTenantInput, ColumnUncheckedUpdateWithoutTenantInput>
@@ -16754,21 +20444,6 @@ export namespace Prisma {
   export type ColumnUpdateManyWithWhereWithoutTenantInput = {
     where: ColumnScalarWhereInput
     data: XOR<ColumnUpdateManyMutationInput, ColumnUncheckedUpdateManyWithoutTenantInput>
-  }
-
-  export type ColumnScalarWhereInput = {
-    AND?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
-    OR?: ColumnScalarWhereInput[]
-    NOT?: ColumnScalarWhereInput | ColumnScalarWhereInput[]
-    id?: StringFilter<"Column"> | string
-    tenantId?: StringFilter<"Column"> | string
-    name?: StringFilter<"Column"> | string
-    description?: StringNullableFilter<"Column"> | string | null
-    order?: IntFilter<"Column"> | number
-    color?: StringNullableFilter<"Column"> | string | null
-    isDefault?: BoolFilter<"Column"> | boolean
-    createdAt?: DateTimeFilter<"Column"> | Date | string
-    updatedAt?: DateTimeFilter<"Column"> | Date | string
   }
 
   export type SLAUpsertWithWhereUniqueWithoutTenantInput = {
@@ -16797,7 +20472,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"SLA"> | string | null
     responseTime?: IntFilter<"SLA"> | number
     resolutionTime?: IntFilter<"SLA"> | number
-    priority?: EnumTicketPriorityFilter<"SLA"> | $Enums.TicketPriority
+    priority?: StringFilter<"SLA"> | string
     departmentId?: StringNullableFilter<"SLA"> | string | null
     isActive?: BoolFilter<"SLA"> | boolean
     escalationRules?: JsonNullableFilter<"SLA">
@@ -16835,26 +20510,92 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Workflow"> | Date | string
   }
 
+  export type PriorityUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PriorityWhereUniqueInput
+    update: XOR<PriorityUpdateWithoutTenantInput, PriorityUncheckedUpdateWithoutTenantInput>
+    create: XOR<PriorityCreateWithoutTenantInput, PriorityUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PriorityUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PriorityWhereUniqueInput
+    data: XOR<PriorityUpdateWithoutTenantInput, PriorityUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PriorityUpdateManyWithWhereWithoutTenantInput = {
+    where: PriorityScalarWhereInput
+    data: XOR<PriorityUpdateManyMutationInput, PriorityUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PriorityScalarWhereInput = {
+    AND?: PriorityScalarWhereInput | PriorityScalarWhereInput[]
+    OR?: PriorityScalarWhereInput[]
+    NOT?: PriorityScalarWhereInput | PriorityScalarWhereInput[]
+    id?: StringFilter<"Priority"> | string
+    name?: StringFilter<"Priority"> | string
+    color?: StringFilter<"Priority"> | string
+    order?: IntFilter<"Priority"> | number
+    isDefault?: BoolFilter<"Priority"> | boolean
+    tenantId?: StringFilter<"Priority"> | string
+    createdAt?: DateTimeFilter<"Priority"> | Date | string
+    updatedAt?: DateTimeFilter<"Priority"> | Date | string
+  }
+
+  export type StatusUpsertWithWhereUniqueWithoutTenantInput = {
+    where: StatusWhereUniqueInput
+    update: XOR<StatusUpdateWithoutTenantInput, StatusUncheckedUpdateWithoutTenantInput>
+    create: XOR<StatusCreateWithoutTenantInput, StatusUncheckedCreateWithoutTenantInput>
+  }
+
+  export type StatusUpdateWithWhereUniqueWithoutTenantInput = {
+    where: StatusWhereUniqueInput
+    data: XOR<StatusUpdateWithoutTenantInput, StatusUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type StatusUpdateManyWithWhereWithoutTenantInput = {
+    where: StatusScalarWhereInput
+    data: XOR<StatusUpdateManyMutationInput, StatusUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type StatusScalarWhereInput = {
+    AND?: StatusScalarWhereInput | StatusScalarWhereInput[]
+    OR?: StatusScalarWhereInput[]
+    NOT?: StatusScalarWhereInput | StatusScalarWhereInput[]
+    id?: StringFilter<"Status"> | string
+    name?: StringFilter<"Status"> | string
+    color?: StringFilter<"Status"> | string
+    order?: IntFilter<"Status"> | number
+    isDefault?: BoolFilter<"Status"> | boolean
+    tenantId?: StringFilter<"Status"> | string
+    createdAt?: DateTimeFilter<"Status"> | Date | string
+    updatedAt?: DateTimeFilter<"Status"> | Date | string
+  }
+
   export type TenantCreateWithoutUsersInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
     columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
     columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -16866,14 +20607,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -16886,8 +20627,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -16914,14 +20655,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -16934,8 +20675,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -16998,23 +20739,29 @@ export namespace Prisma {
   export type TenantUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
     columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
     columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -17079,23 +20826,29 @@ export namespace Prisma {
   export type TenantCreateWithoutDepartmentsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
     columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDepartmentsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
     columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDepartmentsInput = {
@@ -17107,14 +20860,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
@@ -17127,8 +20880,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -17165,23 +20918,29 @@ export namespace Prisma {
   export type TenantUpdateWithoutDepartmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
     columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDepartmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
     columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutDepartmentInput = {
@@ -17203,23 +20962,29 @@ export namespace Prisma {
   export type TenantCreateWithoutColumnsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutColumnsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutColumnsInput = {
@@ -17227,18 +20992,45 @@ export namespace Prisma {
     create: XOR<TenantCreateWithoutColumnsInput, TenantUncheckedCreateWithoutColumnsInput>
   }
 
+  export type StatusCreateWithoutColumnsInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutStatusesInput
+  }
+
+  export type StatusUncheckedCreateWithoutColumnsInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatusCreateOrConnectWithoutColumnsInput = {
+    where: StatusWhereUniqueInput
+    create: XOR<StatusCreateWithoutColumnsInput, StatusUncheckedCreateWithoutColumnsInput>
+  }
+
   export type TicketCreateWithoutColumnInput = {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     department?: DepartmentCreateNestedOneWithoutTicketsInput
@@ -17251,8 +21043,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17289,23 +21081,62 @@ export namespace Prisma {
   export type TenantUpdateWithoutColumnsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutColumnsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type StatusUpsertWithoutColumnsInput = {
+    update: XOR<StatusUpdateWithoutColumnsInput, StatusUncheckedUpdateWithoutColumnsInput>
+    create: XOR<StatusCreateWithoutColumnsInput, StatusUncheckedCreateWithoutColumnsInput>
+    where?: StatusWhereInput
+  }
+
+  export type StatusUpdateToOneWithWhereWithoutColumnsInput = {
+    where?: StatusWhereInput
+    data: XOR<StatusUpdateWithoutColumnsInput, StatusUncheckedUpdateWithoutColumnsInput>
+  }
+
+  export type StatusUpdateWithoutColumnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutStatusesNestedInput
+  }
+
+  export type StatusUncheckedUpdateWithoutColumnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketUpsertWithWhereUniqueWithoutColumnInput = {
@@ -17327,28 +21158,61 @@ export namespace Prisma {
   export type TenantCreateWithoutTicketsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTicketsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTicketsInput = {
     where: TenantWhereUniqueInput
     create: XOR<TenantCreateWithoutTicketsInput, TenantUncheckedCreateWithoutTicketsInput>
+  }
+
+  export type PriorityCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPrioritiesInput
+  }
+
+  export type PriorityUncheckedCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PriorityCreateOrConnectWithoutTicketsInput = {
+    where: PriorityWhereUniqueInput
+    create: XOR<PriorityCreateWithoutTicketsInput, PriorityUncheckedCreateWithoutTicketsInput>
   }
 
   export type ColumnCreateWithoutTicketsInput = {
@@ -17361,6 +21225,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutColumnsInput
+    status?: StatusCreateNestedOneWithoutColumnsInput
   }
 
   export type ColumnUncheckedCreateWithoutTicketsInput = {
@@ -17371,6 +21236,7 @@ export namespace Prisma {
     order?: number
     color?: string | null
     isDefault?: boolean
+    statusId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17387,6 +21253,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -17405,6 +21272,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -17426,6 +21294,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -17444,6 +21313,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -17565,23 +21435,62 @@ export namespace Prisma {
   export type TenantUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PriorityUpsertWithoutTicketsInput = {
+    update: XOR<PriorityUpdateWithoutTicketsInput, PriorityUncheckedUpdateWithoutTicketsInput>
+    create: XOR<PriorityCreateWithoutTicketsInput, PriorityUncheckedCreateWithoutTicketsInput>
+    where?: PriorityWhereInput
+  }
+
+  export type PriorityUpdateToOneWithWhereWithoutTicketsInput = {
+    where?: PriorityWhereInput
+    data: XOR<PriorityUpdateWithoutTicketsInput, PriorityUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type PriorityUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPrioritiesNestedInput
+  }
+
+  export type PriorityUncheckedUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ColumnUpsertWithoutTicketsInput = {
@@ -17605,6 +21514,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutColumnsNestedInput
+    status?: StatusUpdateOneWithoutColumnsNestedInput
   }
 
   export type ColumnUncheckedUpdateWithoutTicketsInput = {
@@ -17615,6 +21525,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17637,6 +21548,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17655,6 +21567,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17682,6 +21595,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17700,6 +21614,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17795,14 +21710,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
@@ -17815,8 +21730,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -17841,6 +21756,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -17859,6 +21775,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -17932,14 +21849,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
@@ -17952,8 +21869,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17984,6 +21901,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18002,6 +21920,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18031,14 +21950,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
     deletedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutTicketsInput
+    priority?: PriorityCreateNestedOneWithoutTicketsInput
     column?: ColumnCreateNestedOneWithoutTicketsInput
     creator: UserCreateNestedOneWithoutTicketsCreatedInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
@@ -18051,8 +21970,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -18106,14 +22025,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
@@ -18126,8 +22045,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18170,23 +22089,29 @@ export namespace Prisma {
   export type TenantCreateWithoutSlasInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
     columns?: ColumnCreateNestedManyWithoutTenantInput
     workflows?: WorkflowCreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSlasInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
     columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     workflows?: WorkflowUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSlasInput = {
@@ -18208,45 +22133,57 @@ export namespace Prisma {
   export type TenantUpdateWithoutSlasInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
     columns?: ColumnUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSlasInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
     columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutTenantInput
     departments?: DepartmentCreateNestedManyWithoutTenantInput
     tickets?: TicketCreateNestedManyWithoutTenantInput
     columns?: ColumnCreateNestedManyWithoutTenantInput
     slas?: SLACreateNestedManyWithoutTenantInput
+    priorities?: PriorityCreateNestedManyWithoutTenantInput
+    statuses?: StatusCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowsInput = {
     id?: string
     name: string
+    avatar?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutTenantInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutTenantInput
     tickets?: TicketUncheckedCreateNestedManyWithoutTenantInput
     columns?: ColumnUncheckedCreateNestedManyWithoutTenantInput
     slas?: SLAUncheckedCreateNestedManyWithoutTenantInput
+    priorities?: PriorityUncheckedCreateNestedManyWithoutTenantInput
+    statuses?: StatusUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowsInput = {
@@ -18268,23 +22205,151 @@ export namespace Prisma {
   export type TenantUpdateWithoutWorkflowsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUpdateManyWithoutTenantNestedInput
     tickets?: TicketUpdateManyWithoutTenantNestedInput
     columns?: ColumnUpdateManyWithoutTenantNestedInput
     slas?: SLAUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutTenantNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutTenantNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutTenantNestedInput
     columns?: ColumnUncheckedUpdateManyWithoutTenantNestedInput
     slas?: SLAUncheckedUpdateManyWithoutTenantNestedInput
+    priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
+    statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TicketCreateManyPriorityInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: string
+    order?: number
+    columnId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    creatorId: string
+    assigneeId?: string | null
+    departmentId?: string | null
+  }
+
+  export type TicketUpdateWithoutPriorityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    column?: ColumnUpdateOneWithoutTicketsNestedInput
+    creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
+    department?: DepartmentUpdateOneWithoutTicketsNestedInput
+    comments?: TicketCommentUpdateManyWithoutTicketNestedInput
+    attachments?: AttachmentUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutPriorityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: TicketCommentUncheckedUpdateManyWithoutTicketNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateManyWithoutPriorityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    columnId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ColumnCreateManyStatusInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    order?: number
+    color?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutColumnsNestedInput
+    tickets?: TicketUpdateManyWithoutColumnNestedInput
+  }
+
+  export type ColumnUncheckedUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutColumnNestedInput
+  }
+
+  export type ColumnUncheckedUpdateManyWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyTenantInput = {
@@ -18294,6 +22359,7 @@ export namespace Prisma {
     passwordHash: string
     role?: $Enums.UserRole
     isActive?: boolean
+    avatar?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
     refreshToken?: string | null
@@ -18313,8 +22379,8 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -18333,6 +22399,7 @@ export namespace Prisma {
     order?: number
     color?: string | null
     isDefault?: boolean
+    statusId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18343,7 +22410,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: $Enums.TicketPriority
+    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -18361,6 +22428,26 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PriorityCreateManyTenantInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatusCreateManyTenantInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type UserUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -18368,6 +22455,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18385,6 +22473,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18402,6 +22491,7 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18439,13 +22529,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
@@ -18458,8 +22548,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18477,8 +22567,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18499,6 +22589,7 @@ export namespace Prisma {
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StatusUpdateOneWithoutColumnsNestedInput
     tickets?: TicketUpdateManyWithoutColumnNestedInput
   }
 
@@ -18509,6 +22600,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutColumnNestedInput
@@ -18521,6 +22613,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18531,7 +22624,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -18545,7 +22638,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -18559,7 +22652,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -18597,13 +22690,77 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PriorityUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUpdateManyWithoutPriorityNestedInput
+  }
+
+  export type PriorityUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutPriorityNestedInput
+  }
+
+  export type PriorityUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    columns?: ColumnUpdateManyWithoutStatusNestedInput
+  }
+
+  export type StatusUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    columns?: ColumnUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type StatusUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TicketCreateManyCreatorInput = {
     id?: string
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -18619,8 +22776,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -18642,14 +22799,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -18662,8 +22819,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18681,8 +22838,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18697,14 +22854,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -18717,8 +22874,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18736,8 +22893,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18776,8 +22933,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     columnId?: string | null
     createdAt?: Date | string
@@ -18792,14 +22949,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     column?: ColumnUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
@@ -18812,8 +22969,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18831,8 +22988,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18848,8 +23005,8 @@ export namespace Prisma {
     tenantId: string
     title: string
     description?: string | null
-    status?: $Enums.TicketStatus
-    priority?: $Enums.TicketPriority
+    status?: string
+    priorityId?: string | null
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18864,14 +23021,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutTicketsNestedInput
+    priority?: PriorityUpdateOneWithoutTicketsNestedInput
     creator?: UserUpdateOneRequiredWithoutTicketsCreatedNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     department?: DepartmentUpdateOneWithoutTicketsNestedInput
@@ -18884,8 +23041,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18903,8 +23060,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    status?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
