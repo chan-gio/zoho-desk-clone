@@ -14,6 +14,18 @@ const TicketForm = React.lazy(() => import('./pages/TicketForm'))
 const Customers = React.lazy(() => import('./pages/Customers'))
 const Reports = React.lazy(() => import('./pages/Reports'))
 const Settings = React.lazy(() => import('./pages/Settings'))
+const KnowledgeBase = React.lazy(() => import('./pages/KnowledgeBase'))
+const ArticleDetail = React.lazy(() => import('./pages/ArticleDetail'))
+
+// Lazy load Settings pages
+const Profile = React.lazy(() => import('./pages/settings/Profile'))
+const Notifications = React.lazy(() => import('./pages/settings/Notifications'))
+const EmailIntegration = React.lazy(() => import('./pages/settings/EmailIntegration'))
+const ChatIntegration = React.lazy(() => import('./pages/settings/ChatIntegration'))
+const Integrations = React.lazy(() => import('./pages/settings/Integrations'))
+const Security = React.lazy(() => import('./pages/settings/Security'))
+const DepartmentManagement = React.lazy(() => import('./pages/settings/DepartmentManagement'))
+const WorkManagement = React.lazy(() => import('./pages/settings/WorkManagement'))
 
 const LoadingSpinner = () => (
   <div style={{ 
@@ -29,14 +41,9 @@ const LoadingSpinner = () => (
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const user = localStorage.getItem('user')
-  const selectedTenant = localStorage.getItem('selectedTenant')
   
   if (!user) {
     return <Navigate to="/login" replace />
-  }
-  
-  if (!selectedTenant) {
-    return <Navigate to="/tenant-selection" replace />
   }
   
   return children
@@ -45,9 +52,8 @@ const ProtectedRoute = ({ children }) => {
 // Public Route Component (redirect if already logged in)
 const PublicRoute = ({ children }) => {
   const user = localStorage.getItem('user')
-  const selectedTenant = localStorage.getItem('selectedTenant')
   
-  if (user && selectedTenant) {
+  if (user) {
     return <Navigate to="/dashboard" replace />
   }
   
@@ -95,7 +101,17 @@ function App() {
                   <Route path="/tickets/:id/edit" element={<TicketForm />} />
                   <Route path="/customers" element={<Customers />} />
                   <Route path="/reports" element={<Reports />} />
+                  <Route path="/knowledge-base" element={<KnowledgeBase />} />
+                  <Route path="/knowledge-base/articles/:id" element={<ArticleDetail />} />
                   <Route path="/settings" element={<Settings />} />
+                  <Route path="/settings/profile" element={<Profile />} />
+                  <Route path="/settings/notifications" element={<Notifications />} />
+                  <Route path="/settings/email" element={<EmailIntegration />} />
+                  <Route path="/settings/chat" element={<ChatIntegration />} />
+                  <Route path="/settings/integrations" element={<Integrations />} />
+                  <Route path="/settings/security" element={<Security />} />
+                  <Route path="/settings/departments" element={<DepartmentManagement />} />
+                  <Route path="/settings/work" element={<WorkManagement />} />
                 </Routes>
               </MainLayout>
             </ProtectedRoute>

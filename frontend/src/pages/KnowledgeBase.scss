@@ -1,0 +1,744 @@
+// Zoho Desk inspired Knowledge Base styling
+.knowledge-base-page {
+  padding: 0;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+
+  // Breadcrumb
+  .kb-breadcrumb {
+    padding: 16px 24px;
+    background: white;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 0;
+
+    .ant-breadcrumb-link {
+      color: #666;
+      font-size: 14px;
+    }
+  }
+
+  // Header Section
+  .kb-header {
+    background: white;
+    padding: 24px;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 0;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 1200px;
+      margin: 0 auto;
+
+      .header-left {
+        .kb-title {
+          margin-bottom: 8px;
+          color: #1a1a1a;
+          font-size: 28px;
+          font-weight: 600;
+          
+          .anticon {
+            margin-right: 12px;
+            color: #1890ff;
+          }
+        }
+
+        .kb-subtitle {
+          color: #666;
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+
+      .header-right {
+        .create-btn {
+          background: #1890ff;
+          border-color: #1890ff;
+          border-radius: 6px;
+          font-weight: 500;
+          height: 40px;
+          padding: 0 20px;
+
+          &:hover {
+            background: #40a9ff;
+            border-color: #40a9ff;
+          }
+        }
+      }
+    }
+  }
+
+  // Search Section
+  .search-section {
+    background: white;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e8e8e8;
+
+    .kb-search {
+      .ant-input {
+        border-radius: 6px;
+        border: 1px solid #d9d9d9;
+        font-size: 16px;
+        height: 44px;
+
+        &:focus {
+          border-color: #1890ff;
+          box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+      }
+
+      .ant-input-search-button {
+        background-color: #1890ff;
+        border-color: #1890ff;
+        border-radius: 0 6px 6px 0;
+        height: 44px;
+
+        &:hover {
+          background-color: #40a9ff;
+          border-color: #40a9ff;
+        }
+      }
+    }
+
+    .sort-select {
+      .ant-select-selector {
+        border-radius: 6px;
+        height: 44px;
+        border: 1px solid #d9d9d9;
+
+        .ant-select-selection-item {
+          line-height: 42px;
+        }
+      }
+    }
+
+    .ant-btn-group {
+      .ant-btn {
+        border-radius: 6px;
+        height: 44px;
+        width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:first-child {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        &:last-child {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+
+  // Tabs Section
+  .kb-tabs {
+    background: white;
+    margin: 0;
+
+    .ant-tabs-nav {
+      padding: 0 24px;
+      margin-bottom: 0;
+      background: white;
+      border-bottom: 1px solid #e8e8e8;
+
+      .ant-tabs-tab {
+        padding: 16px 20px;
+        font-weight: 500;
+        font-size: 15px;
+        color: #666;
+
+        &:hover {
+          color: #1890ff;
+        }
+
+        &.ant-tabs-tab-active {
+          .ant-tabs-tab-btn {
+            color: #1890ff;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .ant-tabs-ink-bar {
+        background: #1890ff;
+        height: 3px;
+      }
+    }
+
+    .ant-tabs-content-holder {
+      padding: 24px;
+      background: #f8f9fa;
+    }
+
+    .ant-tabs-tabpane {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  // Cards
+  .categories-card,
+  .articles-card {
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e8e8e8;
+    background: white;
+
+    .ant-card-head {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 16px 20px;
+
+      .ant-card-head-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      .ant-card-extra {
+        .ant-btn-link {
+          color: #1890ff;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .ant-card-body {
+      padding: 20px;
+    }
+
+    .loading-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+    }
+  }
+}
+
+// Article Card Styles - Zoho Desk inspired
+.article-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+  height: 100%;
+  background: white;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    border-color: #1890ff;
+  }
+
+  // Grid View
+  &.grid-view {
+    .ant-card-cover {
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .article-cover {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+
+      .cover-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover .cover-image {
+        transform: scale(1.05);
+      }
+
+      .cover-overlay {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+
+        .cover-menu {
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 4px;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &:hover .cover-overlay {
+        opacity: 1;
+      }
+    }
+
+    .article-cover-placeholder {
+      height: 180px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      .placeholder-icon {
+        font-size: 48px;
+        color: #1890ff;
+        opacity: 0.6;
+      }
+
+      .cover-overlay {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+
+        .cover-menu {
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 4px;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &:hover .cover-overlay {
+        opacity: 1;
+      }
+    }
+
+    .article-content {
+      padding: 20px;
+
+      .article-meta {
+        margin-bottom: 12px;
+
+        .category-tag {
+          font-size: 11px;
+          border-radius: 4px;
+          font-weight: 500;
+          padding: 2px 8px;
+        }
+
+        .status-tag {
+          font-size: 11px;
+          border-radius: 4px;
+          font-weight: 500;
+          padding: 2px 8px;
+        }
+
+        .tags-tag {
+          font-size: 11px;
+          border-radius: 4px;
+          font-weight: 500;
+          padding: 2px 8px;
+        }
+      }
+
+      .article-title {
+        margin-bottom: 12px;
+
+        .title-text {
+          font-size: 16px;
+          line-height: 1.4;
+          color: #1a1a1a;
+          font-weight: 600;
+        }
+      }
+
+      .article-description {
+        margin-bottom: 16px;
+
+        .description-text {
+          color: #666;
+          font-size: 14px;
+          line-height: 1.5;
+        }
+      }
+
+      .article-rating {
+        margin-bottom: 16px;
+
+        .rating-stars {
+          font-size: 14px;
+        }
+
+        .rating-text {
+          color: #999;
+          font-size: 12px;
+          margin-left: 8px;
+        }
+      }
+
+      .article-footer {
+        .author-text {
+          color: #666;
+          font-size: 13px;
+          font-weight: 500;
+        }
+
+        .date-text {
+          color: #999;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .ant-card-actions {
+      background-color: #fafafa;
+      border-top: 1px solid #f0f0f0;
+      padding: 12px 20px;
+
+      li {
+        margin: 0;
+        padding: 0 8px;
+
+        .anticon {
+          color: #666;
+          font-size: 14px;
+        }
+
+        span {
+          color: #666;
+          font-size: 13px;
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+
+  // List View
+  &.list-view {
+    .article-content.list-content {
+      padding: 20px;
+
+      .article-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+
+        .article-meta {
+          margin-bottom: 0;
+
+          .category-tag,
+          .status-tag,
+          .tag {
+            font-size: 11px;
+            border-radius: 4px;
+            font-weight: 500;
+            padding: 2px 8px;
+          }
+        }
+
+        .article-menu {
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+      }
+
+      &:hover .article-menu {
+        opacity: 1;
+      }
+
+      .article-body {
+        .article-title {
+          margin-bottom: 12px;
+
+          .title-text {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #1a1a1a;
+            font-weight: 600;
+          }
+        }
+
+        .article-description {
+          margin-bottom: 16px;
+
+          .description-text {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+          }
+        }
+
+        .article-footer {
+          .author-text {
+            color: #666;
+            font-size: 13px;
+            font-weight: 500;
+          }
+
+          .date-text {
+            color: #999;
+            font-size: 12px;
+          }
+
+          .rating-stars {
+            font-size: 14px;
+          }
+
+          .rating-text {
+            color: #999;
+            font-size: 12px;
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+
+    .ant-card-actions {
+      background-color: #fafafa;
+      border-top: 1px solid #f0f0f0;
+      padding: 12px 20px;
+
+      li {
+        margin: 0;
+        padding: 0 12px;
+
+        .anticon {
+          color: #666;
+          font-size: 14px;
+        }
+
+        span {
+          color: #666;
+          font-size: 13px;
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+}
+
+// Category Card Styles - Zoho Desk inspired
+.category-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+  height: 100%;
+  background: white;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    border-color: #1890ff;
+  }
+
+  &.selected {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+
+  .ant-card-cover {
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+
+  .category-header {
+    height: 100px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .category-icon {
+      .icon-image {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+
+      .default-icon {
+        font-size: 48px;
+        color: #1890ff;
+        opacity: 0.8;
+      }
+    }
+
+    .category-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+
+      .view-button {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 4px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    &:hover .category-actions {
+      opacity: 1;
+    }
+  }
+
+  .category-content {
+    padding: 20px;
+
+    .category-title {
+      margin-bottom: 12px;
+
+      .title-text {
+        font-size: 16px;
+        color: #1a1a1a;
+        font-weight: 600;
+      }
+    }
+
+    .category-description {
+      margin-bottom: 16px;
+
+      .description-text {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+
+    .category-stats {
+      margin-bottom: 16px;
+
+      .stat-text {
+        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .divider {
+        color: #d9d9d9;
+        margin: 0 6px;
+      }
+    }
+
+    .category-tags {
+      margin-bottom: 16px;
+
+      .tag {
+        font-size: 11px;
+        border-radius: 4px;
+        font-weight: 500;
+        padding: 2px 8px;
+      }
+
+      .more-tag {
+        font-size: 11px;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+        color: #666;
+        font-weight: 500;
+        padding: 2px 8px;
+      }
+    }
+
+    .category-footer {
+      margin-bottom: 16px;
+
+      .date-text {
+        color: #999;
+        font-size: 12px;
+      }
+    }
+
+    .category-actions {
+      .select-button {
+        width: 100%;
+        border-radius: 6px;
+        font-size: 13px;
+        height: 36px;
+        border: 1px solid #d9d9d9;
+        background-color: white;
+        color: #666;
+        font-weight: 500;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #1890ff;
+          color: #1890ff;
+        }
+
+        &.selected {
+          background-color: #1890ff;
+          border-color: #1890ff;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .knowledge-base-page {
+    .kb-header {
+      padding: 16px;
+
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+
+        .header-right {
+          width: 100%;
+
+          .create-btn {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .search-section {
+      padding: 16px;
+
+      .ant-col {
+        margin-bottom: 12px;
+      }
+    }
+
+    .kb-tabs {
+      .ant-tabs-content-holder {
+        padding: 16px;
+      }
+    }
+  }
+
+  .article-card {
+    &.grid-view,
+    &.list-view {
+      .article-content {
+        padding: 16px;
+      }
+    }
+  }
+
+  .category-card {
+    .category-content {
+      padding: 16px;
+    }
+  }
+}

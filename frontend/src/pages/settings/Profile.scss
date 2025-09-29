@@ -1,0 +1,45 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.profile-page {
+  .page-header {
+    margin-bottom: $spacing-xl;
+    
+    h2 {
+      margin-bottom: $spacing-sm;
+      color: $text-color;
+    }
+  }
+  
+  .profile-avatar {
+    text-align: center;
+    padding: $spacing-lg 0;
+    
+    .ant-avatar {
+      border: 3px solid $primary-color;
+    }
+  }
+  
+  .profile-info {
+    text-align: center;
+    padding: $spacing-md 0;
+    
+    h4 {
+      margin-bottom: $spacing-xs;
+      color: $text-color;
+    }
+    
+    .profile-stats {
+      margin-top: $spacing-lg;
+      
+      .stat-item {
+        margin-bottom: $spacing-sm;
+        
+        .ant-typography {
+          display: block;
+          margin-bottom: 2px;
+        }
+      }
+    }
+  }
+}

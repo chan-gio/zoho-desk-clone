@@ -15,6 +15,8 @@ export * from './useMetrics'
 export * from './useKnowledgeBase'
 export * from './useIntegrations'
 export * from './useDepartments'
+export * from './usePriorities'
+export * from './useStatuses'
 
 // Re-export commonly used hooks for convenience
 export {
@@ -25,16 +27,23 @@ export {
   useIsAuthenticated,
   useHasPermission,
   useHasRole,
-  
+  useUserTenants,
+  useSelectTenant,
+} from './useAuth'
+
+export {
   // User hooks
   useUsers,
+  useUsersByTenant,
   useUser,
   useAgents,
   useAdmins,
   useCreateUser,
   useUpdateUser,
   useDeleteUser,
-  
+} from './useUsers'
+
+export {
   // Ticket hooks
   useTickets,
   useTicket,
@@ -43,30 +52,37 @@ export {
   useCreateTicket,
   useUpdateTicket,
   useDeleteTicket,
-  useAddComment,
   useAssignTicket,
-  
+} from './useTickets'
+
+export {
   // Notification hooks
   useNotifications,
   useUnreadNotifications,
   useUnreadCount,
   useMarkAsRead,
   useMarkAllAsRead,
-  
+} from './useNotifications'
+
+export {
   // Customer hooks
   useCustomers,
   useCustomer,
   useVipCustomers,
   useCreateCustomer,
   useUpdateCustomer,
-  
+} from './useCustomers'
+
+export {
   // Report hooks
   useReports,
   useDashboardData,
   useRealTimeReport,
   useAgentPerformanceReport,
   useExportReport,
-  
+} from './useReports'
+
+export {
   // SLA hooks
   useSLAs,
   useSLA,
@@ -75,7 +91,9 @@ export {
   useCreateSLA,
   useUpdateSLA,
   useDeleteSLA,
-  
+} from './useSLAs'
+
+export {
   // Workflow hooks
   useWorkflows,
   useWorkflow,
@@ -85,7 +103,9 @@ export {
   useDeleteWorkflow,
   useActivateWorkflow,
   useDeactivateWorkflow,
-  
+} from './useWorkflows'
+
+export {
   // Column hooks
   useColumns,
   useColumn,
@@ -96,7 +116,9 @@ export {
   useReorderColumns,
   useMoveTicketToColumn,
   useReorderTicketsInColumn,
-  
+} from './useColumns'
+
+export {
   // Tenant hooks
   useTenants,
   useTenant,
@@ -104,7 +126,9 @@ export {
   useCreateTenant,
   useUpdateTenant,
   useDeleteTenant,
-  
+} from './useTenants'
+
+export {
   // Comment hooks
   useComments,
   useComment,
@@ -112,7 +136,9 @@ export {
   useAddComment,
   useUpdateComment,
   useDeleteComment,
-  
+} from './useComments'
+
+export {
   // Role hooks
   useRoles,
   useRole,
@@ -120,14 +146,18 @@ export {
   useCreateRole,
   useUpdateRole,
   useDeleteRole,
-  
+} from './useRoles'
+
+export {
   // Metrics hooks
   useTicketMetrics,
   useAgentMetrics,
   useDashboardMetrics,
   useRealTimeMetrics,
   useExportMetricsReport,
-  
+} from './useMetrics'
+
+export {
   // Knowledge Base hooks
   useArticles,
   useArticle,
@@ -137,7 +167,9 @@ export {
   useCreateArticle,
   useUpdateArticle,
   useDeleteArticle,
-  
+} from './useKnowledgeBase'
+
+export {
   // Integration hooks
   useWebhooks,
   useWebhook,
@@ -146,7 +178,9 @@ export {
   useDeleteWebhook,
   useSendEmail,
   useSendSMS,
-  
+} from './useIntegrations'
+
+export {
   // Department hooks
   useDepartments,
   useDepartment,
@@ -154,4 +188,24 @@ export {
   useCreateDepartment,
   useUpdateDepartment,
   useDeleteDepartment,
-} from './useAuth'
+} from './useDepartments'
+
+export {
+  // Priority hooks
+  usePriorities,
+  usePrioritiesByTenant,
+  usePriority,
+  useCreatePriority,
+  useUpdatePriority,
+  useDeletePriority,
+} from './usePriorities'
+
+export {
+  // Status hooks
+  useStatuses,
+  useStatusesByTenant,
+  useStatus,
+  useCreateStatus,
+  useUpdateStatus,
+  useDeleteStatus,
+} from './useStatuses'

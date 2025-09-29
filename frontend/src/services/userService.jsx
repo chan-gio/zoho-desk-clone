@@ -12,6 +12,16 @@ export const userService = {
     }
   },
 
+  getUsersByTenant: async ( params = {}) => {
+    try {
+      const response = await api.get('/users/tenant', { params })
+      return response.data || []
+    } catch (error) {
+      console.error('Error fetching users by tenant:', error)
+      return getMockUsersByTenant()
+    }
+  },
+
   // Lấy user theo ID (admin/agent)
   getUserById: async (id) => {
     try {

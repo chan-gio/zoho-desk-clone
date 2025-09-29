@@ -5,17 +5,43 @@ export const authService = {
   login: async (credentials) => {
     try {
       const response = await api.post('/auth/login', credentials)
-      const { token, user, tenant } = response.data
+      
+      console.log('🔐 Login - Full response:', response.data)
+      
+      // Xử lý response format từ API
+      if (response.data.success && response.data.data) {
+        const { access_token, refresh_token, user } = response.data.data
 
-      // Lưu thông tin vào localStorage
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
-      if (tenant) {
-        localStorage.setItem('tenantId', tenant.id)
-        localStorage.setItem('tenant', JSON.stringify(tenant))
+        console.log('🔐 Login - access_token:', access_token)
+        console.log('🔐 Login - refresh_token:', refresh_token)
+
+        // Lưu tokens vào localStorage
+        localStorage.setItem('access_token', access_token)
+        localStorage.setItem('refresh_token', refresh_token)
+        
+        // Verify tokens were saved
+        const savedAccessToken = localStorage.getItem('access_token')
+        const savedRefreshToken = localStorage.getItem('refresh_token')
+        console.log('🔐 Login - saved access_token:', savedAccessToken)
+        console.log('🔐 Login - saved refresh_token:', savedRefreshToken)
+        
+        // Lưu user info vào localStorage (KHÔNG có tenantId ban đầu)
+        localStorage.setItem('user', JSON.stringify({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          isActive: user.isActive,
+          createdAt: user.createdAt
+        }))
+        
+        // KHÔNG lưu tenantId ngay lúc đăng nhập
+        // TenantId sẽ được thêm sau khi user chọn tenant
+
+        return response.data
+      } else {
+        throw new Error('Invalid response format')
       }
-
-      return { token, user, tenant }
     } catch (error) {
       console.error('Login error:', error)
       throw error
@@ -42,10 +68,10 @@ export const authService = {
       console.error('Logout error:', error)
     } finally {
       // Xóa thông tin khỏi localStorage
-      localStorage.removeItem('token')
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
       localStorage.removeItem('user')
-      localStorage.removeItem('tenantId')
-      localStorage.removeItem('tenant')
+      localStorage.removeItem('current_tenant_id')
       
       // Redirect về trang login
       window.location.href = '/login'
@@ -55,11 +81,38 @@ export const authService = {
   // Refresh token
   refreshToken: async () => {
     try {
-      const response = await api.post('/auth/refresh')
-      const { token } = response.data
+      const refreshTokenValue = localStorage.getItem('refresh_token')
+      console.log('🔄 Refresh token value:', refreshTokenValue)
       
-      localStorage.setItem('token', token)
-      return token
+      if (!refreshTokenValue) {
+        throw new Error('No refresh token available')
+      }
+
+      const response = await api.post('/auth/refresh', {
+        refreshToken: refreshTokenValue
+      })
+      
+      console.log('🔄 Refresh response:', response.data)
+      
+      if (response.data.success && response.data.data) {
+        const { access_token } = response.data.data
+        
+        console.log('🔄 New access_token:', access_token)
+        
+        if (!access_token) {
+          throw new Error('Access token is undefined in response')
+        }
+        
+        localStorage.setItem('access_token', access_token)
+        
+        // Verify token was saved
+        const savedToken = localStorage.getItem('access_token')
+        console.log('🔄 Saved token:', savedToken)
+        
+        return access_token
+      } else {
+        throw new Error('Invalid response format')
+      }
     } catch (error) {
       console.error('Refresh token error:', error)
       // Nếu refresh token thất bại, logout
@@ -142,7 +195,7 @@ export const authService = {
 
   // Kiểm tra token có hợp lệ không
   isAuthenticated: () => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('access_token')
     if (!token) return false
 
     try {
@@ -159,7 +212,9 @@ export const authService = {
 
   // Lấy token
   getToken: () => {
-    return localStorage.getItem('token')
+    const token = localStorage.getItem('access_token')
+    console.log('🔑 Getting token from localStorage:', token)
+    return token
   },
 
   // Kiểm tra quyền
@@ -185,26 +240,95 @@ export const authService = {
       return response.data
     } catch (error) {
       console.error('Get user tenants error:', error)
-      return getMockTenants()
+      throw error
     }
   },
 
-  // Chuyển đổi tenant
-  switchTenant: async (tenantId) => {
+  // Chọn tenant và cập nhật JWT với tenantId
+  selectTenant: async (tenantId) => {
     try {
-      const response = await api.post('/auth/switch-tenant', { tenantId })
-      const { token, user, tenant } = response.data
+      const response = await api.post('/auth/select-tenant', { tenantId })
+      
+      if (response.data.success && response.data.data) {
+        const { access_token, tenant } = response.data.data
 
-      // Cập nhật thông tin trong localStorage
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
-      localStorage.setItem('tenantId', tenant.id)
-      localStorage.setItem('tenant', JSON.stringify(tenant))
+        console.log('🏢 SelectTenant - new access_token:', access_token)
+        console.log('🏢 SelectTenant - tenant:', tenant)
 
-      return { token, user, tenant }
+        // Cập nhật access_token mới với tenantId
+        localStorage.setItem('access_token', access_token)
+        
+        // Verify token was saved
+        const savedToken = localStorage.getItem('access_token')
+        console.log('🏢 SelectTenant - saved access_token:', savedToken)
+        
+        // Lấy user info từ token hiện tại
+        const currentUser = authService.getCurrentUser()
+        
+        // Cập nhật user info với tenantId
+        if (currentUser) {
+          localStorage.setItem('user', JSON.stringify({
+            ...currentUser,
+            tenantId: tenantId
+          }))
+        }
+        
+        // Lưu tenant info
+        localStorage.setItem('current_tenant_id', tenantId)
+
+        return response.data
+      } else {
+        throw new Error('Invalid response format')
+      }
     } catch (error) {
-      console.error('Switch tenant error:', error)
+      console.error('Select tenant error:', error)
       throw error
+    }
+  },
+
+  // Chuyển đổi tenant (legacy method - giữ lại để tương thích)
+  switchTenant: async (tenantId) => {
+    return authService.selectTenant(tenantId)
+  },
+
+  // Debug function để kiểm tra tất cả tokens
+  debugTokens: () => {
+    console.log('🔍 Debug Tokens:')
+    console.log('  access_token:', localStorage.getItem('access_token'))
+    console.log('  refresh_token:', localStorage.getItem('refresh_token'))
+    console.log('  user:', localStorage.getItem('user'))
+    console.log('  current_tenant_id:', localStorage.getItem('current_tenant_id'))
+    console.log('  selectedTenant:', localStorage.getItem('selectedTenant'))
+  },
+
+  // Test function để kiểm tra token flow
+  testTokenFlow: async () => {
+    console.log('🧪 Testing Token Flow...')
+    
+    // 1. Kiểm tra tokens hiện tại
+    authService.debugTokens()
+    
+    // 2. Test getToken
+    const currentToken = authService.getToken()
+    console.log('🧪 Current token from getToken:', currentToken)
+    
+    // 3. Test isAuthenticated
+    const isAuth = authService.isAuthenticated()
+    console.log('🧪 Is authenticated:', isAuth)
+    
+    // 4. Test refresh token nếu có refresh_token
+    const refreshToken = localStorage.getItem('refresh_token')
+    if (refreshToken) {
+      console.log('🧪 Testing refresh token...')
+      try {
+        const newToken = await authService.refreshToken()
+        console.log('🧪 New token after refresh:', newToken)
+        authService.debugTokens()
+      } catch (error) {
+        console.error('🧪 Refresh token failed:', error)
+      }
+    } else {
+      console.log('🧪 No refresh token available')
     }
   }
 }

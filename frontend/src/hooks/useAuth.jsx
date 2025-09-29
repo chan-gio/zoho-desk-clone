@@ -23,6 +23,7 @@ export const useUserTenants = () => {
     queryKey: authKeys.tenants(),
     queryFn: authService.getUserTenants,
     staleTime: 10 * 60 * 1000, // 10 minutes
+    enabled: !!authService.getToken(), // Chỉ fetch khi đã đăng nhập
   })
 }
 
@@ -72,8 +73,8 @@ export const useRefreshToken = () => {
   return useMutation({
     mutationFn: authService.refreshToken,
     onSuccess: (token) => {
-      // Update token in localStorage
-      localStorage.setItem('token', token)
+      // Token đã được lưu trong authService.refreshToken
+      console.log('Token refreshed successfully')
     },
     onError: (error) => {
       console.error('Token refresh failed:', error)
@@ -131,6 +132,28 @@ export const useResendVerificationEmail = () => {
     mutationFn: authService.resendVerificationEmail,
     onError: (error) => {
       console.error('Resend verification failed:', error)
+    },
+  })
+}
+
+export const useSelectTenant = () => {
+  const queryClient = useQueryClient()
+  
+  return useMutation({
+    mutationFn: authService.selectTenant,
+    onSuccess: (data) => {
+      // Update current user data với tenantId mới
+      const currentUser = authService.getCurrentUser()
+      if (currentUser) {
+        queryClient.setQueryData(authKeys.currentUser(), {
+          ...currentUser,
+          tenantId: data.data.tenant.id
+        })
+      }
+      queryClient.invalidateQueries({ queryKey: authKeys.tenants() })
+    },
+    onError: (error) => {
+      console.error('Select tenant failed:', error)
     },
   })
 }

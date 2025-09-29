@@ -1,306 +1,153 @@
 import React, { useState } from 'react'
 import { 
   Card, 
-  Row, 
-  Col, 
-  Button, 
   Typography, 
   Avatar, 
-  Space, 
-  Divider,
-  Input,
   message,
-  Modal,
-  Form,
-  Select
+  Spin,
+  Alert,
+  List
 } from 'antd'
 import { 
-  PlusOutlined, 
-  SettingOutlined, 
   TeamOutlined,
-  SearchOutlined,
-  CrownOutlined,
-  UserOutlined,
   GlobalOutlined
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useUserTenants, useSelectTenant } from '../hooks/useAuth'
 import './TenantSelection.scss'
 
 const { Title, Text } = Typography
-const { Search } = Input
-const { Option } = Select
 
 const TenantSelection = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [form] = Form.useForm()
-  const [searchText, setSearchText] = useState('')
-  const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  // Mock data for tenants
-  const tenants = [
-    {
-      id: 1,
-      name: 'Acme Corporation',
-      domain: 'acme.zohodesk.com',
-      description: 'Công ty công nghệ hàng đầu',
-      logo: '🏢',
-      role: 'Admin',
-      users: 150,
-      tickets: 1250,
-      isActive: true,
-      plan: 'Enterprise'
-    },
-    {
-      id: 2,
-      name: 'TechStart Solutions',
-      domain: 'techstart.zohodesk.com',
-      description: 'Startup công nghệ đang phát triển',
-      logo: '🚀',
-      role: 'Manager',
-      users: 25,
-      tickets: 180,
-      isActive: true,
-      plan: 'Professional'
-    },
-    {
-      id: 3,
-      name: 'Global Services',
-      domain: 'global.zohodesk.com',
-      description: 'Dịch vụ toàn cầu',
-      logo: '🌍',
-      role: 'Agent',
-      users: 500,
-      tickets: 3200,
-      isActive: true,
-      plan: 'Enterprise'
-    },
-    {
-      id: 4,
-      name: 'Local Business',
-      domain: 'local.zohodesk.com',
-      description: 'Doanh nghiệp địa phương',
-      logo: '🏪',
-      role: 'Viewer',
-      users: 8,
-      tickets: 45,
-      isActive: false,
-      plan: 'Standard'
-    }
-  ]
+  // Sử dụng hooks để lấy tenants của user
+  const { 
+    data: tenantsData, 
+    isLoading: tenantsLoading, 
+    error: tenantsError 
+  } = useUserTenants()
 
-  const filteredTenants = tenants.filter(tenant =>
-    tenant.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    tenant.domain.toLowerCase().includes(searchText.toLowerCase())
-  )
+  const selectTenantMutation = useSelectTenant()
 
-  const handleSelectTenant = (tenant) => {
+  // Extract tenants từ response data
+  const tenants = tenantsData?.data?.tenants || []
+
+  const handleSelectTenant = async (tenant) => {
     setLoading(true)
-    // Simulate loading
-    setTimeout(() => {
-      localStorage.setItem('selectedTenant', JSON.stringify(tenant))
+    try {
+      // Sử dụng API selectTenant để cập nhật JWT với tenantId
+      await selectTenantMutation.mutateAsync(tenant.id)
+      
       message.success(`Đã chọn tenant: ${tenant.name}`)
       navigate('/dashboard')
+    } catch (error) {
+      message.error(error.response?.data?.message || 'Có lỗi xảy ra khi chọn tenant!')
+    } finally {
       setLoading(false)
-    }, 1000)
-  }
-
-  const handleCreateTenant = (values) => {
-    setLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      message.success('Tạo tenant thành công!')
-      setIsCreateModalVisible(false)
-      form.resetFields()
-      setLoading(false)
-    }, 1000)
-  }
-
-  const getPlanColor = (plan) => {
-    const colors = {
-      'Standard': 'blue',
-      'Professional': 'green',
-      'Enterprise': 'purple'
     }
-    return colors[plan] || 'default'
   }
 
-  const getRoleIcon = (role) => {
-    const icons = {
-      'Admin': <CrownOutlined style={{ color: '#faad14' }} />,
-      'Manager': <SettingOutlined style={{ color: '#1890ff' }} />,
-      'Agent': <UserOutlined style={{ color: '#52c41a' }} />,
-      'Viewer': <UserOutlined style={{ color: '#8c8c8c' }} />
-    }
-    return icons[role] || <UserOutlined />
+
+
+  // Hiển thị loading state
+  if (tenantsLoading) {
+    return (
+      <div className="tenant-selection-page">
+        <div className="tenant-container">
+          <div style={{ textAlign: 'center', padding: '50px' }}>
+            <Spin size="large" />
+            <div style={{ marginTop: '16px' }}>
+              <Text>Đang tải danh sách tenants...</Text>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Hiển thị error state
+  if (tenantsError) {
+    return (
+      <div className="tenant-selection-page">
+        <div className="tenant-container">
+          <Alert
+            message="Lỗi tải dữ liệu"
+            description={tenantsError.response?.data?.message || 'Không thể tải danh sách tenants. Vui lòng thử lại.'}
+            type="error"
+            showIcon
+            style={{ marginBottom: '24px' }}
+          />
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="tenant-selection-page">
-      <div className="tenant-container">
-        <div className="tenant-header">
+    <div className="tenant-selection-page" style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      minHeight: '100vh',
+      padding: '20px'
+    }}>
+      <div style={{ width: '100%', maxWidth: '600px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <Title level={2}>Chọn Tenant</Title>
           <Text type="secondary">
-            Chọn tenant bạn muốn truy cập hoặc tạo tenant mới
+            Chọn tenant bạn muốn truy cập
           </Text>
         </div>
 
-        <div className="tenant-actions">
-          <Search
-            placeholder="Tìm kiếm tenant..."
-            allowClear
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            style={{ maxWidth: 400 }}
-          />
-          <Button 
-            type="primary" 
-            icon={<PlusOutlined />}
-            onClick={() => setIsCreateModalVisible(true)}
-          >
-            Tạo Tenant Mới
-          </Button>
-        </div>
-
-        <Row gutter={[24, 24]} className="tenant-grid">
-          {filteredTenants.map(tenant => (
-            <Col xs={24} sm={12} lg={8} xl={6} key={tenant.id}>
+        <List
+          dataSource={tenants}
+          renderItem={(tenant) => (
+            <List.Item>
               <Card 
-                className={`tenant-card ${tenant.isActive ? 'active' : 'inactive'}`}
                 hoverable
-                onClick={() => tenant.isActive && handleSelectTenant(tenant)}
+                onClick={() => handleSelectTenant(tenant)}
                 loading={loading}
+                style={{ width: '100%', cursor: 'pointer' }}
               >
-                <div className="tenant-card-header">
-                  <Avatar size={48} className="tenant-logo">
-                    {tenant.logo}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <Avatar size={48} style={{ backgroundColor: '#1890ff' }}>
+                    {tenant.logo || '🏢'}
                   </Avatar>
-                  <div className="tenant-info">
-                    <Title level={4} className="tenant-name">
+                  <div style={{ flex: 1 }}>
+                    <Title level={4} style={{ margin: 0 }}>
                       {tenant.name}
                     </Title>
-                    <Text type="secondary" className="tenant-domain">
-                      {tenant.domain}
+                    <Text type="secondary">
+                      {tenant.domain || `${tenant.name.toLowerCase()}.zohodesk.com`}
                     </Text>
-                  </div>
-                </div>
-
-                <div className="tenant-description">
-                  <Text>{tenant.description}</Text>
-                </div>
-
-                <Divider />
-
-                <div className="tenant-stats">
-                  <Row gutter={[16, 8]}>
-                    <Col span={12}>
-                      <div className="stat-item">
+                    <div style={{ marginTop: '8px', display: 'flex', gap: '16px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <TeamOutlined />
-                        <Text strong>{tenant.users}</Text>
+                        <Text strong>{tenant._count?.users || 0}</Text>
                         <Text type="secondary">Users</Text>
                       </div>
-                    </Col>
-                    <Col span={12}>
-                      <div className="stat-item">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <GlobalOutlined />
-                        <Text strong>{tenant.tickets}</Text>
+                        <Text strong>{tenant._count?.tickets || 0}</Text>
                         <Text type="secondary">Tickets</Text>
                       </div>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="tenant-footer">
-                  <Space>
-                    <span className="role-badge">
-                      {getRoleIcon(tenant.role)}
-                      <Text>{tenant.role}</Text>
-                    </span>
-                    <span className={`plan-badge ${getPlanColor(tenant.plan).toLowerCase()}`}>
-                      {tenant.plan}
-                    </span>
-                  </Space>
-                </div>
-
-                {!tenant.isActive && (
-                  <div className="inactive-overlay">
-                    <Text type="secondary">Không hoạt động</Text>
+                    </div>
                   </div>
-                )}
+                </div>
               </Card>
-            </Col>
-          ))}
-        </Row>
+            </List.Item>
+          )}
+        />
 
-        {filteredTenants.length === 0 && (
-          <div className="empty-state">
-            <Text type="secondary">Không tìm thấy tenant nào</Text>
+        {tenants.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '40px' }}>
+            <Text type="secondary">Không có tenant nào</Text>
           </div>
         )}
       </div>
-
-      {/* Create Tenant Modal */}
-      <Modal
-        title="Tạo Tenant Mới"
-        open={isCreateModalVisible}
-        onCancel={() => setIsCreateModalVisible(false)}
-        footer={null}
-        width={600}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleCreateTenant}
-        >
-          <Form.Item
-            name="name"
-            label="Tên Tenant"
-            rules={[{ required: true, message: 'Vui lòng nhập tên tenant!' }]}
-          >
-            <Input placeholder="Nhập tên tenant" />
-          </Form.Item>
-
-          <Form.Item
-            name="domain"
-            label="Domain"
-            rules={[{ required: true, message: 'Vui lòng nhập domain!' }]}
-          >
-            <Input placeholder="tenant-name" addonAfter=".zohodesk.com" />
-          </Form.Item>
-
-          <Form.Item
-            name="description"
-            label="Mô tả"
-          >
-            <Input.TextArea rows={3} placeholder="Mô tả về tenant" />
-          </Form.Item>
-
-          <Form.Item
-            name="plan"
-            label="Gói dịch vụ"
-            rules={[{ required: true, message: 'Vui lòng chọn gói dịch vụ!' }]}
-          >
-            <Select placeholder="Chọn gói dịch vụ">
-              <Option value="Standard">Standard - $29/tháng</Option>
-              <Option value="Professional">Professional - $79/tháng</Option>
-              <Option value="Enterprise">Enterprise - $199/tháng</Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item>
-            <Space>
-              <Button onClick={() => setIsCreateModalVisible(false)}>
-                Hủy
-              </Button>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Tạo Tenant
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Modal>
     </div>
   )
 }

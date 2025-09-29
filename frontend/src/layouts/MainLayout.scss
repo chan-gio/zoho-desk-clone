@@ -3,23 +3,18 @@
 
 .main-layout {
   min-height: 100vh;
-  @include sidebar-layout;
+  display: flex;
+  flex-direction: column;
   
-  .site-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  .site-layout-content {
+    flex: 1;
+    padding: $spacing-lg;
+    background-color: $background-color;
     
-    .site-layout-content {
-      flex: 1;
-      padding: $spacing-lg;
-      background-color: $background-color;
-      
-      .content-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        @include fade-in;
-      }
+    .content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      @include fade-in;
     }
   }
 }
@@ -27,10 +22,8 @@
 // Responsive design
 @include mobile {
   .main-layout {
-    .site-layout {
-      .site-layout-content {
-        padding: $spacing-md;
-      }
+    .site-layout-content {
+      padding: $spacing-md;
     }
   }
 }

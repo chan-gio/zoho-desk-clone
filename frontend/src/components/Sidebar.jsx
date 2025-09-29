@@ -10,7 +10,18 @@ import {
   SettingOutlined,
   CustomerServiceOutlined,
   TagsOutlined,
-  SolutionOutlined
+  SolutionOutlined,
+  UserOutlined,
+  BellOutlined,
+  SecurityScanOutlined,
+  MailOutlined,
+  MessageOutlined,
+  ApiOutlined,
+  LogoutOutlined,
+  ApartmentOutlined,
+  UsergroupAddOutlined,
+  OrderedListOutlined,
+  BookOutlined,
 } from '@ant-design/icons'
 import './Sidebar.scss'
 
@@ -52,8 +63,13 @@ const Sidebar = ({ collapsed }) => {
     },
     {
       key: '/customers',
-      icon: <TeamOutlined />,
-      label: t('navigation.customers'),
+      icon: <UsergroupAddOutlined />,
+      label: 'Quản lý nhân sự',
+    },
+    {
+      key: '/knowledge-base',
+      icon: <BookOutlined />,
+      label: 'Knowledge Base',
     },
     {
       key: '/solutions',
@@ -74,11 +90,59 @@ const Sidebar = ({ collapsed }) => {
       key: '/settings',
       icon: <SettingOutlined />,
       label: t('navigation.settings'),
+      children: [
+        {
+          key: 'profile',
+          icon: <UserOutlined />,
+          label: 'Hồ sơ cá nhân',
+        },
+        {
+          key: 'notifications',
+          icon: <BellOutlined />,
+          label: 'Thông báo',
+        },
+        {
+          key: 'email',
+          icon: <MailOutlined />,
+          label: 'Tích hợp Email',
+        },
+        {
+          key: 'chat',
+          icon: <MessageOutlined />,
+          label: 'Tích hợp Chat',
+        },
+        {
+          key: 'integrations',
+          icon: <ApiOutlined />,
+          label: 'Tích hợp khác',
+        },
+        {
+          key: 'security',
+          icon: <SecurityScanOutlined />,
+          label: 'Bảo mật',
+        },
+        {
+          key: 'departments',
+          icon: <ApartmentOutlined />,
+          label: 'Quản lý phòng ban',
+        },
+        {
+          key: 'work',
+          icon: <OrderedListOutlined />,
+          label: 'Công việc',
+        },
+      ],
     },
   ]
 
   const handleMenuClick = ({ key }) => {
-    navigate(key)
+    if (key.startsWith('/')) {
+      // Handle navigation for routes
+      navigate(key)
+    } else {
+      // Handle settings navigation
+      navigate(`/settings/${key}`)
+    }
   }
 
   return (

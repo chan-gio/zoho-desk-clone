@@ -3,10 +3,7 @@
 
 .sidebar {
   background-color: $sidebar-bg;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  position: relative;
   z-index: $z-index-sidebar;
   transition: all 0.3s ease;
   overflow: hidden;
@@ -103,7 +100,6 @@
         
         .ant-menu-item {
           margin: 2px 8px 2px 24px;
-          padding-left: $spacing-lg;
           height: 36px;
           line-height: 36px;
           font-size: 13px;
@@ -151,6 +147,9 @@
 @include mobile {
   .sidebar {
     position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
     z-index: $z-index-sidebar + 1;
     
     &.ant-layout-sider-collapsed {

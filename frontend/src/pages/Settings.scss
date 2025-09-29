@@ -1,35 +1,86 @@
-@import '../styles/variables.scss';
-@import '../styles/mixins.scss';
-
 .settings-page {
-  @include fade-in;
-  
-  .ant-card {
-    @include card-shadow;
-    
-    .ant-tabs {
-      .ant-tabs-tab {
-        .ant-tabs-tab-btn {
-          @include flex-center;
-          gap: $spacing-sm;
-          font-weight: 500;
+  padding: 24px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+
+  .settings-header {
+    margin-bottom: 32px;
+    text-align: center;
+
+    .ant-typography {
+      margin-bottom: 8px;
+    }
+  }
+
+  .settings-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .settings-section-card {
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e8e8e8;
+      transition: all 0.2s ease;
+      height: 100%;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+        border-color: #1890ff;
+      }
+
+      .ant-card-body {
+        padding: 20px;
+      }
+
+      .section-header {
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .section-icon {
+          font-size: 20px;
+          color: #1890ff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          background-color: rgba(24, 144, 255, 0.1);
+          border-radius: 6px;
+        }
+
+        .section-title {
+          margin: 0;
+          color: #1a1a1a;
+          font-weight: 600;
+          font-size: 16px;
         }
       }
-      
-      .ant-tabs-content-holder {
-        .ant-tabs-content {
-          .ant-tabs-tabpane {
-            .ant-form {
-              .ant-form-item {
-                margin-bottom: $spacing-lg;
-                
-                .ant-form-item-label {
-                  label {
-                    font-weight: 500;
-                    color: $text-color;
-                  }
-                }
-              }
+
+      .section-items {
+        .setting-item {
+          padding: 8px 0;
+          cursor: pointer;
+          border-radius: 4px;
+          transition: all 0.2s ease;
+          margin-bottom: 2px;
+
+          &:hover {
+            background-color: rgba(24, 144, 255, 0.05);
+            padding-left: 8px;
+          }
+
+          .item-label {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+            display: block;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: #1890ff;
             }
           }
         }
@@ -38,13 +89,43 @@
   }
 }
 
-// Responsive design
-@include mobile {
+// Responsive Design
+@media (max-width: 768px) {
   .settings-page {
-    .ant-tabs {
-      .ant-tabs-tab {
-        .ant-tabs-tab-btn {
-          font-size: $font-size-sm;
+    padding: 16px;
+
+    .settings-header {
+      margin-bottom: 24px;
+    }
+
+    .settings-grid {
+      .settings-section-card {
+        .ant-card-body {
+          padding: 16px;
+        }
+
+        .section-header {
+          margin-bottom: 12px;
+
+          .section-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+          }
+
+          .section-title {
+            font-size: 14px;
+          }
+        }
+
+        .section-items {
+          .setting-item {
+            padding: 6px 0;
+
+            .item-label {
+              font-size: 13px;
+            }
+          }
         }
       }
     }

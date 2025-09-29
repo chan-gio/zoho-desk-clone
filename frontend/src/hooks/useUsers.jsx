@@ -25,6 +25,14 @@ export const useUsers = (params = {}) => {
   })
 }
 
+export const useUsersByTenant = (params = {}) => {
+  return useQuery({
+    queryKey: userKeys.list(params),
+    queryFn: () => userService.getUsersByTenant(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+}
+
 export const useUser = (id) => {
   return useQuery({
     queryKey: userKeys.detail(id),

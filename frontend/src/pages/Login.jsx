@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useLogin, useForgotPassword } from '../hooks/useAuth'
 import './Login.scss'
 
 const { Title, Text, Link } = Typography
@@ -31,33 +32,45 @@ const Login = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [form] = Form.useForm()
-  const [loading, setLoading] = useState(false)
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const loginMutation = useLogin()
+  const forgotPasswordMutation = useForgotPassword()
 
   const handleLogin = async (values) => {
-    setLoading(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Store user data
-      localStorage.setItem('user', JSON.stringify({
-        id: 1,
-        name: 'Admin User',
+      const result = await loginMutation.mutateAsync({
         email: values.email,
-        role: 'admin'
-      }))
+        password: values.password,
+        rememberMe: values.rememberMe || false
+      })
+      
+      // authService.login() đã tự động lưu tokens và user info
       
       message.success('Đăng nhập thành công!')
+      
       navigate('/tenant-selection')
     } catch (error) {
-      message.error('Đăng nhập thất bại!')
-    } finally {
-      setLoading(false)
+      message.error(error.response?.data?.message || 'Đăng nhập thất bại!')
     }
   }
 
   const handleSocialLogin = (provider) => {
     message.info(`Đăng nhập với ${provider} đang được phát triển`)
+  }
+
+  const handleForgotPassword = async () => {
+    const email = form.getFieldValue('email')
+    if (!email) {
+      message.error('Vui lòng nhập email trước khi yêu cầu đặt lại mật khẩu')
+      return
+    }
+
+    try {
+      await forgotPasswordMutation.mutateAsync({ email })
+      message.success('Email đặt lại mật khẩu đã được gửi!')
+    } catch (error) {
+      message.error(error.response?.data?.message || 'Gửi email thất bại!')
+    }
   }
 
   return (
@@ -75,6 +88,16 @@ const Login = () => {
                   Đăng nhập vào tài khoản của bạn
                 </Text>
               </div>
+
+              {loginMutation.isError && (
+                <Alert
+                  message="Đăng nhập thất bại"
+                  description={loginMutation.error?.response?.data?.message || 'Vui lòng kiểm tra lại thông tin đăng nhập'}
+                  type="error"
+                  showIcon
+                  style={{ marginBottom: 16 }}
+                />
+              )}
 
               <Form
                 form={form}
@@ -111,9 +134,15 @@ const Login = () => {
 
                 <Form.Item>
                   <div className="login-options">
-                    <Checkbox>Ghi nhớ đăng nhập</Checkbox>
-                    <Link href="#" className="forgot-password">
-                      Quên mật khẩu?
+                    <Form.Item name="rememberMe" valuePropName="checked" noStyle>
+                      <Checkbox>Ghi nhớ đăng nhập</Checkbox>
+                    </Form.Item>
+                    <Link 
+                      onClick={handleForgotPassword}
+                      className="forgot-password"
+                      disabled={forgotPasswordMutation.isPending}
+                    >
+                      {forgotPasswordMutation.isPending ? 'Đang gửi...' : 'Quên mật khẩu?'}
                     </Link>
                   </div>
                 </Form.Item>
@@ -123,7 +152,7 @@ const Login = () => {
                     type="primary" 
                     htmlType="submit" 
                     className="login-button"
-                    loading={loading}
+                    loading={loginMutation.isPending}
                     block
                   >
                     Đăng nhập

@@ -1,24 +1,30 @@
 import React from 'react'
-import { Layout, Button, Input, Avatar, Dropdown, Badge, Space, Select } from 'antd'
+import { Layout, Button, Input, Avatar, Dropdown, Badge, Space, Select, Menu } from 'antd'
 import { 
-  MenuFoldOutlined, 
-  MenuUnfoldOutlined, 
   SearchOutlined, 
   BellOutlined, 
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
-  GlobalOutlined
+  GlobalOutlined,
+  DashboardOutlined,
+  FileTextOutlined,
+  BookOutlined,
+  UsergroupAddOutlined,
+  BarChartOutlined
 } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './Header.scss'
 
 const { Header: AntHeader } = Layout
 const { Search } = Input
 const { Option } = Select
 
-const Header = ({ collapsed, setCollapsed }) => {
+const Header = () => {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleLanguageChange = (value) => {
     i18n.changeLanguage(value)
@@ -26,16 +32,20 @@ const Header = ({ collapsed, setCollapsed }) => {
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: value }))
   }
 
+  const handleMenuClick = ({ key }) => {
+    navigate(key)
+  }
+
   const userMenuItems = [
     {
       key: 'profile',
       icon: <UserOutlined />,
-      label: t('navigation.profile'),
+      label: 'Hồ sơ cá nhân',
     },
     {
       key: 'settings',
       icon: <SettingOutlined />,
-      label: t('navigation.settings'),
+      label: 'Cài đặt',
     },
     {
       type: 'divider',
@@ -43,27 +53,62 @@ const Header = ({ collapsed, setCollapsed }) => {
     {
       key: 'logout',
       icon: <LogoutOutlined />,
-      label: t('navigation.logout'),
+      label: 'Đăng xuất',
+    },
+  ]
+
+  const mainMenuItems = [
+    {
+      key: '/dashboard',
+      icon: <DashboardOutlined />,
+      label: 'Dashboard',
+    },
+    {
+      key: '/tickets',
+      icon: <FileTextOutlined />,
+      label: 'Tickets',
+    },
+    {
+      key: '/knowledge-base',
+      icon: <BookOutlined />,
+      label: 'Knowledge Base',
+    },
+    {
+      key: '/customers',
+      icon: <UsergroupAddOutlined />,
+      label: 'Khách hàng',
+    },
+    {
+      key: '/reports',
+      icon: <BarChartOutlined />,
+      label: 'Báo cáo',
+    },
+    {
+      key: '/settings',
+      icon: <SettingOutlined />,
+      label: 'Cài đặt',
     },
   ]
 
   return (
     <AntHeader className="header">
       <div className="header-left">
-        <Button
-          type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          className="trigger"
-        />
         <div className="logo">
           <h2>Zoho Desk Clone</h2>
         </div>
+        
+        <Menu
+          mode="horizontal"
+          selectedKeys={[location.pathname]}
+          items={mainMenuItems}
+          onClick={handleMenuClick}
+          className="main-navigation"
+        />
       </div>
       
       <div className="header-center">
         <Search
-          placeholder={t('header.searchPlaceholder')}
+          placeholder="Tìm kiếm tickets, articles..."
           allowClear
           enterButton={<SearchOutlined />}
           size="large"
