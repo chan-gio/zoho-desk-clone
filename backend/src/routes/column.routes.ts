@@ -11,6 +11,9 @@ router.use(authMiddleware);
 router.post('/initialize-defaults', ColumnController.initializeDefaultColumns);
 router.get('/:columnId/tickets', ColumnController.getTicketsByColumn);
 
+// Ticket operations
+router.put('/move-ticket', ColumnController.moveTicketToColumn);
+
 // Column CRUD operations
 router.post('/', ColumnController.createColumn);
 router.get('/', ColumnController.getColumnsByTenant);
@@ -20,9 +23,5 @@ router.delete('/:id', ColumnController.deleteColumn);
 
 // Column ordering
 router.put('/reorder', ColumnController.reorderColumns);
-
-// Ticket operations
-router.put('/move-ticket', ColumnController.moveTicketToColumn);
-router.put('/reorder-tickets', ColumnController.reorderTicketsInColumn);
 
 export default router;

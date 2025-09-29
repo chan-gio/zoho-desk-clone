@@ -50,12 +50,12 @@ export class ColumnService {
     return this.columnRepo.reorderColumns(tenantId, columnOrders);
   }
 
-  async moveTicketToColumn(data: MoveTicketInput): Promise<any> {
-    return this.columnRepo.moveTicketToColumn(data.ticketId, data.toColumnId, data.newOrder);
+  async moveTicketToColumn(data: { ticketId: string; toColumnId: string; afterId?: string; tenantId: string }): Promise<any> {
+    return this.columnRepo.moveTicketToColumn(data.ticketId, data.toColumnId, data.afterId, data.tenantId);
   }
 
-  async reorderTicketsInColumn(data: ReorderTicketsInput): Promise<any[]> {
-    return this.columnRepo.reorderTicketsInColumn(data.columnId, data.ticketOrders);
+  async reorderTicketsInColumn(data: { columnId: string; ticketOrders: Array<{ ticketId: string; afterId?: string }>; tenantId: string }): Promise<any[]> {
+    return this.columnRepo.reorderTicketsInColumn(data.columnId, data.ticketOrders, data.tenantId);
   }
 
   async initializeDefaultColumns(tenantId: string): Promise<Column[]> {
@@ -104,7 +104,10 @@ export class ColumnService {
         columnId,
         deletedAt: null // Chỉ lấy tickets chưa bị xóa
       },
-      orderBy: { order: 'asc' },
+      orderBy: [
+        { afterId: 'asc' }, // Tickets với afterId = null sẽ ở đầu
+        { createdAt: 'asc' } // Sau đó sort theo thời gian tạo
+      ],
       include: {
         creator: { select: { id: true, username: true, email: true } },
         assignee: { select: { id: true, username: true, email: true } },

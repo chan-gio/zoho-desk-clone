@@ -86,4 +86,60 @@ export class TicketController {
       return;
     }
   };
+
+  moveTicket = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { columnId, afterId } = req.body;
+      
+      if (!id) return res.status(400).json({ message: 'Missing ticket id parameter' });
+      if (!columnId) return res.status(400).json({ message: 'Missing columnId' });
+      
+      const tenantId = (req as any).user?.tenantId;
+      if (!tenantId) return res.status(400).json({ message: 'Missing tenantId' });
+      
+      const movedTicket = await this.ticketService.moveTicket(id, columnId, afterId);
+      return res.json({
+        success: true,
+        data: movedTicket,
+        message: 'Ticket moved successfully'
+      });
+    } catch (err) { 
+      next(err);
+      return;
+    }
+  };
+
+  getTicketsInColumn = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { columnId } = req.params;
+      if (!columnId) return res.status(400).json({ message: 'Missing columnId parameter' });
+      
+      const tickets = await this.ticketService.getTicketsInColumn(columnId);
+      return res.json({
+        success: true,
+        data: tickets,
+        message: 'Tickets retrieved successfully'
+      });
+    } catch (err) { 
+      next(err);
+      return;
+    }
+  };
+
+  reorderTicketsInColumn = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { columnId } = req.params;
+      if (!columnId) return res.status(400).json({ message: 'Missing columnId parameter' });
+      
+      await this.ticketService.reorderTicketsInColumn(columnId);
+      return res.json({
+        success: true,
+        message: 'Tickets reordered successfully'
+      });
+    } catch (err) { 
+      next(err);
+      return;
+    }
+  };
 }

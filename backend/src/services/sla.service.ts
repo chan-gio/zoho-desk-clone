@@ -1,7 +1,7 @@
 import { getPrismaClient } from '../database/postgres.js';
 import { SLA, CreateSLAInput, UpdateSLAInput, SLABreach, SLAFilter } from '../models/sla.model.js';
 import { NotificationService } from './notification.service.js';
-import { Prisma, TicketPriority } from '../../prisma/generated/client/index.js';
+import { Prisma } from '../../prisma/generated/client/index.js';
 
 export class SLAService {
   private get prisma() {
@@ -16,11 +16,14 @@ export class SLAService {
         ...(data.description && { description: data.description }),
         responseTime: data.responseTime,
         ...(data.resolutionTime && { resolutionTime: data.resolutionTime }),
-        priority: data.priority as TicketPriority,
+        ...(data.priorityId && { priorityId: data.priorityId }),
         ...(data.departmentId && { departmentId: data.departmentId }),
         tenantId: data.tenantId,
         isActive: true,
         escalationRules: data.escalationRules as unknown as Prisma.InputJsonValue
+      },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
       }
     });
 
@@ -30,7 +33,8 @@ export class SLAService {
       ...(sla.description && { description: sla.description }),
       responseTime: sla.responseTime,
       resolutionTime: sla.resolutionTime,
-      priority: sla.priority,
+      priority: sla.priority || undefined,
+      priorityId: sla.priorityId || undefined,
       ...(sla.departmentId && { departmentId: sla.departmentId }),
       tenantId: sla.tenantId,
       isActive: sla.isActive,
@@ -42,7 +46,10 @@ export class SLAService {
 
   async getSLAById(id: string, tenantId: string): Promise<SLA | null> {
     const sla = await this.prisma.sLA.findFirst({
-      where: { id, tenantId }
+      where: { id, tenantId },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
+      }
     });
 
     if (!sla) return null;
@@ -53,7 +60,8 @@ export class SLAService {
       ...(sla.description && { description: sla.description }),
       responseTime: sla.responseTime,
       resolutionTime: sla.resolutionTime,
-      priority: sla.priority,
+      priority: sla.priority || undefined,
+      priorityId: sla.priorityId || undefined,
       ...(sla.departmentId && { departmentId: sla.departmentId }),
       tenantId: sla.tenantId,
       isActive: sla.isActive,
@@ -67,15 +75,15 @@ export class SLAService {
     tenantId: string;
     page?: number;
     limit?: number;
-    priority?: TicketPriority;
+    priorityId?: string;
     departmentId?: string;
     isActive?: boolean;
   }): Promise<{ slas: SLA[]; total: number; page: number; limit: number }> {
-    const { tenantId, page = 1, limit = 20, priority, departmentId, isActive } = params;
+    const { tenantId, page = 1, limit = 20, priorityId, departmentId, isActive } = params;
     const skip = (page - 1) * limit;
 
     const where: any = { tenantId };
-    if (priority) where.priority = priority;
+    if (priorityId) where.priorityId = priorityId;
     if (departmentId) where.departmentId = departmentId;
     if (isActive !== undefined) where.isActive = isActive;
 
@@ -84,7 +92,10 @@ export class SLAService {
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
+        include: {
+          priority: { select: { id: true, name: true, color: true } }
+        }
       }),
       this.prisma.sLA.count({ where })
     ]);
@@ -96,7 +107,8 @@ export class SLAService {
         ...(sla.description && { description: sla.description }),
         responseTime: sla.responseTime,
         resolutionTime: sla.resolutionTime,
-        priority: sla.priority,
+        priority: sla.priority || undefined,
+        priorityId: sla.priorityId || undefined,
         ...(sla.departmentId && { departmentId: sla.departmentId }),
         tenantId: sla.tenantId,
         isActive: sla.isActive,
@@ -124,10 +136,13 @@ export class SLAService {
         ...(data.description && { description: data.description }),
         ...(data.responseTime && { responseTime: data.responseTime }),
         ...(data.resolutionTime && { resolutionTime: data.resolutionTime }),
-        ...(data.priority && { priority: data.priority }),
+        ...(data.priorityId && { priorityId: data.priorityId }),
         ...(data.departmentId && { departmentId: data.departmentId }),
         ...(data.isActive && { isActive: data.isActive }),
         escalationRules: data.escalationRules as unknown as Prisma.InputJsonValue
+      },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
       }
     });
 
@@ -137,7 +152,8 @@ export class SLAService {
       ...(updatedSLA.description && { description: updatedSLA.description }),
       responseTime: updatedSLA.responseTime,
       resolutionTime: updatedSLA.resolutionTime,
-      priority: updatedSLA.priority,
+      priority: updatedSLA.priority || undefined,
+      priorityId: updatedSLA.priorityId || undefined,
       ...(updatedSLA.departmentId && { departmentId: updatedSLA.departmentId }),
       tenantId: updatedSLA.tenantId,
       isActive: updatedSLA.isActive,

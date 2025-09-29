@@ -26,4 +26,9 @@ router.post('/', ticketController.createTicket);
 router.put('/:id', ticketController.updateTicket);
 router.delete('/:id', ticketController.deleteTicket);
 
+// Ticket movement routes
+router.put('/:id/move', ticketController.moveTicket);
+router.get('/column/:columnId', ticketController.getTicketsInColumn);
+router.post('/column/:columnId/reorder', ticketController.reorderTicketsInColumn);
+
 export default router;

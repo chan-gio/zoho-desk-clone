@@ -1,4 +1,4 @@
-import { PrismaClient, SLA as PrismaSLA, Prisma, TicketPriority } from '../../prisma/generated/client/index.js';
+import { PrismaClient, SLA as PrismaSLA, Prisma } from '../../prisma/generated/client/index.js';
 import { SLA, CreateSLAInput, UpdateSLAInput, SLABreach } from '../models/sla.model.js';
 
 export class SLARepository {
@@ -14,19 +14,25 @@ export class SLARepository {
         name: data.name,
         responseTime: data.responseTime,
         resolutionTime: data.resolutionTime,
-        priority: data.priority,
+        priorityId: data.priorityId || null,
         tenantId: data.tenantId,
         isActive: true,
         escalationRules: (data.escalationRules || []) as unknown as Prisma.InputJsonValue,
         ...(data.description !== undefined && { description: data.description }),
         ...(data.departmentId !== undefined && { departmentId: data.departmentId })
+      },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
       }
     });
   }
 
   async findById(id: string, tenantId: string): Promise<PrismaSLA | null> {
     return this.prisma.sLA.findFirst({
-      where: { id, tenantId }
+      where: { id, tenantId },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
+      }
     });
   }
 
@@ -34,15 +40,15 @@ export class SLARepository {
     tenantId: string;
     page?: number;
     limit?: number;
-    priority?: string;
+    priorityId?: string;
     departmentId?: string;
     isActive?: boolean;
   }): Promise<{ data: PrismaSLA[]; total: number }> {
-    const { tenantId, page = 1, limit = 20, priority, departmentId, isActive } = params;
+    const { tenantId, page = 1, limit = 20, priorityId, departmentId, isActive } = params;
     const skip = (page - 1) * limit;
 
     const where: Prisma.SLAWhereInput = { tenantId };
-    if (priority) where.priority = priority as TicketPriority;
+    if (priorityId) where.priorityId = priorityId;
     if (departmentId) where.departmentId = departmentId;
     if (isActive !== undefined) where.isActive = isActive;
 
@@ -51,7 +57,10 @@ export class SLARepository {
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
+        include: {
+          priority: { select: { id: true, name: true, color: true } }
+        }
       }),
       this.prisma.sLA.count({ where })
     ]);
@@ -73,10 +82,13 @@ export class SLARepository {
         ...(data.description !== undefined && { description: data.description }),
         ...(data.responseTime !== undefined && { responseTime: data.responseTime }),
         ...(data.resolutionTime !== undefined && { resolutionTime: data.resolutionTime }),
-        ...(data.priority !== undefined && { priority: data.priority }),
+        ...(data.priorityId !== undefined && { priorityId: data.priorityId }),
         ...(data.departmentId !== undefined && { departmentId: data.departmentId }),
         ...(data.isActive !== undefined && { isActive: data.isActive }),
         ...(data.escalationRules !== undefined && { escalationRules: data.escalationRules as unknown as Prisma.InputJsonValue })
+      },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
       }
     });
   }
@@ -96,7 +108,7 @@ export class SLARepository {
   async findByTenant(tenantId: string): Promise<PrismaSLA[]> {
     return this.prisma.sLA.findMany({
       where: { tenantId, isActive: true },
-      orderBy: { priority: 'asc' }
+      orderBy: { priority: { id: 'asc' } }
     });
   }
 
@@ -110,21 +122,24 @@ export class SLARepository {
           { departmentId: null }
         ]
       },
-      orderBy: { priority: 'asc' }
+      orderBy: { priority: { id: 'asc' } }
     });
   }
 
-  async findByPriority(priority: TicketPriority, tenantId: string): Promise<PrismaSLA[]> {
+  async findByPriority(priorityId: string, tenantId: string): Promise<PrismaSLA[]> {
     return this.prisma.sLA.findMany({
-      where: { priority, tenantId, isActive: true },
-      orderBy: { createdAt: 'desc' }
+      where: { priorityId, tenantId, isActive: true },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        priority: { select: { id: true, name: true, color: true } }
+      }
     });
   }
 
   async getActiveSLAs(tenantId: string): Promise<PrismaSLA[]> {
     return this.prisma.sLA.findMany({
       where: { tenantId, isActive: true },
-      orderBy: { priority: 'asc' }
+      orderBy: { priority: { id: 'asc' } }
     });
   }
 

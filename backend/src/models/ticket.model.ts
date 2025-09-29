@@ -7,7 +7,7 @@ export interface Ticket {
   description?: string;
   status: TicketStatus;
   priority: TicketPriority;
-  order: number; // Thứ tự trong column
+  afterId?: string; // ID của ticket đứng trước (null = ở trên cùng)
   columnId?: string; // ID của column chứa ticket này
   departmentId?: string;
   assigneeId?: string;
@@ -47,7 +47,7 @@ export interface UpdateTicketInput {
   status?: TicketStatus;
   priority?: TicketPriority;
   columnId?: string; // Di chuyển ticket sang column khác
-  order?: number; // Cập nhật thứ tự trong column
+  afterId?: string; // Cập nhật vị trí trong column
   departmentId?: string;
   assigneeId?: string;
   tags?: string[];

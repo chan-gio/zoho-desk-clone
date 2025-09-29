@@ -153,48 +153,52 @@ export class ColumnController {
     }
   }
 
-  // Di chuyển ticket sang column khác
+  // Di chuyển ticket sang column khác hoặc sắp xếp lại trong cùng column
   static async moveTicketToColumn(req: Request, res: Response, next: NextFunction) {
     try {
-      const { ticketId, fromColumnId, toColumnId, newOrder } = req.body;
+      const { ticketId, toColumnId, afterId, columnId } = req.body;
+      const tenantId = (req as any).user?.tenantId;
 
-      if (!ticketId || !toColumnId || newOrder === undefined) {
+      // Nếu có columnId và ticketOrders thì là reorder trong cùng column
+      if (columnId && req.body.ticketOrders && Array.isArray(req.body.ticketOrders)) {
+        const { ticketOrders } = req.body;
+        
+        if (!tenantId) {
+          return res.status(400).json(errorResponse({ 
+            error: 'Missing tenantId' 
+          }));
+        }
+
+        const tickets = await getColumnService().reorderTicketsInColumn({
+          columnId,
+          ticketOrders,
+          tenantId
+        });
+
+        return res.json(successResponse({ data: tickets, message: 'Tickets reordered successfully' }));
+      }
+
+      // Nếu không thì là move ticket giữa các column
+      if (!ticketId || !toColumnId) {
         return res.status(400).json(errorResponse({ 
-          error: 'Ticket ID, target column ID, and new order are required' 
+          error: 'Ticket ID and target column ID are required' 
+        }));
+      }
+
+      if (!tenantId) {
+        return res.status(400).json(errorResponse({ 
+          error: 'Missing tenantId' 
         }));
       }
 
       const ticket = await getColumnService().moveTicketToColumn({
         ticketId,
-        fromColumnId,
         toColumnId,
-        newOrder
+        afterId,
+        tenantId
       });
 
       return res.json(successResponse({ data: ticket, message: 'Ticket moved successfully' }));
-    } catch (err) {
-      next(err);
-      return;
-    }
-  }
-
-  // Sắp xếp lại thứ tự tickets trong column
-  static async reorderTicketsInColumn(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { columnId, ticketOrders } = req.body;
-
-      if (!columnId || !ticketOrders || !Array.isArray(ticketOrders)) {
-        return res.status(400).json(errorResponse({ 
-          error: 'Column ID and ticket orders array are required' 
-        }));
-      }
-
-      const tickets = await getColumnService().reorderTicketsInColumn({
-        columnId,
-        ticketOrders
-      });
-
-      return res.json(successResponse({ data: tickets, message: 'Tickets reordered successfully' }));
     } catch (err) {
       next(err);
       return;

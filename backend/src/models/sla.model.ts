@@ -1,10 +1,17 @@
+export interface Priority {
+  id: string;
+  name: string;
+  color: string;
+}
+
 export interface SLA {
   id: string;
   name: string;
   description?: string;
   responseTime: number; // in hours
   resolutionTime: number; // in hours
-  priority: 'low' | 'medium' | 'high' | 'urgent';
+  priority?: Priority | undefined;
+  priorityId?: string | undefined;
   departmentId?: string;
   tenantId: string;
   isActive: boolean;
@@ -46,7 +53,7 @@ export interface CreateSLAInput {
   description?: string;
   responseTime: number;
   resolutionTime: number;
-  priority: 'low' | 'medium' | 'high' | 'urgent';
+  priorityId?: string;
   departmentId?: string;
   tenantId: string;
   escalationRules?: Omit<SLAEscalationRule, 'level'>[];
@@ -57,7 +64,7 @@ export interface UpdateSLAInput {
   description?: string;
   responseTime?: number;
   resolutionTime?: number;
-  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  priorityId?: string;
   departmentId?: string;
   isActive?: boolean;
   escalationRules?: Omit<SLAEscalationRule, 'level'>[];

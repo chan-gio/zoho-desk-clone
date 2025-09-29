@@ -27,6 +27,7 @@ model Priority {
   tenantId  String
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tickets   Ticket[]
+  slas      SLA[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -126,7 +127,7 @@ model Ticket {
   status       String          @default("open")
   priority     Priority?       @relation(fields: [priorityId], references: [id])
   priorityId   String? // ID của priority
-  order        Int             @default(0) // Thứ tự trong column
+  afterId      String? // ID của ticket đứng trước (null = ở trên cùng)
   column       Column?         @relation(fields: [columnId], references: [id])
   columnId     String? // ID của column chứa ticket này
   createdAt    DateTime        @default(now())
@@ -146,7 +147,7 @@ model Ticket {
   @@index([status])
   @@index([priorityId])
   @@index([columnId])
-  @@index([order])
+  @@index([afterId])
   @@index([createdAt])
   @@index([closedAt])
   @@index([deletedAt])
@@ -184,19 +185,20 @@ model Attachment {
 }
 
 model SLA {
-  id              String   @id @default(uuid())
-  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  id              String    @id @default(uuid())
+  tenant          Tenant    @relation(fields: [tenantId], references: [id])
   tenantId        String
-  name            String   @db.VarChar(100)
+  name            String    @db.VarChar(100)
   description     String?
-  responseTime    Int      @default(24) // hours
-  resolutionTime  Int      @default(72) // hours
-  priority        String   @default("medium")
+  responseTime    Int       @default(24) // hours
+  resolutionTime  Int       @default(72) // hours
+  priority        Priority? @relation(fields: [priorityId], references: [id])
+  priorityId      String?
   departmentId    String?
-  isActive        Boolean  @default(true)
+  isActive        Boolean   @default(true)
   escalationRules Json?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model Workflow {

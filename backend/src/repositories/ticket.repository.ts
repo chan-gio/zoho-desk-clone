@@ -7,25 +7,15 @@ export class TicketRepository {
   }
 
   async create(data: Prisma.TicketUncheckedCreateInput): Promise<PrismaTicket> {
-    // Nếu không có order được chỉ định, lấy order tiếp theo trong column
-    if (data.columnId && data.order === undefined) {
-      const maxOrder = await this.prisma.ticket.findFirst({
-        where: { columnId: data.columnId },
-        orderBy: { order: 'desc' },
-        select: { order: true }
-      });
-      data.order = (maxOrder?.order || 0) + 1;
-    }
-
     // Tách các relation IDs ra để sử dụng connect
-    const { tenantId, creatorId, assigneeId, departmentId, columnId, priorityId, ...ticketData } = data;
+    const { tenantId, creatorId, assigneeId, departmentId, columnId, priorityId, afterId, ...ticketData } = data;
 
     return this.prisma.ticket.create({ 
       data: {
         title: data.title,
         description: data.description ?? null,
         status: data.status ?? 'open',
-        order: data.order || 0,
+        afterId: afterId || null,
         createdAt: data.createdAt ?? new Date(),
         updatedAt: data.updatedAt ?? new Date(),
         closedAt: data.closedAt ?? null,
@@ -84,9 +74,32 @@ export class TicketRepository {
   }
 
   async findByColumn(columnId: string): Promise<PrismaTicket[]> {
+    return this.getTicketsInColumn(columnId);
+  }
+
+  async moveTicket(ticketId: string, columnId: string, afterId?: string): Promise<PrismaTicket | null> {
+    return this.prisma.$transaction(async (tx) => {
+      // Cập nhật ticket với columnId và afterId mới
+      const updatedTicket = await tx.ticket.update({
+        where: { id: ticketId },
+        data: { 
+          columnId, 
+          afterId: afterId || null,
+          updatedAt: new Date()
+        }
+      });
+
+      return updatedTicket;
+    });
+  }
+
+  async getTicketsInColumn(columnId: string): Promise<PrismaTicket[]> {
     return this.prisma.ticket.findMany({
       where: { columnId, deletedAt: null },
-      orderBy: { order: 'asc' },
+      orderBy: [
+        { afterId: 'asc' }, // Tickets với afterId = null sẽ ở đầu
+        { createdAt: 'asc' } // Sau đó sort theo thời gian tạo
+      ],
       include: {
         creator: { select: { id: true, username: true, email: true } },
         assignee: { select: { id: true, username: true, email: true } },
@@ -96,37 +109,27 @@ export class TicketRepository {
     });
   }
 
-  async updateOrder(ticketId: string, newOrder: number, columnId?: string): Promise<PrismaTicket | null> {
-    return this.prisma.ticket.update({
-      where: { id: ticketId },
-      data: {
-        order: newOrder,
-        ...(columnId && { columnId })
+  async reorderTicketsInColumn(columnId: string): Promise<void> {
+    // Lấy tất cả tickets trong column và sắp xếp lại theo afterId
+    const tickets = await this.prisma.ticket.findMany({
+      where: { columnId, deletedAt: null },
+      orderBy: [
+        { afterId: 'asc' },
+        { createdAt: 'asc' }
+      ]
+    });
+
+    // Cập nhật afterId cho từng ticket để tạo linked list
+    for (let i = 0; i < tickets.length; i++) {
+      const ticket = tickets[i];
+      if (ticket) {
+        const prevTicket = i > 0 ? tickets[i - 1] : null;
+        const afterId = prevTicket?.id || null;
+        await this.prisma.ticket.update({
+          where: { id: ticket.id },
+          data: { afterId }
+        });
       }
-    });
-  }
-
-  async moveToColumn(ticketId: string, columnId: string, newOrder: number): Promise<PrismaTicket | null> {
-    return this.prisma.$transaction(async (tx) => {
-      // Cập nhật ticket
-      const updatedTicket = await tx.ticket.update({
-        where: { id: ticketId },
-        data: { columnId, order: newOrder }
-      });
-
-      // Cập nhật thứ tự của các tickets khác trong column đích
-      await tx.ticket.updateMany({
-        where: {
-          columnId,
-          id: { not: ticketId },
-          order: { gte: newOrder }
-        },
-        data: {
-          order: { increment: 1 }
-        }
-      });
-
-      return updatedTicket;
-    });
+    }
   }
 }

@@ -1799,10 +1799,12 @@ export namespace Prisma {
 
   export type PriorityCountOutputType = {
     tickets: number
+    slas: number
   }
 
   export type PriorityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tickets?: boolean | PriorityCountOutputTypeCountTicketsArgs
+    slas?: boolean | PriorityCountOutputTypeCountSlasArgs
   }
 
   // Custom InputTypes
@@ -1821,6 +1823,13 @@ export namespace Prisma {
    */
   export type PriorityCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
+  }
+
+  /**
+   * PriorityCountOutputType without action
+   */
+  export type PriorityCountOutputTypeCountSlasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SLAWhereInput
   }
 
 
@@ -2359,6 +2368,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tickets?: boolean | Priority$ticketsArgs<ExtArgs>
+    slas?: boolean | Priority$slasArgs<ExtArgs>
     _count?: boolean | PriorityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["priority"]>
 
@@ -2401,6 +2411,7 @@ export namespace Prisma {
   export type PriorityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     tickets?: boolean | Priority$ticketsArgs<ExtArgs>
+    slas?: boolean | Priority$slasArgs<ExtArgs>
     _count?: boolean | PriorityCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PriorityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2415,6 +2426,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       tickets: Prisma.$TicketPayload<ExtArgs>[]
+      slas: Prisma.$SLAPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2821,6 +2833,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tickets<T extends Priority$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Priority$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    slas<T extends Priority$slasArgs<ExtArgs> = {}>(args?: Subset<T, Priority$slasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SLAPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3275,6 +3288,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Priority.slas
+   */
+  export type Priority$slasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SLA
+     */
+    select?: SLASelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SLA
+     */
+    omit?: SLAOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SLAInclude<ExtArgs> | null
+    where?: SLAWhereInput
+    orderBy?: SLAOrderByWithRelationInput | SLAOrderByWithRelationInput[]
+    cursor?: SLAWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SLAScalarFieldEnum | SLAScalarFieldEnum[]
   }
 
   /**
@@ -9279,18 +9316,8 @@ export namespace Prisma {
 
   export type AggregateTicket = {
     _count: TicketCountAggregateOutputType | null
-    _avg: TicketAvgAggregateOutputType | null
-    _sum: TicketSumAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
-  }
-
-  export type TicketAvgAggregateOutputType = {
-    order: number | null
-  }
-
-  export type TicketSumAggregateOutputType = {
-    order: number | null
   }
 
   export type TicketMinAggregateOutputType = {
@@ -9300,7 +9327,7 @@ export namespace Prisma {
     description: string | null
     status: string | null
     priorityId: string | null
-    order: number | null
+    afterId: string | null
     columnId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -9318,7 +9345,7 @@ export namespace Prisma {
     description: string | null
     status: string | null
     priorityId: string | null
-    order: number | null
+    afterId: string | null
     columnId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -9336,7 +9363,7 @@ export namespace Prisma {
     description: number
     status: number
     priorityId: number
-    order: number
+    afterId: number
     columnId: number
     createdAt: number
     updatedAt: number
@@ -9349,14 +9376,6 @@ export namespace Prisma {
   }
 
 
-  export type TicketAvgAggregateInputType = {
-    order?: true
-  }
-
-  export type TicketSumAggregateInputType = {
-    order?: true
-  }
-
   export type TicketMinAggregateInputType = {
     id?: true
     tenantId?: true
@@ -9364,7 +9383,7 @@ export namespace Prisma {
     description?: true
     status?: true
     priorityId?: true
-    order?: true
+    afterId?: true
     columnId?: true
     createdAt?: true
     updatedAt?: true
@@ -9382,7 +9401,7 @@ export namespace Prisma {
     description?: true
     status?: true
     priorityId?: true
-    order?: true
+    afterId?: true
     columnId?: true
     createdAt?: true
     updatedAt?: true
@@ -9400,7 +9419,7 @@ export namespace Prisma {
     description?: true
     status?: true
     priorityId?: true
-    order?: true
+    afterId?: true
     columnId?: true
     createdAt?: true
     updatedAt?: true
@@ -9450,18 +9469,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: TicketAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: TicketSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: TicketMinAggregateInputType
@@ -9492,8 +9499,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TicketCountAggregateInputType | true
-    _avg?: TicketAvgAggregateInputType
-    _sum?: TicketSumAggregateInputType
     _min?: TicketMinAggregateInputType
     _max?: TicketMaxAggregateInputType
   }
@@ -9505,7 +9510,7 @@ export namespace Prisma {
     description: string | null
     status: string
     priorityId: string | null
-    order: number
+    afterId: string | null
     columnId: string | null
     createdAt: Date
     updatedAt: Date
@@ -9515,8 +9520,6 @@ export namespace Prisma {
     assigneeId: string | null
     departmentId: string | null
     _count: TicketCountAggregateOutputType | null
-    _avg: TicketAvgAggregateOutputType | null
-    _sum: TicketSumAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
   }
@@ -9542,7 +9545,7 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priorityId?: boolean
-    order?: boolean
+    afterId?: boolean
     columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9569,7 +9572,7 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priorityId?: boolean
-    order?: boolean
+    afterId?: boolean
     columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9593,7 +9596,7 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priorityId?: boolean
-    order?: boolean
+    afterId?: boolean
     columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9617,7 +9620,7 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priorityId?: boolean
-    order?: boolean
+    afterId?: boolean
     columnId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9628,7 +9631,7 @@ export namespace Prisma {
     departmentId?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "priorityId" | "order" | "columnId" | "createdAt" | "updatedAt" | "closedAt" | "deletedAt" | "creatorId" | "assigneeId" | "departmentId", ExtArgs["result"]["ticket"]>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "priorityId" | "afterId" | "columnId" | "createdAt" | "updatedAt" | "closedAt" | "deletedAt" | "creatorId" | "assigneeId" | "departmentId", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     priority?: boolean | Ticket$priorityArgs<ExtArgs>
@@ -9676,7 +9679,7 @@ export namespace Prisma {
       description: string | null
       status: string
       priorityId: string | null
-      order: number
+      afterId: string | null
       columnId: string | null
       createdAt: Date
       updatedAt: Date
@@ -10122,7 +10125,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Ticket", 'String'>
     readonly status: FieldRef<"Ticket", 'String'>
     readonly priorityId: FieldRef<"Ticket", 'String'>
-    readonly order: FieldRef<"Ticket", 'Int'>
+    readonly afterId: FieldRef<"Ticket", 'String'>
     readonly columnId: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
@@ -13062,7 +13065,7 @@ export namespace Prisma {
     description: string | null
     responseTime: number | null
     resolutionTime: number | null
-    priority: string | null
+    priorityId: string | null
     departmentId: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -13076,7 +13079,7 @@ export namespace Prisma {
     description: string | null
     responseTime: number | null
     resolutionTime: number | null
-    priority: string | null
+    priorityId: string | null
     departmentId: string | null
     isActive: boolean | null
     createdAt: Date | null
@@ -13090,7 +13093,7 @@ export namespace Prisma {
     description: number
     responseTime: number
     resolutionTime: number
-    priority: number
+    priorityId: number
     departmentId: number
     isActive: number
     escalationRules: number
@@ -13117,7 +13120,7 @@ export namespace Prisma {
     description?: true
     responseTime?: true
     resolutionTime?: true
-    priority?: true
+    priorityId?: true
     departmentId?: true
     isActive?: true
     createdAt?: true
@@ -13131,7 +13134,7 @@ export namespace Prisma {
     description?: true
     responseTime?: true
     resolutionTime?: true
-    priority?: true
+    priorityId?: true
     departmentId?: true
     isActive?: true
     createdAt?: true
@@ -13145,7 +13148,7 @@ export namespace Prisma {
     description?: true
     responseTime?: true
     resolutionTime?: true
-    priority?: true
+    priorityId?: true
     departmentId?: true
     isActive?: true
     escalationRules?: true
@@ -13247,7 +13250,7 @@ export namespace Prisma {
     description: string | null
     responseTime: number
     resolutionTime: number
-    priority: string
+    priorityId: string | null
     departmentId: string | null
     isActive: boolean
     escalationRules: JsonValue | null
@@ -13281,13 +13284,14 @@ export namespace Prisma {
     description?: boolean
     responseTime?: boolean
     resolutionTime?: boolean
-    priority?: boolean
+    priorityId?: boolean
     departmentId?: boolean
     isActive?: boolean
     escalationRules?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | SLA$priorityArgs<ExtArgs>
   }, ExtArgs["result"]["sLA"]>
 
   export type SLASelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13297,13 +13301,14 @@ export namespace Prisma {
     description?: boolean
     responseTime?: boolean
     resolutionTime?: boolean
-    priority?: boolean
+    priorityId?: boolean
     departmentId?: boolean
     isActive?: boolean
     escalationRules?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | SLA$priorityArgs<ExtArgs>
   }, ExtArgs["result"]["sLA"]>
 
   export type SLASelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13313,13 +13318,14 @@ export namespace Prisma {
     description?: boolean
     responseTime?: boolean
     resolutionTime?: boolean
-    priority?: boolean
+    priorityId?: boolean
     departmentId?: boolean
     isActive?: boolean
     escalationRules?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | SLA$priorityArgs<ExtArgs>
   }, ExtArgs["result"]["sLA"]>
 
   export type SLASelectScalar = {
@@ -13329,7 +13335,7 @@ export namespace Prisma {
     description?: boolean
     responseTime?: boolean
     resolutionTime?: boolean
-    priority?: boolean
+    priorityId?: boolean
     departmentId?: boolean
     isActive?: boolean
     escalationRules?: boolean
@@ -13337,21 +13343,25 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SLAOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "responseTime" | "resolutionTime" | "priority" | "departmentId" | "isActive" | "escalationRules" | "createdAt" | "updatedAt", ExtArgs["result"]["sLA"]>
+  export type SLAOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "responseTime" | "resolutionTime" | "priorityId" | "departmentId" | "isActive" | "escalationRules" | "createdAt" | "updatedAt", ExtArgs["result"]["sLA"]>
   export type SLAInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | SLA$priorityArgs<ExtArgs>
   }
   export type SLAIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | SLA$priorityArgs<ExtArgs>
   }
   export type SLAIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    priority?: boolean | SLA$priorityArgs<ExtArgs>
   }
 
   export type $SLAPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SLA"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      priority: Prisma.$PriorityPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13360,7 +13370,7 @@ export namespace Prisma {
       description: string | null
       responseTime: number
       resolutionTime: number
-      priority: string
+      priorityId: string | null
       departmentId: string | null
       isActive: boolean
       escalationRules: Prisma.JsonValue | null
@@ -13761,6 +13771,7 @@ export namespace Prisma {
   export interface Prisma__SLAClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    priority<T extends SLA$priorityArgs<ExtArgs> = {}>(args?: Subset<T, SLA$priorityArgs<ExtArgs>>): Prisma__PriorityClient<$Result.GetResult<Prisma.$PriorityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13796,7 +13807,7 @@ export namespace Prisma {
     readonly description: FieldRef<"SLA", 'String'>
     readonly responseTime: FieldRef<"SLA", 'Int'>
     readonly resolutionTime: FieldRef<"SLA", 'Int'>
-    readonly priority: FieldRef<"SLA", 'String'>
+    readonly priorityId: FieldRef<"SLA", 'String'>
     readonly departmentId: FieldRef<"SLA", 'String'>
     readonly isActive: FieldRef<"SLA", 'Boolean'>
     readonly escalationRules: FieldRef<"SLA", 'Json'>
@@ -14195,6 +14206,25 @@ export namespace Prisma {
      * Limit how many SLAS to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SLA.priority
+   */
+  export type SLA$priorityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Priority
+     */
+    select?: PrioritySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Priority
+     */
+    omit?: PriorityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriorityInclude<ExtArgs> | null
+    where?: PriorityWhereInput
   }
 
   /**
@@ -15415,7 +15445,7 @@ export namespace Prisma {
     description: 'description',
     status: 'status',
     priorityId: 'priorityId',
-    order: 'order',
+    afterId: 'afterId',
     columnId: 'columnId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -15468,7 +15498,7 @@ export namespace Prisma {
     description: 'description',
     responseTime: 'responseTime',
     resolutionTime: 'resolutionTime',
-    priority: 'priority',
+    priorityId: 'priorityId',
     departmentId: 'departmentId',
     isActive: 'isActive',
     escalationRules: 'escalationRules',
@@ -15654,6 +15684,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Priority"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     tickets?: TicketListRelationFilter
+    slas?: SLAListRelationFilter
   }
 
   export type PriorityOrderByWithRelationInput = {
@@ -15667,6 +15698,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     tickets?: TicketOrderByRelationAggregateInput
+    slas?: SLAOrderByRelationAggregateInput
   }
 
   export type PriorityWhereUniqueInput = Prisma.AtLeast<{
@@ -15683,6 +15715,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Priority"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     tickets?: TicketListRelationFilter
+    slas?: SLAListRelationFilter
   }, "id">
 
   export type PriorityOrderByWithAggregationInput = {
@@ -16126,7 +16159,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Ticket"> | string | null
     status?: StringFilter<"Ticket"> | string
     priorityId?: StringNullableFilter<"Ticket"> | string | null
-    order?: IntFilter<"Ticket"> | number
+    afterId?: StringNullableFilter<"Ticket"> | string | null
     columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
@@ -16152,7 +16185,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priorityId?: SortOrderInput | SortOrder
-    order?: SortOrder
+    afterId?: SortOrderInput | SortOrder
     columnId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16181,7 +16214,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Ticket"> | string | null
     status?: StringFilter<"Ticket"> | string
     priorityId?: StringNullableFilter<"Ticket"> | string | null
-    order?: IntFilter<"Ticket"> | number
+    afterId?: StringNullableFilter<"Ticket"> | string | null
     columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
@@ -16207,7 +16240,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priorityId?: SortOrderInput | SortOrder
-    order?: SortOrder
+    afterId?: SortOrderInput | SortOrder
     columnId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16217,10 +16250,8 @@ export namespace Prisma {
     assigneeId?: SortOrderInput | SortOrder
     departmentId?: SortOrderInput | SortOrder
     _count?: TicketCountOrderByAggregateInput
-    _avg?: TicketAvgOrderByAggregateInput
     _max?: TicketMaxOrderByAggregateInput
     _min?: TicketMinOrderByAggregateInput
-    _sum?: TicketSumOrderByAggregateInput
   }
 
   export type TicketScalarWhereWithAggregatesInput = {
@@ -16233,7 +16264,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     status?: StringWithAggregatesFilter<"Ticket"> | string
     priorityId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
-    order?: IntWithAggregatesFilter<"Ticket"> | number
+    afterId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     columnId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
@@ -16425,13 +16456,14 @@ export namespace Prisma {
     description?: StringNullableFilter<"SLA"> | string | null
     responseTime?: IntFilter<"SLA"> | number
     resolutionTime?: IntFilter<"SLA"> | number
-    priority?: StringFilter<"SLA"> | string
+    priorityId?: StringNullableFilter<"SLA"> | string | null
     departmentId?: StringNullableFilter<"SLA"> | string | null
     isActive?: BoolFilter<"SLA"> | boolean
     escalationRules?: JsonNullableFilter<"SLA">
     createdAt?: DateTimeFilter<"SLA"> | Date | string
     updatedAt?: DateTimeFilter<"SLA"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    priority?: XOR<PriorityNullableScalarRelationFilter, PriorityWhereInput> | null
   }
 
   export type SLAOrderByWithRelationInput = {
@@ -16441,13 +16473,14 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     responseTime?: SortOrder
     resolutionTime?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrderInput | SortOrder
     departmentId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     escalationRules?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    priority?: PriorityOrderByWithRelationInput
   }
 
   export type SLAWhereUniqueInput = Prisma.AtLeast<{
@@ -16460,13 +16493,14 @@ export namespace Prisma {
     description?: StringNullableFilter<"SLA"> | string | null
     responseTime?: IntFilter<"SLA"> | number
     resolutionTime?: IntFilter<"SLA"> | number
-    priority?: StringFilter<"SLA"> | string
+    priorityId?: StringNullableFilter<"SLA"> | string | null
     departmentId?: StringNullableFilter<"SLA"> | string | null
     isActive?: BoolFilter<"SLA"> | boolean
     escalationRules?: JsonNullableFilter<"SLA">
     createdAt?: DateTimeFilter<"SLA"> | Date | string
     updatedAt?: DateTimeFilter<"SLA"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    priority?: XOR<PriorityNullableScalarRelationFilter, PriorityWhereInput> | null
   }, "id">
 
   export type SLAOrderByWithAggregationInput = {
@@ -16476,7 +16510,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     responseTime?: SortOrder
     resolutionTime?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrderInput | SortOrder
     departmentId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     escalationRules?: SortOrderInput | SortOrder
@@ -16499,7 +16533,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"SLA"> | string | null
     responseTime?: IntWithAggregatesFilter<"SLA"> | number
     resolutionTime?: IntWithAggregatesFilter<"SLA"> | number
-    priority?: StringWithAggregatesFilter<"SLA"> | string
+    priorityId?: StringNullableWithAggregatesFilter<"SLA"> | string | null
     departmentId?: StringNullableWithAggregatesFilter<"SLA"> | string | null
     isActive?: BoolWithAggregatesFilter<"SLA"> | boolean
     escalationRules?: JsonNullableWithAggregatesFilter<"SLA">
@@ -16587,6 +16621,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutPrioritiesInput
     tickets?: TicketCreateNestedManyWithoutPriorityInput
+    slas?: SLACreateNestedManyWithoutPriorityInput
   }
 
   export type PriorityUncheckedCreateInput = {
@@ -16599,6 +16634,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutPriorityInput
+    slas?: SLAUncheckedCreateNestedManyWithoutPriorityInput
   }
 
   export type PriorityUpdateInput = {
@@ -16611,6 +16647,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutPrioritiesNestedInput
     tickets?: TicketUpdateManyWithoutPriorityNestedInput
+    slas?: SLAUpdateManyWithoutPriorityNestedInput
   }
 
   export type PriorityUncheckedUpdateInput = {
@@ -16623,6 +16660,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutPriorityNestedInput
+    slas?: SLAUncheckedUpdateManyWithoutPriorityNestedInput
   }
 
   export type PriorityCreateManyInput = {
@@ -17105,7 +17143,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -17127,7 +17165,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17145,7 +17183,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17167,7 +17205,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17187,7 +17225,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17203,7 +17241,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17217,7 +17255,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17416,13 +17454,13 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutSlasInput
+    priority?: PriorityCreateNestedOneWithoutSlasInput
   }
 
   export type SLAUncheckedCreateInput = {
@@ -17432,7 +17470,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: string
+    priorityId?: string | null
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -17446,13 +17484,13 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutSlasNestedInput
+    priority?: PriorityUpdateOneWithoutSlasNestedInput
   }
 
   export type SLAUncheckedUpdateInput = {
@@ -17462,7 +17500,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -17477,7 +17515,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: string
+    priorityId?: string | null
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -17491,7 +17529,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -17506,7 +17543,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -17643,7 +17680,17 @@ export namespace Prisma {
     none?: TicketWhereInput
   }
 
+  export type SLAListRelationFilter = {
+    every?: SLAWhereInput
+    some?: SLAWhereInput
+    none?: SLAWhereInput
+  }
+
   export type TicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SLAOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17822,12 +17869,6 @@ export namespace Prisma {
     none?: DepartmentWhereInput
   }
 
-  export type SLAListRelationFilter = {
-    every?: SLAWhereInput
-    some?: SLAWhereInput
-    none?: SLAWhereInput
-  }
-
   export type WorkflowListRelationFilter = {
     every?: WorkflowWhereInput
     some?: WorkflowWhereInput
@@ -17856,10 +17897,6 @@ export namespace Prisma {
   }
 
   export type DepartmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SLAOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18135,7 +18172,7 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priorityId?: SortOrder
-    order?: SortOrder
+    afterId?: SortOrder
     columnId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18146,10 +18183,6 @@ export namespace Prisma {
     departmentId?: SortOrder
   }
 
-  export type TicketAvgOrderByAggregateInput = {
-    order?: SortOrder
-  }
-
   export type TicketMaxOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -18157,7 +18190,7 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priorityId?: SortOrder
-    order?: SortOrder
+    afterId?: SortOrder
     columnId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18175,7 +18208,7 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priorityId?: SortOrder
-    order?: SortOrder
+    afterId?: SortOrder
     columnId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18184,10 +18217,6 @@ export namespace Prisma {
     creatorId?: SortOrder
     assigneeId?: SortOrder
     departmentId?: SortOrder
-  }
-
-  export type TicketSumOrderByAggregateInput = {
-    order?: SortOrder
   }
 
   export type TicketScalarRelationFilter = {
@@ -18321,7 +18350,7 @@ export namespace Prisma {
     description?: SortOrder
     responseTime?: SortOrder
     resolutionTime?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrder
     departmentId?: SortOrder
     isActive?: SortOrder
     escalationRules?: SortOrder
@@ -18341,7 +18370,7 @@ export namespace Prisma {
     description?: SortOrder
     responseTime?: SortOrder
     resolutionTime?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrder
     departmentId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -18355,7 +18384,7 @@ export namespace Prisma {
     description?: SortOrder
     responseTime?: SortOrder
     resolutionTime?: SortOrder
-    priority?: SortOrder
+    priorityId?: SortOrder
     departmentId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -18486,11 +18515,25 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type SLACreateNestedManyWithoutPriorityInput = {
+    create?: XOR<SLACreateWithoutPriorityInput, SLAUncheckedCreateWithoutPriorityInput> | SLACreateWithoutPriorityInput[] | SLAUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: SLACreateOrConnectWithoutPriorityInput | SLACreateOrConnectWithoutPriorityInput[]
+    createMany?: SLACreateManyPriorityInputEnvelope
+    connect?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutPriorityInput = {
     create?: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput> | TicketCreateWithoutPriorityInput[] | TicketUncheckedCreateWithoutPriorityInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutPriorityInput | TicketCreateOrConnectWithoutPriorityInput[]
     createMany?: TicketCreateManyPriorityInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type SLAUncheckedCreateNestedManyWithoutPriorityInput = {
+    create?: XOR<SLACreateWithoutPriorityInput, SLAUncheckedCreateWithoutPriorityInput> | SLACreateWithoutPriorityInput[] | SLAUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: SLACreateOrConnectWithoutPriorityInput | SLACreateOrConnectWithoutPriorityInput[]
+    createMany?: SLACreateManyPriorityInputEnvelope
+    connect?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -18535,6 +18578,20 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type SLAUpdateManyWithoutPriorityNestedInput = {
+    create?: XOR<SLACreateWithoutPriorityInput, SLAUncheckedCreateWithoutPriorityInput> | SLACreateWithoutPriorityInput[] | SLAUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: SLACreateOrConnectWithoutPriorityInput | SLACreateOrConnectWithoutPriorityInput[]
+    upsert?: SLAUpsertWithWhereUniqueWithoutPriorityInput | SLAUpsertWithWhereUniqueWithoutPriorityInput[]
+    createMany?: SLACreateManyPriorityInputEnvelope
+    set?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    disconnect?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    delete?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    connect?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    update?: SLAUpdateWithWhereUniqueWithoutPriorityInput | SLAUpdateWithWhereUniqueWithoutPriorityInput[]
+    updateMany?: SLAUpdateManyWithWhereWithoutPriorityInput | SLAUpdateManyWithWhereWithoutPriorityInput[]
+    deleteMany?: SLAScalarWhereInput | SLAScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutPriorityNestedInput = {
     create?: XOR<TicketCreateWithoutPriorityInput, TicketUncheckedCreateWithoutPriorityInput> | TicketCreateWithoutPriorityInput[] | TicketUncheckedCreateWithoutPriorityInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutPriorityInput | TicketCreateOrConnectWithoutPriorityInput[]
@@ -18547,6 +18604,20 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutPriorityInput | TicketUpdateWithWhereUniqueWithoutPriorityInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutPriorityInput | TicketUpdateManyWithWhereWithoutPriorityInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type SLAUncheckedUpdateManyWithoutPriorityNestedInput = {
+    create?: XOR<SLACreateWithoutPriorityInput, SLAUncheckedCreateWithoutPriorityInput> | SLACreateWithoutPriorityInput[] | SLAUncheckedCreateWithoutPriorityInput[]
+    connectOrCreate?: SLACreateOrConnectWithoutPriorityInput | SLACreateOrConnectWithoutPriorityInput[]
+    upsert?: SLAUpsertWithWhereUniqueWithoutPriorityInput | SLAUpsertWithWhereUniqueWithoutPriorityInput[]
+    createMany?: SLACreateManyPriorityInputEnvelope
+    set?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    disconnect?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    delete?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    connect?: SLAWhereUniqueInput | SLAWhereUniqueInput[]
+    update?: SLAUpdateWithWhereUniqueWithoutPriorityInput | SLAUpdateWithWhereUniqueWithoutPriorityInput[]
+    updateMany?: SLAUpdateManyWithWhereWithoutPriorityInput | SLAUpdateManyWithWhereWithoutPriorityInput[]
+    deleteMany?: SLAScalarWhereInput | SLAScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutStatusesInput = {
@@ -19505,12 +19576,28 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type PriorityCreateNestedOneWithoutSlasInput = {
+    create?: XOR<PriorityCreateWithoutSlasInput, PriorityUncheckedCreateWithoutSlasInput>
+    connectOrCreate?: PriorityCreateOrConnectWithoutSlasInput
+    connect?: PriorityWhereUniqueInput
+  }
+
   export type TenantUpdateOneRequiredWithoutSlasNestedInput = {
     create?: XOR<TenantCreateWithoutSlasInput, TenantUncheckedCreateWithoutSlasInput>
     connectOrCreate?: TenantCreateOrConnectWithoutSlasInput
     upsert?: TenantUpsertWithoutSlasInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSlasInput, TenantUpdateWithoutSlasInput>, TenantUncheckedUpdateWithoutSlasInput>
+  }
+
+  export type PriorityUpdateOneWithoutSlasNestedInput = {
+    create?: XOR<PriorityCreateWithoutSlasInput, PriorityUncheckedCreateWithoutSlasInput>
+    connectOrCreate?: PriorityCreateOrConnectWithoutSlasInput
+    upsert?: PriorityUpsertWithoutSlasInput
+    disconnect?: PriorityWhereInput | boolean
+    delete?: PriorityWhereInput | boolean
+    connect?: PriorityWhereUniqueInput
+    update?: XOR<XOR<PriorityUpdateToOneWithWhereWithoutSlasInput, PriorityUpdateWithoutSlasInput>, PriorityUncheckedUpdateWithoutSlasInput>
   }
 
   export type TenantCreateNestedOneWithoutWorkflowsInput = {
@@ -19802,7 +19889,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -19822,7 +19909,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19842,6 +19929,44 @@ export namespace Prisma {
 
   export type TicketCreateManyPriorityInputEnvelope = {
     data: TicketCreateManyPriorityInput | TicketCreateManyPriorityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SLACreateWithoutPriorityInput = {
+    id?: string
+    name: string
+    description?: string | null
+    responseTime?: number
+    resolutionTime?: number
+    departmentId?: string | null
+    isActive?: boolean
+    escalationRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSlasInput
+  }
+
+  export type SLAUncheckedCreateWithoutPriorityInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    responseTime?: number
+    resolutionTime?: number
+    departmentId?: string | null
+    isActive?: boolean
+    escalationRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SLACreateOrConnectWithoutPriorityInput = {
+    where: SLAWhereUniqueInput
+    create: XOR<SLACreateWithoutPriorityInput, SLAUncheckedCreateWithoutPriorityInput>
+  }
+
+  export type SLACreateManyPriorityInputEnvelope = {
+    data: SLACreateManyPriorityInput | SLACreateManyPriorityInput[]
     skipDuplicates?: boolean
   }
 
@@ -19910,7 +20035,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Ticket"> | string | null
     status?: StringFilter<"Ticket"> | string
     priorityId?: StringNullableFilter<"Ticket"> | string | null
-    order?: IntFilter<"Ticket"> | number
+    afterId?: StringNullableFilter<"Ticket"> | string | null
     columnId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
@@ -19919,6 +20044,40 @@ export namespace Prisma {
     creatorId?: StringFilter<"Ticket"> | string
     assigneeId?: StringNullableFilter<"Ticket"> | string | null
     departmentId?: StringNullableFilter<"Ticket"> | string | null
+  }
+
+  export type SLAUpsertWithWhereUniqueWithoutPriorityInput = {
+    where: SLAWhereUniqueInput
+    update: XOR<SLAUpdateWithoutPriorityInput, SLAUncheckedUpdateWithoutPriorityInput>
+    create: XOR<SLACreateWithoutPriorityInput, SLAUncheckedCreateWithoutPriorityInput>
+  }
+
+  export type SLAUpdateWithWhereUniqueWithoutPriorityInput = {
+    where: SLAWhereUniqueInput
+    data: XOR<SLAUpdateWithoutPriorityInput, SLAUncheckedUpdateWithoutPriorityInput>
+  }
+
+  export type SLAUpdateManyWithWhereWithoutPriorityInput = {
+    where: SLAScalarWhereInput
+    data: XOR<SLAUpdateManyMutationInput, SLAUncheckedUpdateManyWithoutPriorityInput>
+  }
+
+  export type SLAScalarWhereInput = {
+    AND?: SLAScalarWhereInput | SLAScalarWhereInput[]
+    OR?: SLAScalarWhereInput[]
+    NOT?: SLAScalarWhereInput | SLAScalarWhereInput[]
+    id?: StringFilter<"SLA"> | string
+    tenantId?: StringFilter<"SLA"> | string
+    name?: StringFilter<"SLA"> | string
+    description?: StringNullableFilter<"SLA"> | string | null
+    responseTime?: IntFilter<"SLA"> | number
+    resolutionTime?: IntFilter<"SLA"> | number
+    priorityId?: StringNullableFilter<"SLA"> | string | null
+    departmentId?: StringNullableFilter<"SLA"> | string | null
+    isActive?: BoolFilter<"SLA"> | boolean
+    escalationRules?: JsonNullableFilter<"SLA">
+    createdAt?: DateTimeFilter<"SLA"> | Date | string
+    updatedAt?: DateTimeFilter<"SLA"> | Date | string
   }
 
   export type TenantCreateWithoutStatusesInput = {
@@ -20140,7 +20299,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -20160,7 +20319,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20225,12 +20384,12 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: string
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    priority?: PriorityCreateNestedOneWithoutSlasInput
   }
 
   export type SLAUncheckedCreateWithoutTenantInput = {
@@ -20239,7 +20398,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: string
+    priorityId?: string | null
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -20296,6 +20455,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketCreateNestedManyWithoutPriorityInput
+    slas?: SLACreateNestedManyWithoutPriorityInput
   }
 
   export type PriorityUncheckedCreateWithoutTenantInput = {
@@ -20307,6 +20467,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutPriorityInput
+    slas?: SLAUncheckedCreateNestedManyWithoutPriorityInput
   }
 
   export type PriorityCreateOrConnectWithoutTenantInput = {
@@ -20462,24 +20623,6 @@ export namespace Prisma {
     data: XOR<SLAUpdateManyMutationInput, SLAUncheckedUpdateManyWithoutTenantInput>
   }
 
-  export type SLAScalarWhereInput = {
-    AND?: SLAScalarWhereInput | SLAScalarWhereInput[]
-    OR?: SLAScalarWhereInput[]
-    NOT?: SLAScalarWhereInput | SLAScalarWhereInput[]
-    id?: StringFilter<"SLA"> | string
-    tenantId?: StringFilter<"SLA"> | string
-    name?: StringFilter<"SLA"> | string
-    description?: StringNullableFilter<"SLA"> | string | null
-    responseTime?: IntFilter<"SLA"> | number
-    resolutionTime?: IntFilter<"SLA"> | number
-    priority?: StringFilter<"SLA"> | string
-    departmentId?: StringNullableFilter<"SLA"> | string | null
-    isActive?: BoolFilter<"SLA"> | boolean
-    escalationRules?: JsonNullableFilter<"SLA">
-    createdAt?: DateTimeFilter<"SLA"> | Date | string
-    updatedAt?: DateTimeFilter<"SLA"> | Date | string
-  }
-
   export type WorkflowUpsertWithWhereUniqueWithoutTenantInput = {
     where: WorkflowWhereUniqueInput
     update: XOR<WorkflowUpdateWithoutTenantInput, WorkflowUncheckedUpdateWithoutTenantInput>
@@ -20608,7 +20751,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -20629,7 +20772,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20656,7 +20799,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -20677,7 +20820,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20861,7 +21004,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -20882,7 +21025,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21024,7 +21167,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -21045,7 +21188,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -21197,6 +21340,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutPrioritiesInput
+    slas?: SLACreateNestedManyWithoutPriorityInput
   }
 
   export type PriorityUncheckedCreateWithoutTicketsInput = {
@@ -21208,6 +21352,7 @@ export namespace Prisma {
     tenantId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    slas?: SLAUncheckedCreateNestedManyWithoutPriorityInput
   }
 
   export type PriorityCreateOrConnectWithoutTicketsInput = {
@@ -21480,6 +21625,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutPrioritiesNestedInput
+    slas?: SLAUpdateManyWithoutPriorityNestedInput
   }
 
   export type PriorityUncheckedUpdateWithoutTicketsInput = {
@@ -21491,6 +21637,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slas?: SLAUncheckedUpdateManyWithoutPriorityNestedInput
   }
 
   export type ColumnUpsertWithoutTicketsInput = {
@@ -21711,7 +21858,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -21732,7 +21879,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21850,7 +21997,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21871,7 +22018,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21951,7 +22098,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -21972,7 +22119,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22026,7 +22173,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22047,7 +22194,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22119,6 +22266,35 @@ export namespace Prisma {
     create: XOR<TenantCreateWithoutSlasInput, TenantUncheckedCreateWithoutSlasInput>
   }
 
+  export type PriorityCreateWithoutSlasInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPrioritiesInput
+    tickets?: TicketCreateNestedManyWithoutPriorityInput
+  }
+
+  export type PriorityUncheckedCreateWithoutSlasInput = {
+    id?: string
+    name: string
+    color: string
+    order?: number
+    isDefault?: boolean
+    tenantId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutPriorityInput
+  }
+
+  export type PriorityCreateOrConnectWithoutSlasInput = {
+    where: PriorityWhereUniqueInput
+    create: XOR<PriorityCreateWithoutSlasInput, PriorityUncheckedCreateWithoutSlasInput>
+  }
+
   export type TenantUpsertWithoutSlasInput = {
     update: XOR<TenantUpdateWithoutSlasInput, TenantUncheckedUpdateWithoutSlasInput>
     create: XOR<TenantCreateWithoutSlasInput, TenantUncheckedCreateWithoutSlasInput>
@@ -22156,6 +22332,41 @@ export namespace Prisma {
     workflows?: WorkflowUncheckedUpdateManyWithoutTenantNestedInput
     priorities?: PriorityUncheckedUpdateManyWithoutTenantNestedInput
     statuses?: StatusUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PriorityUpsertWithoutSlasInput = {
+    update: XOR<PriorityUpdateWithoutSlasInput, PriorityUncheckedUpdateWithoutSlasInput>
+    create: XOR<PriorityCreateWithoutSlasInput, PriorityUncheckedCreateWithoutSlasInput>
+    where?: PriorityWhereInput
+  }
+
+  export type PriorityUpdateToOneWithWhereWithoutSlasInput = {
+    where?: PriorityWhereInput
+    data: XOR<PriorityUpdateWithoutSlasInput, PriorityUncheckedUpdateWithoutSlasInput>
+  }
+
+  export type PriorityUpdateWithoutSlasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPrioritiesNestedInput
+    tickets?: TicketUpdateManyWithoutPriorityNestedInput
+  }
+
+  export type PriorityUncheckedUpdateWithoutSlasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutPriorityNestedInput
   }
 
   export type TenantCreateWithoutWorkflowsInput = {
@@ -22236,7 +22447,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     status?: string
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22247,12 +22458,26 @@ export namespace Prisma {
     departmentId?: string | null
   }
 
+  export type SLACreateManyPriorityInput = {
+    id?: string
+    tenantId: string
+    name: string
+    description?: string | null
+    responseTime?: number
+    resolutionTime?: number
+    departmentId?: string | null
+    isActive?: boolean
+    escalationRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TicketUpdateWithoutPriorityInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22272,7 +22497,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22291,7 +22516,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22300,6 +22525,48 @@ export namespace Prisma {
     creatorId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SLAUpdateWithoutPriorityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    responseTime?: IntFieldUpdateOperationsInput | number
+    resolutionTime?: IntFieldUpdateOperationsInput | number
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    escalationRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSlasNestedInput
+  }
+
+  export type SLAUncheckedUpdateWithoutPriorityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    responseTime?: IntFieldUpdateOperationsInput | number
+    resolutionTime?: IntFieldUpdateOperationsInput | number
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    escalationRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SLAUncheckedUpdateManyWithoutPriorityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    responseTime?: IntFieldUpdateOperationsInput | number
+    resolutionTime?: IntFieldUpdateOperationsInput | number
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    escalationRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ColumnCreateManyStatusInput = {
@@ -22381,7 +22648,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22410,7 +22677,7 @@ export namespace Prisma {
     description?: string | null
     responseTime?: number
     resolutionTime?: number
-    priority?: string
+    priorityId?: string | null
     departmentId?: string | null
     isActive?: boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -22530,7 +22797,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22550,7 +22817,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22569,7 +22836,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22624,12 +22891,12 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    priority?: PriorityUpdateOneWithoutSlasNestedInput
   }
 
   export type SLAUncheckedUpdateWithoutTenantInput = {
@@ -22638,7 +22905,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -22652,7 +22919,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     responseTime?: IntFieldUpdateOperationsInput | number
     resolutionTime?: IntFieldUpdateOperationsInput | number
-    priority?: StringFieldUpdateOperationsInput | string
+    priorityId?: NullableStringFieldUpdateOperationsInput | string | null
     departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     escalationRules?: NullableJsonNullValueInput | InputJsonValue
@@ -22699,6 +22966,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUpdateManyWithoutPriorityNestedInput
+    slas?: SLAUpdateManyWithoutPriorityNestedInput
   }
 
   export type PriorityUncheckedUpdateWithoutTenantInput = {
@@ -22710,6 +22978,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutPriorityNestedInput
+    slas?: SLAUncheckedUpdateManyWithoutPriorityNestedInput
   }
 
   export type PriorityUncheckedUpdateManyWithoutTenantInput = {
@@ -22761,7 +23030,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22778,7 +23047,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22800,7 +23069,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22821,7 +23090,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22840,7 +23109,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22855,7 +23124,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22876,7 +23145,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22895,7 +23164,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22935,7 +23204,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     columnId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22950,7 +23219,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22971,7 +23240,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22990,7 +23259,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     columnId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23007,7 +23276,7 @@ export namespace Prisma {
     description?: string | null
     status?: string
     priorityId?: string | null
-    order?: number
+    afterId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     closedAt?: Date | string | null
@@ -23022,7 +23291,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23043,7 +23312,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23062,7 +23331,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priorityId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
+    afterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

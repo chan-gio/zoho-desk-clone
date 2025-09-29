@@ -24,7 +24,8 @@ export const slaWorker = {
             }
           },
           include: {
-            assignee: true
+            assignee: true,
+            priority: { select: { id: true, name: true, color: true } }
           }
         });
         
@@ -34,13 +35,13 @@ export const slaWorker = {
           const hoursSinceCreation = (Date.now() - ticket.createdAt.getTime()) / (1000 * 60 * 60);
           
           // Check if ticket is breaching SLA (24 hours for high priority, 48 hours for others)
-          const slaThreshold = ticket.priority === 'high' ? 24 : 48;
+          const slaThreshold = ticket.priority?.name === 'high' ? 24 : 48;
           
           if (hoursSinceCreation > slaThreshold) {
             slaBreaches.push({
               ticketId: ticket.id,
               title: ticket.title,
-              priority: ticket.priority,
+              priority: ticket.priority?.name || 'medium',
               hoursSinceCreation: Math.round(hoursSinceCreation),
               assigneeId: ticket.assigneeId
             });
@@ -74,7 +75,6 @@ export const slaWorker = {
         const ticket = await prisma.ticket.update({
           where: { id: ticketId },
           data: {
-            priority: 'high',
             status: 'escalated'
           }
         });

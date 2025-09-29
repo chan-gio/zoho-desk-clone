@@ -48,4 +48,23 @@ export class TicketService {
   async deleteTicket(id: string) {
     return this.ticketRepo.softDelete(id);
   }
+
+  async moveTicket(ticketId: string, columnId: string, afterId?: string) {
+    // Move ticket using column repository since it has the validation logic
+    const columnRepo = new (await import('../repositories/column.repository.js')).ColumnRepository(this.prisma);
+    const movedTicket = await columnRepo.moveTicketToColumn(ticketId, columnId, afterId);
+    
+    // Notify about the move
+    await this.notificationService.notifyTicketUpdated(movedTicket);
+    
+    return movedTicket;
+  }
+
+  async getTicketsInColumn(columnId: string) {
+    return this.ticketRepo.getTicketsInColumn(columnId);
+  }
+
+  async reorderTicketsInColumn(columnId: string) {
+    return this.ticketRepo.reorderTicketsInColumn(columnId);
+  }
 }

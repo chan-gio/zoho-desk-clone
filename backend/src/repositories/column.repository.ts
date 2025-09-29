@@ -11,7 +11,7 @@ export class ColumnRepository {
     tenantId: string;
     statusId?: string;
   }) {
-    // Lấy order tiếp theo
+    // Lấy order tiếp theo cho column
     const maxOrder = await this.prisma.column.findFirst({
       where: { tenantId: data.tenantId },
       orderBy: { order: 'desc' },
@@ -22,14 +22,21 @@ export class ColumnRepository {
 
     return this.prisma.column.create({
       data: {
-        ...data,
+        name: data.name,
+        description: data.description ?? null,
+        color: data.color ?? null,
+        isDefault: data.isDefault ?? false,
+        tenantId: data.tenantId,
         order: nextOrder,
-        ...(data.statusId && { status: { connect: { id: data.statusId } } })
+        statusId: data.statusId ?? null
       },
       include: {
         status: { select: { id: true, name: true, color: true } },
         tickets: {
-          orderBy: { order: 'asc' },
+          orderBy: [
+            { afterId: 'asc' },
+            { createdAt: 'asc' }
+          ],
           include: {
             creator: { select: { id: true, username: true, email: true } },
             assignee: { select: { id: true, username: true, email: true } },
@@ -46,7 +53,10 @@ export class ColumnRepository {
       include: {
         status: { select: { id: true, name: true, color: true } },
         tickets: {
-          orderBy: { order: 'asc' },
+          orderBy: [
+            { afterId: 'asc' },
+            { createdAt: 'asc' }
+          ],
           include: {
             creator: { select: { id: true, username: true, email: true } },
             assignee: { select: { id: true, username: true, email: true } },
@@ -64,7 +74,10 @@ export class ColumnRepository {
       include: {
         status: { select: { id: true, name: true, color: true } },
         tickets: {
-          orderBy: { order: 'asc' },
+          orderBy: [
+            { afterId: 'asc' },
+            { createdAt: 'asc' }
+          ],
           include: {
             creator: { select: { id: true, username: true, email: true } },
             assignee: { select: { id: true, username: true, email: true } },
@@ -83,6 +96,15 @@ export class ColumnRepository {
     isDefault?: boolean;
     statusId?: string;
   }) {
+    // Check if column exists first
+    const existingColumn = await this.prisma.column.findUnique({
+      where: { id }
+    });
+    
+    if (!existingColumn) {
+      return null;
+    }
+
     const { statusId, ...updateData } = data;
     return this.prisma.column.update({
       where: { id },
@@ -93,7 +115,10 @@ export class ColumnRepository {
       include: {
         status: { select: { id: true, name: true, color: true } },
         tickets: {
-          orderBy: { order: 'asc' },
+          orderBy: [
+            { afterId: 'asc' },
+            { createdAt: 'asc' }
+          ],
           include: {
             creator: { select: { id: true, username: true, email: true } },
             assignee: { select: { id: true, username: true, email: true } },
@@ -138,23 +163,60 @@ export class ColumnRepository {
     return this.findByTenant(tenantId);
   }
 
-  async moveTicketToColumn(ticketId: string, columnId: string, newOrder: number) {
+  async moveTicketToColumn(ticketId: string, columnId: string, afterId?: string, tenantId?: string) {
+    console.log('moveTicketToColumn called with:', { ticketId, columnId, afterId, tenantId });
     return this.prisma.$transaction(async (tx) => {
-      // Cập nhật ticket
+      // Validate that the target column exists and belongs to tenant
+      const targetColumn = await tx.column.findFirst({
+        where: { 
+          id: columnId,
+          ...(tenantId && { tenantId })
+        }
+      });
+      
+      console.log('Target column found:', targetColumn);
+      
+      if (!targetColumn) {
+        throw new Error('Target column not found');
+      }
+
+      // Validate that the ticket exists and belongs to tenant
+      const ticket = await tx.ticket.findFirst({
+        where: { 
+          id: ticketId,
+          ...(tenantId && { tenantId })
+        }
+      });
+      
+      if (!ticket) {
+        throw new Error('Ticket not found');
+      }
+
+      // Validate afterId if provided
+      if (afterId) {
+        const afterTicket = await tx.ticket.findFirst({
+          where: { 
+            id: afterId,
+            ...(tenantId && { tenantId })
+          }
+        });
+        
+        if (!afterTicket) {
+          throw new Error('After ticket not found');
+        }
+        
+        if (afterTicket.columnId !== columnId) {
+          throw new Error('After ticket must be in the same column');
+        }
+      }
+
+      // Cập nhật ticket với columnId và afterId mới
       const updatedTicket = await tx.ticket.update({
         where: { id: ticketId },
-        data: { columnId, order: newOrder }
-      });
-
-      // Cập nhật thứ tự của các tickets khác trong column đích
-      await tx.ticket.updateMany({
-        where: {
-          columnId,
-          id: { not: ticketId },
-          order: { gte: newOrder }
-        },
-        data: {
-          order: { increment: 1 }
+        data: { 
+          columnId, 
+          afterId: afterId || null,
+          updatedAt: new Date()
         }
       });
 
@@ -162,13 +224,24 @@ export class ColumnRepository {
     });
   }
 
-  async reorderTicketsInColumn(columnId: string, ticketOrders: Array<{ ticketId: string; order: number }>) {
+  async reorderTicketsInColumn(columnId: string, ticketOrders: Array<{ ticketId: string; afterId?: string }>, tenantId?: string) {
     return this.prisma.$transaction(async (tx) => {
-      // Cập nhật thứ tự của các tickets
-      const updatePromises = ticketOrders.map(({ ticketId, order }) =>
+      // Validate column exists and belongs to tenant
+      if (tenantId) {
+        const column = await tx.column.findFirst({
+          where: { id: columnId, tenantId }
+        });
+        
+        if (!column) {
+          throw new Error('Column not found');
+        }
+      }
+
+      // Cập nhật afterId của các tickets
+      const updatePromises = ticketOrders.map(({ ticketId, afterId }) =>
         tx.ticket.update({
           where: { id: ticketId },
-          data: { order }
+          data: { afterId: afterId || null }
         })
       );
 
@@ -177,7 +250,10 @@ export class ColumnRepository {
       // Trả về danh sách tickets đã được sắp xếp lại
       return tx.ticket.findMany({
         where: { columnId },
-        orderBy: { order: 'asc' },
+        orderBy: [
+          { afterId: 'asc' },
+          { createdAt: 'asc' }
+        ],
         include: {
           creator: { select: { id: true, username: true, email: true } },
           assignee: { select: { id: true, username: true, email: true } },
